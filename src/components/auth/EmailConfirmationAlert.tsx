@@ -33,7 +33,7 @@ export function EmailConfirmationAlert({ email, onClose }: EmailConfirmationAler
         type: 'signup',
         email: email,
         options: {
-          emailRedirectTo: `${window.location.origin}/dashboard`
+          emailRedirectTo: `${window.location.origin}/login?confirmed=true`
         }
       });
 

@@ -4,6 +4,8 @@ import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
+import { ConfirmationPage } from "@/components/auth/ConfirmationPage";
+import SupabaseConfig from "./pages/SupabaseConfig";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -24,6 +26,8 @@ const App = () => (
         <Route path="/" element={<Index />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/confirm" element={<ConfirmationPage />} />
+        <Route path="/supabase-config" element={<SupabaseConfig />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />

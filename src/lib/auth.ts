@@ -200,8 +200,14 @@ function getAppUrl(): string {
   if (typeof window !== 'undefined') {
     return window.location.origin;
   }
-  // Fallback for server-side rendering
-  return 'https://ehjpdcbyoqaoazknymbj.supabase.co';
+  // Fallback for server-side rendering - use the actual preview URL
+  return 'https://8594051b-3005-4567-a5cf-abaa6c55c493.sandbox.lovable.dev';
+}
+
+// Helper function to get confirmation redirect URL
+function getConfirmationRedirectUrl(): string {
+  const baseUrl = getAppUrl();
+  return `${baseUrl}/login?confirmed=true`;
 }
 
 // Check if email already exists in the database
@@ -235,7 +241,7 @@ export async function signUp(credentials: SignUpCredentials): Promise<AuthRespon
       };
     }
 
-    const redirectUrl = `${getAppUrl()}/login?confirmed=true`;
+    const redirectUrl = getConfirmationRedirectUrl();
     
     const { data, error } = await supabase.auth.signUp({
       email: credentials.email,

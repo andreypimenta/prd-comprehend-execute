@@ -65,6 +65,22 @@ export function LoginForm() {
           description: "Confirme seu email para fazer login.",
           variant: "default",
         });
+      } else if (response.error.message.includes("requested path is invalid") ||
+                 response.error.message.includes("localhost")) {
+        toast({
+          title: "Erro de configuração",
+          description: "Problema com URLs do Supabase. Verifique a configuração.",
+          variant: "destructive",
+          action: (
+            <Button 
+              variant="outline" 
+              size="sm" 
+              onClick={() => window.open('/supabase-config', '_blank')}
+            >
+              Ver Configuração
+            </Button>
+          ),
+        });
       } else {
         setError("root", { message: response.error.message });
         toast({

@@ -32,13 +32,13 @@ export function SupabaseConfigInfo() {
       <CardContent className="space-y-4">
         <Alert>
           <AlertDescription>
-            Para resolver o erro de redirecionamento do email, configure as URLs no Supabase Dashboard:
+            <strong>CRÍTICO:</strong> Para resolver o erro de redirecionamento do email, configure estas URLs EXATAS no Supabase Dashboard:
           </AlertDescription>
         </Alert>
 
         <div className="space-y-3">
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Site URL:</label>
+            <label className="text-sm font-medium text-muted-foreground">Site URL (copiar exatamente):</label>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 p-2 bg-muted rounded text-sm">{currentUrl}</code>
               <Button
@@ -52,7 +52,7 @@ export function SupabaseConfigInfo() {
           </div>
 
           <div>
-            <label className="text-sm font-medium text-muted-foreground">Additional Redirect URLs:</label>
+            <label className="text-sm font-medium text-muted-foreground">Additional Redirect URLs (adicionar esta linha):</label>
             <div className="flex items-center gap-2 mt-1">
               <code className="flex-1 p-2 bg-muted rounded text-sm">{currentUrl}/**</code>
               <Button
