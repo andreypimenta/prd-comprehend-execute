@@ -153,6 +153,21 @@ export function OnboardingLayout() {
         return;
       }
 
+      // Obter sessão do Supabase Auth diretamente
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session?.user) {
+        console.error("❌ OnboardingLayout: Sessão não encontrada");
+        toast({
+          title: "Erro de sessão",
+          description: "Sessão expirada. Faça login novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("🔑 OnboardingLayout: Session User ID:", session.user.id);
+      console.log("🔑 OnboardingLayout: User Auth ID:", user.authUserId);
+
       // Validar dados obrigatórios
       if (!onboardingData.basicInfo?.age || !onboardingData.basicInfo?.gender || 
           !onboardingData.basicInfo?.weight || !onboardingData.basicInfo?.height) {
@@ -166,7 +181,7 @@ export function OnboardingLayout() {
       }
 
       const profileData = {
-        user_id: user.authUserId,
+        user_id: session.user.id, // Usar session.user.id diretamente para consistência com RLS
         age: onboardingData.basicInfo.age,
         gender: onboardingData.basicInfo.gender,
         weight: onboardingData.basicInfo.weight,
@@ -194,7 +209,7 @@ export function OnboardingLayout() {
         const { data: updateData, error: updateError } = await supabase
           .from('user_profiles')
           .update(profileData)
-          .eq('user_id', user.authUserId)
+          .eq('user_id', session.user.id)
           .select()
           .single();
 
@@ -225,7 +240,7 @@ export function OnboardingLayout() {
       const { data: verifyData, error: verifyError } = await supabase
         .from('user_profiles')
         .select('*')
-        .eq('user_id', user.authUserId)
+        .eq('user_id', session.user.id)
         .single();
 
       if (verifyError || !verifyData) {
