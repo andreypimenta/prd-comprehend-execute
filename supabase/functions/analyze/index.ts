@@ -69,15 +69,32 @@ serve(async (req) => {
 
     if (req.method === 'POST') {
       // Buscar dados do perfil do usuário baseado no onboarding
-      const { data: onboardingData } = await supabase
+      console.log('🔍 Analyze: Buscando perfil para usuário:', user.id, typeof user.id);
+      
+      const { data: onboardingData, error: profileError } = await supabase
         .from('user_profiles')
         .select('*')
         .eq('user_id', user.id)
-        .single();
+        .maybeSingle();
+
+      console.log('🔍 Analyze: Resultado da busca:', { onboardingData, profileError });
+
+      if (profileError) {
+        console.error('🔍 Analyze: Erro na busca do perfil:', profileError);
+        return new Response(
+          JSON.stringify({ error: `Database error: ${profileError.message}` }),
+          { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
+        );
+      }
 
       if (!onboardingData) {
+        console.log('🔍 Analyze: Perfil não encontrado para usuário:', user.id);
         return new Response(
-          JSON.stringify({ error: 'Profile not found. Please complete onboarding first.' }),
+          JSON.stringify({ 
+            error: 'Profile not found. Please complete onboarding first.',
+            userId: user.id,
+            userType: typeof user.id 
+          }),
           { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
