@@ -5,26 +5,29 @@ import { cva, type VariantProps } from "class-variance-authority";
 import { cn } from "@/lib/utils";
 
 const buttonVariants = cva(
-  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg text-sm font-semibold ring-offset-background transition-all duration-200 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0",
+  "inline-flex items-center justify-center gap-2 whitespace-nowrap rounded-lg font-semibold ring-offset-background transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:pointer-events-none disabled:opacity-50 active:scale-[0.98] [&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0 font-heading tracking-wide",
   {
     variants: {
       variant: {
-        primary: "bg-primary-navy text-primary-white hover:bg-primary-navy/90 shadow-md hover:shadow-lg",
-        secondary: "bg-secondary-lightGray text-text-darkGray hover:bg-secondary-mediumGray",
-        accent: "bg-accent-mintGreen text-primary-navy hover:bg-accent-mintGreen/90 shadow-md",
-        outline: "border-2 border-primary-navy text-primary-navy hover:bg-primary-navy hover:text-primary-white",
-        ghost: "text-text-darkGray hover:bg-secondary-lightGray",
-        success: "bg-status-success text-primary-white hover:bg-status-success/90",
-        warning: "bg-status-warning text-primary-white hover:bg-status-warning/90",
-        error: "bg-status-error text-primary-white hover:bg-status-error/90",
-        link: "text-primary underline-offset-4 hover:underline",
+        primary: "bg-primary text-primary-foreground hover:bg-primary/90 shadow-lg hover:shadow-xl hover:shadow-primary/25",
+        electric: "bg-primary-electric text-white hover:bg-primary-electric/90 shadow-lg hover:shadow-electric",
+        secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 border border-border",
+        gold: "bg-secondary-gold text-white hover:bg-secondary-gold/90 shadow-lg hover:shadow-gold/25",
+        accent: "bg-accent text-accent-foreground hover:bg-accent/90 shadow-lg hover:shadow-green/25",
+        purple: "bg-accent-purple text-white hover:bg-accent-purple/90 shadow-lg hover:shadow-purple/25",
+        outline: "border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground transition-colors",
+        ghost: "text-foreground hover:bg-muted hover:text-foreground/90",
+        success: "bg-status-success text-white hover:bg-status-success/90 shadow-lg",
+        warning: "bg-status-warning text-white hover:bg-status-warning/90 shadow-lg",
+        error: "bg-status-error text-white hover:bg-status-error/90 shadow-lg",
+        link: "text-primary underline-offset-4 hover:underline font-normal",
       },
       size: {
-        sm: "h-8 px-3 text-xs",
-        md: "h-10 px-4 text-sm",
-        lg: "h-12 px-6 text-base",
-        xl: "h-14 px-8 text-lg",
-        icon: "h-9 w-9",
+        sm: "h-8 px-4 text-xs",
+        md: "h-10 px-6 text-sm",
+        lg: "h-12 px-8 text-base",
+        xl: "h-14 px-10 text-lg",
+        icon: "h-10 w-10",
       },
     },
     defaultVariants: {

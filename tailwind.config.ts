@@ -22,14 +22,16 @@ export default {
         primary: {
           DEFAULT: "hsl(var(--primary))",
           foreground: "hsl(var(--primary-foreground))",
-          navy: "#2D3748",
-          white: "#FFFFFF",
+          electric: "hsl(var(--electric-blue))",
+          navy: "hsl(220 30% 15%)",
+          white: "hsl(0 0% 100%)",
         },
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
-          lightGray: "#F7FAFC",
-          mediumGray: "#E2E8F0",
+          gold: "hsl(var(--gold-accent))",
+          lightGray: "hsl(220 15% 96%)",
+          mediumGray: "hsl(220 20% 88%)",
         },
         destructive: {
           DEFAULT: "hsl(var(--destructive))",
@@ -42,8 +44,11 @@ export default {
         accent: {
           DEFAULT: "hsl(var(--accent))",
           foreground: "hsl(var(--accent-foreground))",
-          mintGreen: "#9AE6B4",
-          softBlue: "#BEE3F8",
+          purple: "hsl(var(--purple-main))",
+          purpleDark: "hsl(var(--purple-dark))",
+          green: "hsl(var(--green-accent))",
+          mintGreen: "hsl(158 64% 75%)",
+          softBlue: "hsl(240 75% 85%)",
         },
         popover: {
           DEFAULT: "hsl(var(--popover))",
@@ -54,9 +59,9 @@ export default {
           foreground: "hsl(var(--card-foreground))",
         },
         text: {
-          darkGray: "#2D3748",
-          mediumGray: "#718096",
-          lightGray: "#A0AEC0",
+          darkGray: "hsl(var(--gray-dark))",
+          mediumGray: "hsl(220 25% 45%)",
+          lightGray: "hsl(var(--gray-light))",
         },
         status: {
           success: "#48BB78",
@@ -82,21 +87,38 @@ export default {
         },
       },
       fontFamily: {
-        sans: ['Inter', 'system-ui', 'sans-serif'],
-        heading: ['Poppins', 'system-ui', 'sans-serif'],
+        sans: ['Inter', 'Lato', 'Open Sans', 'system-ui', 'sans-serif'],
+        heading: ['Montserrat', 'Oswald', 'system-ui', 'sans-serif'],
         geometric: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
       },
       fontSize: {
-        'xs': '0.75rem',
-        'sm': '0.875rem',
-        'base': '1rem',
-        'lg': '1.125rem',
-        'xl': '1.25rem',
-        '2xl': '1.5rem',
-        '3xl': '1.875rem',
-        '4xl': '2.25rem',
+        'xs': '0.75rem',    // 12px
+        'sm': '0.875rem',   // 14px - Body text (PRD)
+        'base': '1rem',     // 16px
+        'lg': '1.125rem',   // 18px - H4 (PRD)
+        'xl': '1.25rem',    // 20px
+        '2xl': '1.5rem',    // 24px
+        '3xl': '1.875rem',  // 30px - H3 range (PRD)
+        '4xl': '2.25rem',   // 36px - H2 range (PRD)
+        '5xl': '3rem',      // 48px
+        '6xl': '3.75rem',   // 60px - H1 min (PRD)
+        '7xl': '7rem',      // 113px - H1 max (PRD)
       },
       spacing: {
+        // 8px grid system from PRD
+        '0.5': '0.125rem',  // 2px
+        '1': '0.25rem',     // 4px
+        '2': '0.5rem',      // 8px - Base unit
+        '3': '0.75rem',     // 12px
+        '4': '1rem',        // 16px
+        '6': '1.5rem',      // 24px
+        '8': '2rem',        // 32px
+        '10': '2.5rem',     // 40px
+        '12': '3rem',       // 48px
+        '16': '4rem',       // 64px
+        '20': '5rem',       // 80px
+        '24': '6rem',       // 96px
+        '32': '8rem',       // 128px
         '18': '4.5rem',
         '88': '22rem',
       },

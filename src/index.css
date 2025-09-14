@@ -2,47 +2,47 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LoL Engine Design System - Supplement recommendation platform with AI */
+/* LoL Engine Design System - Premium supplement platform inspired by PRD principles */
 
 @layer base {
   :root {
-    /* Modern gradient backgrounds */
-    --background: 220 20% 97%;
-    --foreground: 220 15% 15%;
+    /* Sophisticated gradient backgrounds */
+    --background: 220 25% 98%;
+    --foreground: 220 20% 12%;
 
-    /* Card system with subtle elevation */
+    /* Premium card system with refined elevation */
     --card: 0 0% 100%;
-    --card-foreground: 220 15% 15%;
+    --card-foreground: 220 20% 12%;
 
-    /* Popover system */
+    /* Elegant popover system */
     --popover: 0 0% 100%;
-    --popover-foreground: 220 15% 15%;
+    --popover-foreground: 220 20% 12%;
 
-    /* Primary brand colors - Energetic orange/red gradient */
-    --primary: 14 100% 57%;
+    /* Primary brand colors - Electric blue for health tech */
+    --primary: 240 100% 62%;
     --primary-foreground: 0 0% 100%;
-    --primary-glow: 20 100% 65%;
+    --primary-glow: 245 85% 70%;
 
-    /* Secondary - Cool blue accents */
-    --secondary: 220 15% 95%;
-    --secondary-foreground: 220 15% 15%;
+    /* Secondary - Warm gold accents */
+    --secondary: 42 100% 91%;
+    --secondary-foreground: 42 95% 25%;
 
-    /* Muted tones */
+    /* Sophisticated muted tones */
     --muted: 220 15% 96%;
-    --muted-foreground: 220 10% 50%;
+    --muted-foreground: 220 25% 45%;
 
-    /* Accent - Vibrant green for success states */
-    --accent: 145 70% 45%;
+    /* Accent - Health-focused green */
+    --accent: 158 64% 52%;
     --accent-foreground: 0 0% 100%;
 
-    /* Destructive - Clear red for errors */
-    --destructive: 0 84% 60%;
+    /* Destructive - Refined red for errors */
+    --destructive: 0 70% 58%;
     --destructive-foreground: 0 0% 100%;
 
-    /* Border and input system */
-    --border: 220 15% 88%;
-    --input: 220 15% 92%;
-    --ring: 14 100% 57%;
+    /* Premium border and input system */
+    --border: 220 20% 90%;
+    --input: 220 20% 94%;
+    --ring: 240 100% 62%;
 
     --radius: 0.5rem;
 
@@ -62,41 +62,47 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%;
 
-    /* Cream Colors */
-    --cream-light: 39 100% 97%;     /* #FFF8DC - Cornsilk */
-    --cream-medium: 60 56% 91%;     /* #F5F5DC - Beige */
-    --cream-antique: 34 78% 91%;    /* #FAEBD7 - Antique White */
-    --cream-dark: 54 77% 75%;       /* #F0E68C - Khaki */
+    /* Premium color palette inspired by PRD */
+    --electric-blue: 240 100% 62%;   /* Electric blue for tech elements */
+    --gold-accent: 42 95% 45%;       /* Sophisticated gold */
+    --gray-light: 220 15% 75%;       /* Light gray for secondary text */
+    --gray-dark: 220 25% 15%;        /* Dark gray for contrast */
+    --purple-main: 270 75% 60%;      /* Purple for highlights */
+    --purple-dark: 270 85% 25%;      /* Dark purple accents */
+    --green-accent: 158 64% 52%;     /* Health-focused green */
 
-    /* Custom gradients */
+    /* Sophisticated gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
     --gradient-card: linear-gradient(145deg, hsl(var(--card)) 0%, hsl(var(--muted)) 100%);
+    --gradient-electric: linear-gradient(135deg, hsl(var(--electric-blue)), hsl(var(--purple-main)));
 
-    /* Custom shadows */
-    --shadow-primary: 0 10px 30px -5px hsl(var(--primary) / 0.2);
-    --shadow-card: 0 8px 30px -12px hsl(220 15% 15% / 0.15);
-    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.3);
+    /* Premium shadows with depth */
+    --shadow-primary: 0 12px 32px -8px hsl(var(--primary) / 0.25);
+    --shadow-card: 0 8px 30px -12px hsl(220 20% 15% / 0.18);
+    --shadow-glow: 0 0 40px hsl(var(--primary-glow) / 0.35);
+    --shadow-electric: 0 8px 25px -5px hsl(var(--electric-blue) / 0.3);
 
-    /* Animations */
+    /* Refined animations */
     --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     --transition-bounce: all 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+    --transition-elegant: all 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94);
 
     --radius: 0.75rem;
   }
 
   .dark {
-    /* Dark mode - Deep, modern look */
-    --background: 220 25% 8%;
+    /* Dark mode - Premium sophisticated look */
+    --background: 220 30% 6%;
     --foreground: 220 15% 95%;
 
-    --card: 220 20% 12%;
+    --card: 220 25% 10%;
     --card-foreground: 220 15% 95%;
 
-    --popover: 220 20% 12%;
+    --popover: 220 25% 10%;
     --popover-foreground: 220 15% 95%;
 
-    --primary: 14 100% 57%;
+    --primary: 240 100% 65%;
     --primary-foreground: 0 0% 100%;
     --primary-glow: 20 100% 65%;
 
