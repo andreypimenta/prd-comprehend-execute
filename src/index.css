@@ -62,6 +62,12 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%;
 
+    /* Cream Colors */
+    --cream-light: 39 100% 97%;     /* #FFF8DC - Cornsilk */
+    --cream-medium: 60 56% 91%;     /* #F5F5DC - Beige */
+    --cream-antique: 34 78% 91%;    /* #FAEBD7 - Antique White */
+    --cream-dark: 54 77% 75%;       /* #F0E68C - Khaki */
+
     /* Custom gradients */
     --gradient-primary: linear-gradient(135deg, hsl(var(--primary)), hsl(var(--primary-glow)));
     --gradient-hero: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
@@ -230,13 +236,14 @@
 }
 
 .lol-static {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   font-weight: 900;
   font-size: clamp(10rem, 20vw, 24rem);
   line-height: 1;
   display: inline-block;
-  color: white;
-  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+  color: hsl(var(--cream-light));
+  text-shadow: 0 0 30px hsl(var(--cream-light) / 0.5);
+  letter-spacing: -0.02em;
 }
 
 .lol-exit {
@@ -244,14 +251,15 @@
 }
 
 .life-on-labs {
-  font-family: 'Inter', sans-serif;
+  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   font-weight: 600;
-  font-size: 1.8rem;
-  color: white;
+  font-size: 1.2rem;
+  color: hsl(var(--cream-medium));
   opacity: 0.9;
-  letter-spacing: 0.05em;
+  letter-spacing: 0.1em;
   text-transform: lowercase;
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  text-shadow: 0 0 20px hsl(var(--cream-medium) / 0.3);
 }
 
 .life-on-labs-exit {

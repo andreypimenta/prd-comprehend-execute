@@ -84,6 +84,7 @@ export default {
       fontFamily: {
         sans: ['Inter', 'system-ui', 'sans-serif'],
         heading: ['Poppins', 'system-ui', 'sans-serif'],
+        geometric: ['Plus Jakarta Sans', 'Inter', 'sans-serif'],
       },
       fontSize: {
         'xs': '0.75rem',

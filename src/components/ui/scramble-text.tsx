@@ -8,16 +8,25 @@ interface ScrambleTextProps {
 
 const ScrambleText: React.FC<ScrambleTextProps> = ({ text, isActive, className = '' }) => {
   const [scrambledText, setScrambledText] = useState(text);
-  const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+  
+  // Mapeamento inteligente de caracteres similares visualmente
+  const charMap: Record<string, string[]> = {
+    'L': ['L', 'I', '1', '|', 'T', 'F', 'E', 'P'],
+    'o': ['o', '0', 'O', 'Q', 'C', 'G', 'D'],
+    'l': ['l', 'i', '1', '|', 't', 'f', 'j'],
+    // Fallback para outros caracteres
+  };
 
-  const scrambleLetter = useCallback((originalChar: string, position: number) => {
-    // Chance maior de mostrar a letra original (60%)
-    if (Math.random() < 0.6) {
+  const scrambleLetter = useCallback((originalChar: string) => {
+    // Chance maior de mostrar a letra original (75%)
+    if (Math.random() < 0.75) {
       return originalChar;
     }
-    // 40% chance de mostrar caractere aleatório
-    return chars[Math.floor(Math.random() * chars.length)];
-  }, [chars]);
+    
+    // Usar caracteres similares se disponível, senão usar fallback
+    const similarChars = charMap[originalChar] || [originalChar, originalChar.toUpperCase(), originalChar.toLowerCase()];
+    return similarChars[Math.floor(Math.random() * similarChars.length)];
+  }, []);
 
   useEffect(() => {
     if (!isActive) {
@@ -32,10 +41,10 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({ text, isActive, className =
       const interval = setInterval(() => {
         setScrambledText(prev => {
           const newText = prev.split('');
-          newText[index] = scrambleLetter(char, index);
+          newText[index] = scrambleLetter(char);
           return newText.join('');
         });
-      }, 100 + Math.random() * 200); // Interval entre 100-300ms para cada letra
+      }, 80 + Math.random() * 120); // Interval mais rápido entre 80-200ms
 
       intervals.push(interval);
     });

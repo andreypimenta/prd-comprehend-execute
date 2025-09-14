@@ -143,22 +143,28 @@ const Index = () => {
       {/* Hero Section */}
       <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
         <div className="text-center space-y-6 px-4">
-          <h1 
-            ref={lolRef}
-            className="lol-static mb-4"
-          >
-            <ScrambleText 
-              text="LoL" 
-              isActive={!hasScrolled}
-            />
-          </h1>
-          
-          <p 
-            ref={lifeOnLabsRef}
-            className="life-on-labs"
-          >
-            life on labs
-          </p>
+          <div className="text-center">
+            <h1 
+              ref={lolRef}
+              className="lol-static mb-2"
+            >
+              <ScrambleText 
+                text="LoL" 
+                isActive={!hasScrolled}
+              />
+            </h1>
+            
+            <p 
+              ref={lifeOnLabsRef}
+              className="life-on-labs mb-6"
+            >
+              Life on Labs
+            </p>
+            
+            <p className="text-lg text-gray-300 mt-4 opacity-80">
+              Recomendações Inteligentes de Suplementos
+            </p>
+          </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-12">
             <Button
