@@ -314,6 +314,20 @@
   transition: all 0.3s ease;
   transform: translate(0, 0) rotate(0deg) scale(1.2);
   opacity: 1;
+  position: relative;
+}
+
+/* Barra horizontal para as letras "l" */
+.lol-static .letter:first-child::after,
+.lol-static .letter:last-child::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  right: -15%;
+  width: 25%;
+  height: 12%;
+  background: currentColor;
+  border-radius: 0 0 12px 12px;
 }
 
 .letter-1-exit {
@@ -352,10 +366,11 @@
   opacity: 1;
   letter-spacing: 0.15em;
   text-transform: lowercase;
-  margin-top: -2rem;
+  margin-top: -4rem;
   text-shadow: 0 0 20px hsl(var(--cream-medium) / 0.3);
   position: relative;
-  top: -1.5rem;
+  top: -3rem;
+  display: block;
 }
 
 .life-on-labs-exit {
