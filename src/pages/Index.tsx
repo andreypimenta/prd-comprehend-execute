@@ -38,7 +38,7 @@ const Index = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
 
-  // Image gallery component
+  // Image gallery component - Fixed caching issue
   const WellnessGallery = () => {
     const [imagesVisible, setImagesVisible] = useState(false);
     const galleryRef = useRef<HTMLDivElement>(null);
