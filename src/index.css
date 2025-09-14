@@ -317,31 +317,37 @@
   position: relative;
 }
 
-/* Letra "l" minúscula orgânica e moderna */
+/* Letra "l" minúscula orgânica e moderna - estilo Circular/Nunito */
 .lol-static .letter:nth-child(1)::after,
 .lol-static .letter:nth-child(3)::after {
   content: '';
   position: absolute;
   bottom: 0;
-  right: -5%;
-  width: 45%;
-  height: 18%;
+  right: -8%;
+  width: 38%;
+  height: 16%;
   background: currentColor;
-  border-radius: 0 12px 12px 0;
+  border-radius: 0 20px 20px 0;
 }
 
-/* Adicionar curvatura interna suave na junção */
+/* Curvatura interna orgânica para junção suave */
 .lol-static .letter:nth-child(1)::before,
 .lol-static .letter:nth-child(3)::before {
   content: '';
   position: absolute;
-  bottom: 18%;
+  bottom: 16%;
   right: 0%;
-  width: 18%;
-  height: 18%;
+  width: 20%;
+  height: 20%;
   background: hsl(var(--background));
-  border-radius: 0 0 15px 0;
+  border-radius: 0 0 18px 0;
   z-index: 1;
+}
+
+/* Arredondamento das terminações verticais da letra "l" */
+.lol-static .letter:nth-child(1),
+.lol-static .letter:nth-child(3) {
+  border-radius: 8px 8px 0 0;
 }
 
 .letter-1-exit {
