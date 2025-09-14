@@ -23,6 +23,16 @@ export function LoginForm() {
   const location = useLocation();
   const navigate = useNavigate();
   
+  // All hooks must be called before any conditional logic
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+    setError
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema)
+  });
+
   // Check for email confirmation success
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
@@ -36,20 +46,13 @@ export function LoginForm() {
     }
   }, [location.search, navigate, toast]);
   
-  // Redirect if already logged in
-  if (user) {
-    const from = location.state?.from?.pathname || '/dashboard';
-    return <Navigate to={from} replace />;
-  }
-
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    setError
-  } = useForm<SignInFormData>({
-    resolver: zodResolver(signInSchema)
-  });
+  // Handle redirect for logged in users
+  useEffect(() => {
+    if (user) {
+      const from = location.state?.from?.pathname || '/dashboard';
+      navigate(from, { replace: true });
+    }
+  }, [user, location.state, navigate]);
 
   const onSubmit = async (data: SignInFormData) => {
     const response = await signIn(data as SignInCredentials);
