@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
@@ -7,7 +7,7 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { Link, Navigate, useLocation } from "react-router-dom";
+import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { signInSchema, type SignInFormData } from "@/lib/validations";
 import type { SignInCredentials } from "@/types/auth";
@@ -20,6 +20,20 @@ export function LoginForm() {
   const { toast } = useToast();
   const { signIn, user, isLoading } = useAuth();
   const location = useLocation();
+  const navigate = useNavigate();
+  
+  // Check for email confirmation success
+  useEffect(() => {
+    const urlParams = new URLSearchParams(location.search);
+    if (urlParams.get('confirmed') === 'true') {
+      toast({
+        title: "Email confirmado com sucesso!",
+        description: "Agora você pode fazer login normalmente.",
+      });
+      // Clean up the URL
+      navigate('/login', { replace: true });
+    }
+  }, [location.search, navigate, toast]);
   
   // Redirect if already logged in
   if (user) {

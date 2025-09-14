@@ -195,13 +195,24 @@ export async function signIn(credentials: SignInCredentials): Promise<AuthRespon
   }
 }
 
+// Helper function to get the current app URL
+function getAppUrl(): string {
+  if (typeof window !== 'undefined') {
+    return window.location.origin;
+  }
+  // Fallback for server-side rendering
+  return 'https://ehjpdcbyoqaoazknymbj.supabase.co';
+}
+
 export async function signUp(credentials: SignUpCredentials): Promise<AuthResponse> {
   try {
+    const redirectUrl = `${getAppUrl()}/login?confirmed=true`;
+    
     const { data, error } = await supabase.auth.signUp({
       email: credentials.email,
       password: credentials.password,
       options: {
-        emailRedirectTo: `${window.location.origin}/dashboard`,
+        emailRedirectTo: redirectUrl,
         data: {
           name: credentials.name,
         }
@@ -249,7 +260,7 @@ export async function signInWithProvider(provider: 'google' | 'apple'): Promise<
     const { data, error } = await supabase.auth.signInWithOAuth({
       provider,
       options: {
-        redirectTo: `${window.location.origin}/dashboard`
+        redirectTo: `${getAppUrl()}/dashboard`
       }
     });
 
