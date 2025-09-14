@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, RefreshCw } from "lucide-react";
@@ -13,6 +14,7 @@ export default function Results() {
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
   const { toast } = useToast();
+  const navigate = useNavigate();
 
   useEffect(() => {
     checkExistingRecommendations();
@@ -37,11 +39,45 @@ export default function Results() {
         },
       });
 
+      console.log('🚀 Results: Resposta ao buscar recomendações:', { data, error });
+
       if (error) {
-        console.error('Error fetching recommendations:', error);
+        console.error('🚀 Results: Erro ao buscar recomendações:', error);
+        // Check if it's a profile not found error
+        if (error.message && error.message.includes('Profile not found')) {
+          toast({
+            title: "Perfil não encontrado",
+            description: "Complete o onboarding primeiro para gerar recomendações.",
+            variant: "destructive",
+          });
+          navigate('/onboarding');
+          return;
+        }
+        
         toast({
           title: "Erro ao buscar recomendações",
           description: "Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check for errors in the data response
+      if (data?.error) {
+        console.error('🚀 Results: Erro retornado pela função:', data.error);
+        if (data.error.includes('Profile not found')) {
+          toast({
+            title: "Perfil não encontrado", 
+            description: "Complete o onboarding primeiro para gerar recomendações.",
+            variant: "destructive",
+          });
+          navigate('/onboarding');
+          return;
+        }
+        
+        toast({
+          title: "Erro ao buscar recomendações",
+          description: data.error,
           variant: "destructive",
         });
         return;
@@ -84,11 +120,45 @@ export default function Results() {
         },
       });
 
+      console.log('🚀 Results: Resposta ao gerar recomendações:', { data, error });
+
       if (error) {
-        console.error('Error generating recommendations:', error);
+        console.error('🚀 Results: Erro ao gerar recomendações:', error);
+        // Check if it's a profile not found error
+        if (error.message && error.message.includes('Profile not found')) {
+          toast({
+            title: "Perfil não encontrado",
+            description: "Complete o onboarding primeiro para gerar recomendações.",
+            variant: "destructive",
+          });
+          navigate('/onboarding');
+          return;
+        }
+        
         toast({
           title: "Erro ao gerar recomendações",
           description: error.message || "Tente novamente mais tarde.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Check for errors in the data response
+      if (data?.error) {
+        console.error('🚀 Results: Erro retornado pela função:', data.error);
+        if (data.error.includes('Profile not found')) {
+          toast({
+            title: "Perfil não encontrado",
+            description: "Complete o onboarding primeiro para gerar recomendações.",
+            variant: "destructive",
+          });
+          navigate('/onboarding');
+          return;
+        }
+        
+        toast({
+          title: "Erro ao gerar recomendações",
+          description: data.error,
           variant: "destructive",
         });
         return;
