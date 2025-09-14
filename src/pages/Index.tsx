@@ -1,37 +1,43 @@
-import { Button } from "@/components/ui/button";
-import { ArrowRight, Menu, X } from "lucide-react";
-import { Link } from "react-router-dom";
-import { useState, useEffect, useRef } from "react";
-
-// Import wellness images
-import wellness1 from "@/assets/supplements-wellness-1.jpg";
-import wellness2 from "@/assets/supplements-wellness-2.jpg";
-import wellness3 from "@/assets/supplements-wellness-3.jpg";
+import React, { useState, useRef, useEffect } from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { Button } from '@/components/ui/button';
+import { Menu, X, ChevronDown } from 'lucide-react';
+import supplementsWellness1 from '@/assets/supplements-wellness-1.jpg';
+import supplementsWellness2 from '@/assets/supplements-wellness-2.jpg';
+import supplementsWellness3 from '@/assets/supplements-wellness-3.jpg';
+import supplementsWellness4 from '@/assets/supplements-wellness-4.jpg';
 
 const Index = () => {
+  const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [scrollY, setScrollY] = useState(0);
-  const heroRef = useRef<HTMLDivElement>(null);
-  const lolRef = useRef<HTMLDivElement>(null);
+  const [hasScrolled, setHasScrolled] = useState(false);
+  const heroRef = useRef<HTMLElement>(null);
+  const lolRef = useRef<HTMLHeadingElement>(null);
+  const lifeOnLabsRef = useRef<HTMLParagraphElement>(null);
 
   useEffect(() => {
     setIsVisible(true);
-
+    
     const handleScroll = () => {
-      setScrollY(window.scrollY);
+      const currentScrollY = window.scrollY;
+      setScrollY(currentScrollY);
       
-      // Trigger explosion effect when scrolling past hero section
-      if (lolRef.current && window.scrollY > window.innerHeight * 0.3) {
-        lolRef.current.classList.add('lol-explode');
-      } else if (lolRef.current) {
-        lolRef.current.classList.remove('lol-explode');
+      if (currentScrollY > 50 && !hasScrolled) {
+        setHasScrolled(true);
+        if (lolRef.current) {
+          lolRef.current.classList.add('lol-exit');
+        }
+        if (lifeOnLabsRef.current) {
+          lifeOnLabsRef.current.classList.add('life-on-labs-exit');
+        }
       }
     };
 
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [hasScrolled]);
 
   // Image gallery component
   const WellnessGallery = () => {
@@ -64,9 +70,10 @@ const Index = () => {
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {[
-              { img: wellness1, title: "Suplementos Premium" },
-              { img: wellness2, title: "Estilo de Vida Saudável" },
-              { img: wellness3, title: "Bem-Estar Completo" }
+              { img: supplementsWellness1, title: "Suplementos Premium" },
+              { img: supplementsWellness2, title: "Estilo de Vida Saudável" },
+              { img: supplementsWellness3, title: "Bem-Estar Completo" },
+              { img: supplementsWellness4, title: "Performance Máxima" }
             ].map((item, index) => (
               <div
                 key={index}
@@ -92,25 +99,25 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-black text-white overflow-x-hidden">
-      {/* Minimalist Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 bg-black/95 backdrop-blur-sm">
+    <div className="min-h-screen text-white overflow-x-hidden" style={{ backgroundColor: 'hsl(218, 15%, 32%)' }}>
+      {/* Header */}
+      <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-6">
           <nav className="flex items-center justify-between">
-            <Link to="/" className="text-2xl font-bold tracking-tight text-white">
+            <button onClick={() => navigate('/')} className="text-2xl font-bold tracking-tight text-white">
               LoL Engine
-            </Link>
+            </button>
             
             <div className="hidden md:flex items-center space-x-8">
-              <Link to="/showcase" className="link-underline font-medium text-white">
+              <button onClick={() => navigate('/showcase')} className="link-underline font-medium text-white">
                 Showcase
-              </Link>
-              <Link to="/login" className="link-underline font-medium text-white">
+              </button>
+              <button onClick={() => navigate('/login')} className="link-underline font-medium text-white">
                 Entrar
-              </Link>
-              <Link to="/register" className="btn-minimalist">
+              </button>
+              <button onClick={() => navigate('/register')} className="btn-minimalist">
                 Começar
-              </Link>
+              </button>
             </div>
 
             <button 
@@ -123,47 +130,56 @@ const Index = () => {
 
           {/* Mobile Menu */}
           {isMenuOpen && (
-            <div className="md:hidden mt-6 pt-6 border-t border-gray-800">
+            <div className="md:hidden mt-6 pt-6 border-t border-white/20">
               <div className="flex flex-col space-y-4">
-                <Link to="/showcase" className="font-medium text-white">Showcase</Link>
-                <Link to="/login" className="font-medium text-white">Entrar</Link>
-                <Link to="/register" className="font-medium text-white">Começar</Link>
+                <button onClick={() => navigate('/showcase')} className="font-medium text-white text-left">Showcase</button>
+                <button onClick={() => navigate('/login')} className="font-medium text-white text-left">Entrar</button>
+                <button onClick={() => navigate('/register')} className="font-medium text-white text-left">Começar</button>
               </div>
             </div>
           )}
         </div>
       </header>
 
-      {/* Hero Section with LoL Animation */}
-      <section ref={heroRef} className="min-h-screen flex items-center justify-center px-6">
-        <div className="max-w-7xl mx-auto text-center">
-          {/* LoL with Scramble Animation */}
-          <div ref={lolRef} className="mb-16">
-            <span className="lol-letter">L</span>
-            <span className="lol-letter">o</span>
-            <span className="lol-letter">L</span>
-          </div>
-
-          {/* Subtitle */}
-          <p className="text-xl md:text-2xl font-light max-w-3xl mx-auto leading-relaxed text-gray-300">
-            A primeira plataforma brasileira que usa inteligência artificial para recomendar 
-            suplementos personalizados baseados no seu perfil, objetivos e histórico de saúde.
+      {/* Hero Section */}
+      <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
+        <div className="text-center space-y-6 px-4">
+          <h1 
+            ref={lolRef}
+            className="lol-static mb-4"
+          >
+            LoL
+          </h1>
+          
+          <p 
+            ref={lifeOnLabsRef}
+            className="life-on-labs"
+          >
+            life on labs
           </p>
-
-          {/* CTA Buttons */}
-          <div className="flex flex-col md:flex-row items-center justify-center gap-6 mt-16">
-            <Link to="/onboarding" className="btn-minimalist">
+          
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-12">
+            <Button
+              onClick={() => navigate('/register')}
+              size="lg"
+              className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-full"
+            >
               Começar Análise Gratuita
-            </Link>
-            <Link to="/showcase" className="link-underline font-medium text-white">
-              Ver Como Funciona
-            </Link>
+            </Button>
+            <Button
+              onClick={() => navigate('/showcase')}
+              variant="outline"
+              size="lg"
+              className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold rounded-full"
+            >
+              Ver Demonstração
+            </Button>
           </div>
         </div>
-
+        
         {/* Scroll Indicator */}
-        <div className="absolute bottom-12 left-1/2 transform -translate-x-1/2 animate-bounce text-white">
-          <ArrowRight className="rotate-90" size={24} />
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="w-8 h-8 text-white opacity-50" />
         </div>
       </section>
 
