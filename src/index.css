@@ -125,8 +125,8 @@
     @apply border-border;
   }
   body {
-    @apply bg-white text-black font-sans antialiased;
-    background: white;
+    @apply bg-black text-white font-sans antialiased;
+    background: black;
   }
 }
 
@@ -207,11 +207,122 @@
   animation-delay: 0.4s;
 }
 
+/* LoL Animation - Scramble Effect */
+@keyframes lolScramble {
+  0%, 100% { 
+    transform: translateX(0) translateY(0) rotate(0deg); 
+    opacity: 1;
+  }
+  10% { 
+    transform: translateX(-3px) translateY(2px) rotate(-1deg); 
+    opacity: 0.9;
+  }
+  20% { 
+    transform: translateX(4px) translateY(-1px) rotate(1deg); 
+    opacity: 0.8;
+  }
+  30% { 
+    transform: translateX(-2px) translateY(3px) rotate(-0.5deg); 
+    opacity: 0.9;
+  }
+  40% { 
+    transform: translateX(5px) translateY(-2px) rotate(1.5deg); 
+    opacity: 0.7;
+  }
+  50% { 
+    transform: translateX(-4px) translateY(1px) rotate(-1deg); 
+    opacity: 0.8;
+  }
+  60% { 
+    transform: translateX(3px) translateY(-3px) rotate(0.5deg); 
+    opacity: 0.9;
+  }
+  70% { 
+    transform: translateX(-1px) translateY(2px) rotate(-1.5deg); 
+    opacity: 0.8;
+  }
+  80% { 
+    transform: translateX(2px) translateY(-1px) rotate(1deg); 
+    opacity: 0.9;
+  }
+  90% { 
+    transform: translateX(-3px) translateY(1px) rotate(-0.5deg); 
+    opacity: 0.85;
+  }
+}
+
+@keyframes lolExplode {
+  0% { 
+    transform: translateX(0) translateY(0) scale(1) rotate(0deg);
+    opacity: 1;
+  }
+  100% { 
+    transform: translateX(var(--explode-x, 0)) translateY(var(--explode-y, 0)) scale(0.3) rotate(var(--explode-rotate, 0deg));
+    opacity: 0;
+  }
+}
+
+@keyframes imageSlideIn {
+  0% {
+    transform: translateY(100px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+/* LoL Letter Animations */
+.lol-letter {
+  display: inline-block;
+  animation: lolScramble 3s infinite ease-in-out;
+  font-size: clamp(8rem, 15vw, 20rem);
+  font-weight: 900;
+  color: white;
+  text-shadow: 0 0 30px rgba(255, 255, 255, 0.3);
+}
+
+.lol-letter:nth-child(1) {
+  animation-delay: 0s;
+  --explode-x: -200px;
+  --explode-y: -150px;
+  --explode-rotate: -180deg;
+}
+
+.lol-letter:nth-child(2) {
+  animation-delay: 0.3s;
+  --explode-x: 0px;
+  --explode-y: -300px;
+  --explode-rotate: 360deg;
+}
+
+.lol-letter:nth-child(3) {
+  animation-delay: 0.6s;
+  --explode-x: 200px;
+  --explode-y: -150px;
+  --explode-rotate: 180deg;
+}
+
+.lol-explode {
+  animation: lolExplode 1s ease-in-out forwards !important;
+}
+
+.image-slide-in {
+  animation: imageSlideIn 0.8s ease-out forwards;
+  opacity: 0;
+}
+
+.image-slide-in:nth-child(1) { animation-delay: 0.1s; }
+.image-slide-in:nth-child(2) { animation-delay: 0.3s; }
+.image-slide-in:nth-child(3) { animation-delay: 0.5s; }
+.image-slide-in:nth-child(4) { animation-delay: 0.7s; }
+
 /* Minimalist Button Styles */
 .btn-minimalist {
-  @apply inline-block px-8 py-4 border-2 border-black text-black font-medium tracking-wide uppercase text-sm transition-all duration-300 hover:bg-black hover:text-white;
+  @apply inline-block px-8 py-4 border-2 border-white text-white font-medium tracking-wide uppercase text-sm transition-all duration-300 hover:bg-white hover:text-black;
 }
 
 .link-underline {
-  @apply relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-black after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
+  @apply relative after:content-[''] after:absolute after:w-full after:scale-x-0 after:h-0.5 after:bottom-0 after:left-0 after:bg-white after:origin-bottom-right after:transition-transform after:duration-300 hover:after:scale-x-100 hover:after:origin-bottom-left;
 }
