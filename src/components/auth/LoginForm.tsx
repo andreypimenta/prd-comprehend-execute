@@ -11,9 +11,12 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { signInSchema, type SignInFormData } from "@/lib/validations";
 import type { SignInCredentials } from "@/types/auth";
+import { EmailConfirmationAlert } from "./EmailConfirmationAlert";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
+  const [showEmailConfirmation, setShowEmailConfirmation] = useState(false);
+  const [pendingEmail, setPendingEmail] = useState<string>("");
   const { toast } = useToast();
   const { signIn, user, isLoading } = useAuth();
   const location = useLocation();
@@ -37,12 +40,24 @@ export function LoginForm() {
     const response = await signIn(data as SignInCredentials);
     
     if (response.error) {
-      setError("root", { message: response.error.message });
-      toast({
-        title: "Erro no login",
-        description: response.error.message,
-        variant: "destructive",
-      });
+      // Tratamento específico para email não confirmado
+      if (response.error.message.includes("Email not confirmed") || 
+          response.error.message.includes("email_not_confirmed")) {
+        setPendingEmail(data.email);
+        setShowEmailConfirmation(true);
+        toast({
+          title: "Email não confirmado",
+          description: "Confirme seu email para fazer login.",
+          variant: "default",
+        });
+      } else {
+        setError("root", { message: response.error.message });
+        toast({
+          title: "Erro no login",
+          description: response.error.message,
+          variant: "destructive",
+        });
+      }
     }
   };
 
@@ -82,6 +97,13 @@ export function LoginForm() {
         </p>
       </CardHeader>
       <CardContent className="space-y-6">
+        {showEmailConfirmation && (
+          <EmailConfirmationAlert
+            email={pendingEmail}
+            onClose={() => setShowEmailConfirmation(false)}
+          />
+        )}
+        
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
           <div className="space-y-2">
             <div className="relative">

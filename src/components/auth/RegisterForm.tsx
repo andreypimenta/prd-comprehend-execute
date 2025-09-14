@@ -10,10 +10,13 @@ import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
 import { signUpSchema, type SignUpFormData } from "@/lib/validations";
+import { SuccessRegistrationMessage } from "./SuccessRegistrationMessage";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
+  const [registeredEmail, setRegisteredEmail] = useState("");
   const { toast } = useToast();
   const { signUp, user, isLoading } = useAuth();
 
@@ -45,6 +48,15 @@ export function RegisterForm() {
         description: response.error.message,
         variant: "destructive",
       });
+    } else {
+      // Cadastro bem-sucedido - mostrar mensagem de confirmação
+      setRegisteredEmail(data.email);
+      setRegistrationSuccess(true);
+      toast({
+        title: "Cadastro realizado!",
+        description: "Verifique seu email para confirmar a conta.",
+        variant: "default",
+      });
     }
   };
 
@@ -72,6 +84,11 @@ export function RegisterForm() {
       });
     }
   };
+
+  // Mostrar mensagem de sucesso após cadastro
+  if (registrationSuccess) {
+    return <SuccessRegistrationMessage email={registeredEmail} />;
+  }
 
   return (
     <Card className="w-full max-w-md mx-auto backdrop-blur-sm bg-card/95 shadow-card border-border/50">
