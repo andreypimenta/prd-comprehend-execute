@@ -1,9 +1,6 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -12,13 +9,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-
-const loginSchema = z.object({
-  email: z.string().email("Email inválido"),
-  password: z.string().min(6, "Senha deve ter pelo menos 6 caracteres")
-});
-
-type LoginFormData = z.infer<typeof loginSchema>;
+import { signInSchema, type SignInFormData } from "@/lib/validations";
+import type { SignInCredentials } from "@/types/auth";
 
 export function LoginForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -37,18 +29,18 @@ export function LoginForm() {
     handleSubmit,
     formState: { errors },
     setError
-  } = useForm<LoginFormData>({
-    resolver: zodResolver(loginSchema)
+  } = useForm<SignInFormData>({
+    resolver: zodResolver(signInSchema)
   });
 
-  const onSubmit = async (data: LoginFormData) => {
-    const { error } = await signIn(data.email, data.password);
+  const onSubmit = async (data: SignInFormData) => {
+    const response = await signIn(data as SignInCredentials);
     
-    if (error) {
-      setError("root", { message: error });
+    if (response.error) {
+      setError("root", { message: response.error.message });
       toast({
         title: "Erro no login",
-        description: error,
+        description: response.error.message,
         variant: "destructive",
       });
     }

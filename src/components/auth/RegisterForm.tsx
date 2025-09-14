@@ -1,31 +1,15 @@
-"use client";
-
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
-import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
+import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
-
-const registerSchema = z.object({
-  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
-  email: z.string().email("Email inválido"),
-  password: z.string()
-    .min(8, "Senha deve ter pelo menos 8 caracteres")
-    .regex(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)/, "Senha deve conter ao menos: 1 minúscula, 1 maiúscula e 1 número"),
-  confirmPassword: z.string()
-}).refine((data) => data.password === data.confirmPassword, {
-  message: "Senhas não coincidem",
-  path: ["confirmPassword"],
-});
-
-type RegisterFormData = z.infer<typeof registerSchema>;
+import { signUpSchema, type SignUpFormData } from "@/lib/validations";
 
 export function RegisterForm() {
   const [showPassword, setShowPassword] = useState(false);
@@ -43,18 +27,22 @@ export function RegisterForm() {
     handleSubmit,
     formState: { errors },
     setError
-  } = useForm<RegisterFormData>({
-    resolver: zodResolver(registerSchema)
+  } = useForm<SignUpFormData>({
+    resolver: zodResolver(signUpSchema)
   });
 
-  const onSubmit = async (data: RegisterFormData) => {
-    const { error } = await signUp(data.email, data.password, data.name);
+  const onSubmit = async (data: SignUpFormData) => {
+    const response = await signUp({
+      email: data.email,
+      password: data.password,
+      name: data.name
+    });
     
-    if (error) {
-      setError("root", { message: error });
+    if (response.error) {
+      setError("root", { message: response.error.message });
       toast({
         title: "Erro no cadastro",
-        description: error,
+        description: response.error.message,
         variant: "destructive",
       });
     }

@@ -14,6 +14,65 @@ export type Database = {
   }
   public: {
     Tables: {
+      accounts: {
+        Row: {
+          access_token: string | null
+          created_at: string
+          expires_at: number | null
+          id: string
+          id_token: string | null
+          provider: string
+          provider_account_id: string
+          refresh_token: string | null
+          scope: string | null
+          session_state: string | null
+          token_type: string | null
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          access_token?: string | null
+          created_at?: string
+          expires_at?: number | null
+          id?: string
+          id_token?: string | null
+          provider: string
+          provider_account_id: string
+          refresh_token?: string | null
+          scope?: string | null
+          session_state?: string | null
+          token_type?: string | null
+          type: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          access_token?: string | null
+          created_at?: string
+          expires_at?: number | null
+          id?: string
+          id_token?: string | null
+          provider?: string
+          provider_account_id?: string
+          refresh_token?: string | null
+          scope?: string | null
+          session_state?: string | null
+          token_type?: string | null
+          type?: Database["public"]["Enums"]["account_type"]
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "accounts_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recommendations: {
         Row: {
           confidence: number
@@ -51,6 +110,38 @@ export type Database = {
             columns: ["supplement_id"]
             isOneToOne: false
             referencedRelation: "supplements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      sessions: {
+        Row: {
+          created_at: string
+          expires: string
+          id: string
+          session_token: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          expires: string
+          id?: string
+          session_token: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          expires?: string
+          id?: string
+          session_token?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "sessions_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: false
+            referencedRelation: "users"
             referencedColumns: ["id"]
           },
         ]
@@ -161,6 +252,68 @@ export type Database = {
           user_id?: string
           weight?: number | null
         }
+        Relationships: [
+          {
+            foreignKeyName: "user_profiles_user_id_fkey"
+            columns: ["user_id"]
+            isOneToOne: true
+            referencedRelation: "users"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      users: {
+        Row: {
+          auth_user_id: string | null
+          created_at: string
+          email: string
+          email_verified: string | null
+          id: string
+          image: string | null
+          name: string | null
+          password: string | null
+          updated_at: string
+        }
+        Insert: {
+          auth_user_id?: string | null
+          created_at?: string
+          email: string
+          email_verified?: string | null
+          id?: string
+          image?: string | null
+          name?: string | null
+          password?: string | null
+          updated_at?: string
+        }
+        Update: {
+          auth_user_id?: string | null
+          created_at?: string
+          email?: string
+          email_verified?: string | null
+          id?: string
+          image?: string | null
+          name?: string | null
+          password?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      verification_tokens: {
+        Row: {
+          expires: string
+          identifier: string
+          token: string
+        }
+        Insert: {
+          expires: string
+          identifier: string
+          token: string
+        }
+        Update: {
+          expires?: string
+          identifier?: string
+          token?: string
+        }
         Relationships: []
       }
     }
@@ -168,10 +321,13 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      get_current_user_id: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
-      [_ in never]: never
+      account_type: "oauth" | "email" | "credentials"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -298,6 +454,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      account_type: ["oauth", "email", "credentials"],
+    },
   },
 } as const
