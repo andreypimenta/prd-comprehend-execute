@@ -58,6 +58,12 @@ export function Header({ user, onMenuClick }: HeaderProps) {
               Análise IA
             </Link>
             <Link 
+              to="/results" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Recomendações
+            </Link>
+            <Link 
               to="/showcase" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
