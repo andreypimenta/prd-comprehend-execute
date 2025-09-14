@@ -54,10 +54,13 @@ export function useUserProfile() {
       try {
         console.log("🔍 useUserProfile: Buscando perfil para usuário:", user.id);
         
+        const { data: { session } } = await supabase.auth.getSession();
+        if (!session?.user) return;
+
         const { data, error } = await supabase
           .from('user_profiles')
           .select('*')
-          .eq('user_id', user.id)
+          .eq('user_id', session.user.id)
           .maybeSingle();
 
         if (error) {

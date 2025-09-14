@@ -166,7 +166,7 @@ export function OnboardingLayout() {
       }
 
       const profileData = {
-        user_id: user.id,
+        user_id: user.authUserId,
         age: onboardingData.basicInfo.age,
         gender: onboardingData.basicInfo.gender,
         weight: onboardingData.basicInfo.weight,
@@ -194,7 +194,7 @@ export function OnboardingLayout() {
         const { data: updateData, error: updateError } = await supabase
           .from('user_profiles')
           .update(profileData)
-          .eq('user_id', user.id)
+          .eq('user_id', user.authUserId)
           .select()
           .single();
 
@@ -225,7 +225,7 @@ export function OnboardingLayout() {
       const { data: verifyData, error: verifyError } = await supabase
         .from('user_profiles')
         .select('*')
-        .eq('user_id', user.id)
+        .eq('user_id', user.authUserId)
         .single();
 
       if (verifyError || !verifyData) {
