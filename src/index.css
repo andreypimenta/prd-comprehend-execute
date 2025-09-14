@@ -300,7 +300,7 @@
 .lol-static {
   font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
   font-weight: 900;
-  font-size: clamp(12rem, 25vw, 35rem);
+  font-size: clamp(18rem, 35vw, 50rem);
   line-height: 1;
   display: inline-block;
   color: hsl(var(--cream-light));
