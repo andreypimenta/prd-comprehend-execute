@@ -13,7 +13,7 @@ const ScrambleText: React.FC<ScrambleTextProps> = ({ text, isActive, className =
         <span 
           key={index} 
           className={`inline-block letter letter-${index + 1} ${
-            isActive ? `letter-${index + 1}-exit` : `letter-${index + 1}-enter`
+            isActive ? `letter-${index + 1}-exit` : ''
           }`}
           style={{
             animationDelay: `${index * 100}ms`
