@@ -18,215 +18,165 @@ import {
 } from "lucide-react";
 
 export default function Dashboard() {
-  // Mock user data - will be replaced with real data from Supabase
-  const user = {
-    name: "João Silva",
-    email: "joao@example.com",
-    image: null
+  const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [activeView, setActiveView] = useState<'overview' | 'detailed' | 'analysis'>('overview');
+
+  useEffect(() => {
+    loadDashboardData();
+  }, []);
+
+  const loadDashboardData = async () => {
+    try {
+      const { data: { session } } = await supabase.auth.getSession();
+      if (!session) return;
+
+      // Fetch recommendations and build dashboard data
+      const { data, error } = await supabase.functions.invoke('analyze', {
+        headers: { Authorization: `Bearer ${session.access_token}` },
+      });
+
+      if (data?.hasRecommendations) {
+        // Transform data to dashboard format
+        const mockDashboardData: DashboardData = {
+          user: { name: "João Silva", email: "joao@example.com", profileCompleteness: 85 },
+          recommendations: {
+            total: data.recommendations?.length || 0,
+            highPriority: data.recommendations?.filter((r: any) => r.priority === 'high').length || 0,
+            mediumPriority: data.recommendations?.filter((r: any) => r.priority === 'medium').length || 0,
+            lowPriority: data.recommendations?.filter((r: any) => r.priority === 'low').length || 0,
+            averageConfidence: data.recommendations?.reduce((sum: number, r: any) => sum + r.confidence, 0) / (data.recommendations?.length || 1) || 0,
+            categories: [
+              { category: 'Vitaminas', count: 3, averageConfidence: 85, color: '#48BB78' },
+              { category: 'Minerais', count: 2, averageConfidence: 78, color: '#4299E1' }
+            ]
+          },
+          supplements: data.recommendations?.map((r: any) => ({
+            id: r.id,
+            supplement: r.supplement,
+            recommendedDosage: r.recommended_dosage,
+            confidence: r.confidence,
+            reasoning: r.reasoning,
+            priority: r.priority,
+            estimatedCost: 45
+          })) || [],
+          analysis: {
+            generatedAt: new Date().toISOString(),
+            totalScore: 85,
+            topConcerns: ['Fadiga crônica pode indicar deficiências'],
+            keyBenefits: ['Aumento de energia', 'Melhoria do sono']
+          }
+        };
+        setDashboardData(mockDashboardData);
+      }
+    } catch (error) {
+      console.error('Erro ao carregar dashboard:', error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  const stats = [
-    {
-      title: "Suplementos Ativos",
-      value: "5",
-      description: "Em uso atualmente",
-      icon: Zap,
-      trend: "+2 este mês"
-    },
-    {
-      title: "Objetivo Atual",
-      value: "85%",
-      description: "Ganho de massa muscular",
-      icon: Target,
-      trend: "No prazo"
-    },
-    {
-      title: "Recomendações IA",
-      value: "12",
-      description: "Disponíveis para você",
-      icon: Brain,
-      trend: "3 novas"
-    },
-    {
-      title: "Progresso Mensal",
-      value: "92%",
-      description: "Meta de consistência",
-      icon: TrendingUp,
-      trend: "+12% vs mês anterior"
-    }
-  ];
+  if (loading) {
+    return (
+      <div className="min-h-screen bg-background flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary mx-auto mb-4"></div>
+          <p className="text-muted-foreground">Carregando dashboard...</p>
+        </div>
+      </div>
+    );
+  }
 
-  const recentRecommendations = [
-    {
-      name: "Whey Protein Isolado",
-      category: "Proteína",
-      confidence: 95,
-      reason: "Ideal para seu objetivo de ganho muscular"
-    },
-    {
-      name: "Creatina Monohidratada",
-      category: "Performance",
-      confidence: 88,
-      reason: "Aumenta força e potência nos treinos"
-    },
-    {
-      name: "Multivitamínico Premium",
-      category: "Saúde",
-      confidence: 82,
-      reason: "Complementa deficiências nutricionais"
-    }
-  ];
+  if (!dashboardData) {
+    return (
+      <div className="min-h-screen bg-background">
+        <Header user={{ name: "Usuário", email: "", image: null }} />
+        <div className="container mx-auto p-6">
+          <Card className="text-center py-12">
+            <CardContent>
+              <p className="text-muted-foreground mb-4">Nenhuma análise encontrada</p>
+              <p className="text-sm text-muted-foreground mb-6">Complete seu onboarding para ver suas recomendações</p>
+              <Button asChild>
+                <Link to="/onboarding">Começar Análise</Link>
+              </Button>
+            </CardContent>
+          </Card>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-background">
-      <Header user={user} />
+      <Header user={{ name: dashboardData.user.name, email: dashboardData.user.email, image: null }} />
       
-      <main className="container mx-auto p-6 space-y-8">
-        {/* Welcome Section */}
+      <div className="container mx-auto p-6 space-y-8">
+        {/* Header */}
         <div className="flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-foreground">
-              Olá, {user.name.split(' ')[0]}! 👋
-            </h1>
-            <p className="text-muted-foreground mt-1">
-              Aqui está um resumo da sua jornada fitness hoje
+            <h1 className="text-3xl font-bold">Seu Dashboard</h1>
+            <p className="text-muted-foreground">
+              Análise gerada em {new Date(dashboardData.analysis.generatedAt).toLocaleDateString('pt-BR')}
             </p>
           </div>
-          <Button variant="primary" size="lg" asChild>
-            <Link to="/onboarding">
-              <Brain className="mr-2 h-5 w-5" />
-              Nova Análise IA
-            </Link>
-          </Button>
+          <div className="flex items-center gap-4">
+            <Badge variant="outline">{dashboardData.recommendations.total} Recomendações</Badge>
+            <ExportButton dashboardData={dashboardData} />
+          </div>
         </div>
 
-        {/* Stats Grid */}
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {stats.map((stat, index) => (
-            <Card key={index} className="relative overflow-hidden border-border/50 hover:shadow-card transition-all duration-300">
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium text-muted-foreground">
-                  {stat.title}
-                </CardTitle>
-                <stat.icon className="h-5 w-5 text-primary" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-foreground">{stat.value}</div>
-                <p className="text-xs text-muted-foreground">{stat.description}</p>
-                <div className="flex items-center mt-2">
-                  <Badge variant="secondary" className="text-xs">
-                    {stat.trend}
-                  </Badge>
-                </div>
-              </CardContent>
-            </Card>
-          ))}
-        </div>
+        {/* Navigation Tabs */}
+        <Tabs value={activeView} onValueChange={(value) => setActiveView(value as any)}>
+          <div className="flex items-center justify-center">
+            <TabsList className="grid w-full max-w-md grid-cols-3">
+              <TabsTrigger value="overview">📊 Visão Geral</TabsTrigger>
+              <TabsTrigger value="detailed">🔍 Detalhado</TabsTrigger>
+              <TabsTrigger value="analysis">🧬 Análise</TabsTrigger>
+            </TabsList>
+          </div>
 
-        {/* Main Content Grid */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* AI Recommendations */}
-          <div className="lg:col-span-2">
-            <Card className="border-border/50">
-              <CardHeader>
-                <div className="flex items-center justify-between">
-                  <div>
-                    <CardTitle className="flex items-center gap-2">
-                      <Brain className="h-5 w-5 text-primary" />
-                      Recomendações da IA
-                    </CardTitle>
-                    <CardDescription>
-                      Suplementos personalizados baseados no seu perfil
-                    </CardDescription>
-                  </div>
-                  <Button variant="outline" size="sm">
-                    Ver todas
-                    <ChevronRight className="ml-2 h-4 w-4" />
-                  </Button>
-                </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                {recentRecommendations.map((rec, index) => (
-                  <div key={index} className="flex items-center justify-between p-4 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
-                    <div className="flex-1">
-                      <div className="flex items-center gap-3">
-                        <div className="h-10 w-10 rounded-lg bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center">
-                          <Zap className="h-5 w-5 text-white" />
+          <TabsContent value="overview">
+            <DashboardOverview data={dashboardData} />
+          </TabsContent>
+
+          <TabsContent value="detailed">
+            <RecommendationsGrid recommendations={dashboardData.supplements} />
+          </TabsContent>
+
+          <TabsContent value="analysis">
+            <div className="space-y-6">
+              <ConfidenceChart data={dashboardData.recommendations}>
+                <Card className="lg:col-span-2">
+                  <CardHeader>
+                    <CardTitle>Principais Insights</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="space-y-4">
+                      <div>
+                        <h4 className="font-semibold mb-2">Principais Preocupações</h4>
+                        <div className="space-y-2">
+                          {dashboardData.analysis.topConcerns.map((concern, index) => (
+                            <p key={index} className="text-sm text-muted-foreground">• {concern}</p>
+                          ))}
                         </div>
-                        <div>
-                          <h4 className="font-semibold text-foreground">{rec.name}</h4>
-                          <p className="text-sm text-muted-foreground">{rec.reason}</p>
+                      </div>
+                      
+                      <div>
+                        <h4 className="font-semibold mb-2">Benefícios Esperados</h4>
+                        <div className="space-y-2">
+                          {dashboardData.analysis.keyBenefits.map((benefit, index) => (
+                            <p key={index} className="text-sm text-muted-foreground">✅ {benefit}</p>
+                          ))}
                         </div>
                       </div>
                     </div>
-                    <div className="flex items-center gap-3">
-                      <div className="text-right">
-                        <p className="text-sm font-medium">{rec.confidence}% match</p>
-                        <Progress value={rec.confidence} className="w-16 h-2" />
-                      </div>
-                      <Badge variant="outline">{rec.category}</Badge>
-                    </div>
-                  </div>
-                ))}
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Quick Actions & Progress */}
-          <div className="space-y-6">
-            {/* Quick Actions */}
-            <Card className="border-border/50">
-              <CardHeader>
-                <CardTitle className="text-lg">Ações Rápidas</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-3">
-                <Button className="w-full justify-start" variant="outline">
-                  <Heart className="mr-2 h-4 w-4" />
-                  Atualizar Perfil de Saúde
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Dumbbell className="mr-2 h-4 w-4" />
-                  Registrar Treino
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Calendar className="mr-2 h-4 w-4" />
-                  Agendar Consulta
-                </Button>
-                <Button className="w-full justify-start" variant="outline">
-                  <Activity className="mr-2 h-4 w-4" />
-                  Ver Progresso Detalhado
-                </Button>
-              </CardContent>
-            </Card>
-
-            {/* Achievement */}
-            <Card className="border-border/50 bg-gradient-to-br from-accent/5 to-primary/5">
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2 text-lg">
-                  <Award className="h-5 w-5 text-accent" />
-                  Conquista Recente
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="text-center space-y-3">
-                  <div className="h-16 w-16 mx-auto rounded-full bg-gradient-to-r from-accent to-primary flex items-center justify-center">
-                    <span className="text-2xl text-white">🏆</span>
-                  </div>
-                  <div>
-                    <h4 className="font-semibold">Consistência de Ferro!</h4>
-                    <p className="text-sm text-muted-foreground">
-                      7 dias seguidos seguindo as recomendações
-                    </p>
-                  </div>
-                  <Button size="sm" variant="outline">
-                    Ver Conquistas
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-        </div>
-      </main>
+                  </CardContent>
+                </Card>
+              </ConfidenceChart>
+            </div>
+          </TabsContent>
+        </Tabs>
+      </div>
     </div>
   );
 }
