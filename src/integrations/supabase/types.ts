@@ -14,7 +14,107 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      recommendations: {
+        Row: {
+          confidence: number
+          created_at: string
+          id: string
+          priority: string
+          reasoning: string
+          recommended_dosage: number
+          supplement_id: string
+          user_id: string
+        }
+        Insert: {
+          confidence: number
+          created_at?: string
+          id?: string
+          priority?: string
+          reasoning: string
+          recommended_dosage: number
+          supplement_id: string
+          user_id: string
+        }
+        Update: {
+          confidence?: number
+          created_at?: string
+          id?: string
+          priority?: string
+          reasoning?: string
+          recommended_dosage?: number
+          supplement_id?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "recommendations_supplement_id_fkey"
+            columns: ["supplement_id"]
+            isOneToOne: false
+            referencedRelation: "supplements"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      supplements: {
+        Row: {
+          benefits: string[]
+          category: string
+          contraindications: string[]
+          created_at: string
+          description: string
+          dosage_max: number
+          dosage_min: number
+          dosage_unit: string
+          evidence_level: string
+          id: string
+          interactions: string[]
+          name: string
+          price_max: number | null
+          price_min: number | null
+          target_symptoms: string[]
+          timing: string
+          updated_at: string
+        }
+        Insert: {
+          benefits?: string[]
+          category: string
+          contraindications?: string[]
+          created_at?: string
+          description: string
+          dosage_max: number
+          dosage_min: number
+          dosage_unit?: string
+          evidence_level?: string
+          id: string
+          interactions?: string[]
+          name: string
+          price_max?: number | null
+          price_min?: number | null
+          target_symptoms?: string[]
+          timing?: string
+          updated_at?: string
+        }
+        Update: {
+          benefits?: string[]
+          category?: string
+          contraindications?: string[]
+          created_at?: string
+          description?: string
+          dosage_max?: number
+          dosage_min?: number
+          dosage_unit?: string
+          evidence_level?: string
+          id?: string
+          interactions?: string[]
+          name?: string
+          price_max?: number | null
+          price_min?: number | null
+          target_symptoms?: string[]
+          timing?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never

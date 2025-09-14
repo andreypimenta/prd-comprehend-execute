@@ -111,8 +111,8 @@ export function OnboardingLayout() {
         description: "Suas recomendações personalizadas estão prontas.",
       });
       
-      // Redirecionar para dashboard
-      navigate("/dashboard");
+      // Redirecionar para resultados
+      navigate("/results");
       
     } catch (error) {
       console.error("Erro ao finalizar onboarding:", error);
