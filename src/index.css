@@ -311,7 +311,7 @@
 .letter {
   display: inline-block;
   transition: all 0.3s ease;
-  transform: translate(0, 0) rotate(0deg) scale(1);
+  transform: translate(0, 0) rotate(0deg) scale(1.2);
   opacity: 1;
 }
 
