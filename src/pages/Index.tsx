@@ -155,7 +155,7 @@ const Index = () => {
             >
               <ScrambleText 
                 text="LoL" 
-                isActive={!hasScrolled}
+                isActive={hasScrolled}
               />
             </h1>
             
