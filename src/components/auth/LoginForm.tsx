@@ -18,6 +18,7 @@ export function LoginForm() {
   const [showEmailConfirmation, setShowEmailConfirmation] = useState(false);
   const [pendingEmail, setPendingEmail] = useState<string>("");
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
+  const [isRedirecting, setIsRedirecting] = useState(false);
   const { toast } = useToast();
   const { signIn, user, isLoading } = useAuth();
   const location = useLocation();
@@ -49,49 +50,71 @@ export function LoginForm() {
   // Handle redirect for logged in users
   useEffect(() => {
     if (user) {
+      console.log("📝 LoginForm: Usuário já logado, redirecionando...", user.email);
+      setIsRedirecting(true);
       const from = location.state?.from?.pathname || '/dashboard';
       navigate(from, { replace: true });
     }
   }, [user, location.state, navigate]);
 
   const onSubmit = async (data: SignInFormData) => {
-    const response = await signIn(data as SignInCredentials);
-    
-    if (response.error) {
-      // Tratamento específico para email não confirmado
-      if (response.error.message.includes("Email not confirmed") || 
-          response.error.message.includes("email_not_confirmed")) {
-        setPendingEmail(data.email);
-        setShowEmailConfirmation(true);
-        toast({
-          title: "Email não confirmado",
-          description: "Confirme seu email para fazer login.",
-          variant: "default",
-        });
-      } else if (response.error.message.includes("requested path is invalid") ||
-                 response.error.message.includes("localhost")) {
-        toast({
-          title: "Erro de configuração",
-          description: "Problema com URLs do Supabase. Verifique a configuração.",
-          variant: "destructive",
-          action: (
-            <Button 
-              variant="outline" 
-              size="sm" 
-              onClick={() => window.open('/supabase-config', '_blank')}
-            >
-              Ver Configuração
-            </Button>
-          ),
-        });
+    try {
+      console.log("📝 LoginForm: Iniciando login para:", data.email);
+      const response = await signIn(data as SignInCredentials);
+      
+      if (response.error) {
+        console.log("📝 LoginForm: Erro no login:", response.error.message);
+        
+        // Tratamento específico para email não confirmado
+        if (response.error.message.includes("Email not confirmed") || 
+            response.error.message.includes("email_not_confirmed")) {
+          setPendingEmail(data.email);
+          setShowEmailConfirmation(true);
+          toast({
+            title: "Email não confirmado",
+            description: "Confirme seu email para fazer login.",
+            variant: "default",
+          });
+        } else if (response.error.message.includes("requested path is invalid") ||
+                   response.error.message.includes("localhost")) {
+          toast({
+            title: "Erro de configuração",
+            description: "Problema com URLs do Supabase. Verifique a configuração.",
+            variant: "destructive",
+            action: (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => window.open('/supabase-config', '_blank')}
+              >
+                Ver Configuração
+              </Button>
+            ),
+          });
+        } else {
+          setError("root", { message: response.error.message });
+          toast({
+            title: "Erro no login",
+            description: response.error.message,
+            variant: "destructive",
+          });
+        }
       } else {
-        setError("root", { message: response.error.message });
-        toast({
-          title: "Erro no login",
-          description: response.error.message,
-          variant: "destructive",
-        });
+        console.log("📝 LoginForm: Login bem-sucedido! Redirecionando...");
+        setIsRedirecting(true);
+        
+        // Redirecionar imediatamente após login bem-sucedido
+        const from = location.state?.from?.pathname || '/dashboard';
+        console.log("📝 LoginForm: Redirecionando para:", from);
+        navigate(from, { replace: true });
       }
+    } catch (error) {
+      console.error("📝 LoginForm: Erro inesperado:", error);
+      toast({
+        title: "Erro inesperado",
+        description: "Tente novamente em alguns instantes.",
+        variant: "destructive",
+      });
     }
   };
 
@@ -188,9 +211,9 @@ export function LoginForm() {
           <Button 
             type="submit" 
             className="w-full" 
-            disabled={isLoading}
+            disabled={isLoading || isRedirecting}
           >
-            {isLoading ? "Entrando..." : "Entrar"}
+            {isRedirecting ? "Redirecionando..." : isLoading ? "Entrando..." : "Entrar"}
           </Button>
         </form>
 

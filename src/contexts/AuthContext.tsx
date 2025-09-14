@@ -13,13 +13,19 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const { toast } = useToast();
 
   useEffect(() => {
+    console.log("🔐 AuthContext: Inicializando autenticação...");
+    
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
       async (event, supabaseSession) => {
+        console.log("🔐 AuthContext: Evento de auth:", event, supabaseSession?.user?.email);
+        
         if (supabaseSession?.user) {
+          console.log("🔐 AuthContext: Usuário detectado, buscando dados customizados...");
           // Get our custom user data
           const customUser = await authLib.getUserByAuthId(supabaseSession.user.id);
           if (customUser) {
+            console.log("🔐 AuthContext: Dados customizados encontrados:", customUser.email);
             setUser(customUser);
             setSession({
               id: supabaseSession.access_token.substring(0, 20),
@@ -28,8 +34,11 @@ export function AuthProvider({ children }: { children: ReactNode }) {
               expires: new Date(supabaseSession.expires_at ? supabaseSession.expires_at * 1000 : Date.now() + 3600000),
               createdAt: new Date(),
             });
+          } else {
+            console.log("🔐 AuthContext: Dados customizados não encontrados");
           }
         } else {
+          console.log("🔐 AuthContext: Nenhum usuário, limpando estado");
           setUser(null);
           setSession(null);
         }
@@ -37,42 +46,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       }
     );
 
-    // Get initial session
-    const initializeAuth = async () => {
-      const sessionData = await authLib.getCurrentSession();
-      if (sessionData) {
-        setUser(sessionData.user);
-        setSession(sessionData.session);
+    // Get initial session - apenas uma vez
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      console.log("🔐 AuthContext: Sessão inicial:", session?.user?.email || 'nenhuma');
+      if (!session) {
+        setIsLoading(false);
       }
-      setIsLoading(false);
-    };
-
-    initializeAuth();
+    });
 
     return () => subscription.unsubscribe();
   }, []);
 
   const signIn = async (credentials: SignInCredentials) => {
     try {
+      console.log("🔐 AuthContext: Tentando fazer login...", credentials.email);
       setIsLoading(true);
       const response = await authLib.signIn(credentials);
 
       if (response.error) {
+        console.log("🔐 AuthContext: Erro no login:", response.error.message);
         return response;
       }
 
-      if (response.user && response.session) {
-        setUser(response.user);
-        setSession(response.session);
-      }
-
+      console.log("🔐 AuthContext: Login bem-sucedido! onAuthStateChange vai atualizar o estado");
+      
       toast({
         title: "Login realizado com sucesso!",
-        description: "Bem-vindo de volta!",
+        description: "Redirecionando...",
       });
 
       return response;
     } catch (error) {
+      console.log("🔐 AuthContext: Erro inesperado:", error);
       return { error: { message: "Erro inesperado no login" } };
     } finally {
       setIsLoading(false);
