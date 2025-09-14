@@ -323,11 +323,11 @@
   content: '';
   position: absolute;
   bottom: 0;
-  right: -15%;
-  width: 25%;
-  height: 12%;
+  right: -20%;
+  width: 45%;
+  height: 18%;
   background: currentColor;
-  border-radius: 0 0 12px 12px;
+  border-radius: 0 0 15px 15px;
 }
 
 .letter-1-exit {
