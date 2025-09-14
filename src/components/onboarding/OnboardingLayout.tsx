@@ -4,6 +4,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 import { OnboardingData, OnboardingStep } from "@/types/onboarding";
 import { ProgressBar } from "./ProgressBar";
 import { StepNavigation } from "./StepNavigation";
@@ -100,15 +101,49 @@ export function OnboardingLayout() {
     setIsLoading(true);
     
     try {
-      // TODO: Salvar dados no Supabase
-      console.log("Dados do onboarding:", onboardingData);
+      // Get current user
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
       
-      // Simular processamento
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
+      if (authError || !user) {
+        toast({
+          title: "Erro de autenticação",
+          description: "Faça login para completar o onboarding.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      // Save user profile data
+      const profileData = {
+        user_id: user.id,
+        age: onboardingData.basicInfo?.age,
+        gender: onboardingData.basicInfo?.gender,
+        weight: onboardingData.basicInfo?.weight,
+        height: onboardingData.basicInfo?.height,
+        symptoms: onboardingData.symptoms || [],
+        sleep_quality: onboardingData.lifestyle?.sleepQuality,
+        stress_level: onboardingData.lifestyle?.stressLevel,
+        exercise_frequency: onboardingData.lifestyle?.exerciseFrequency,
+        health_goals: onboardingData.goals || []
+      };
+
+      const { error: profileError } = await supabase
+        .from('user_profiles')
+        .upsert(profileData, { onConflict: 'user_id' });
+
+      if (profileError) {
+        console.error('Error saving profile:', profileError);
+        toast({
+          title: "Erro ao salvar perfil",
+          description: "Ocorreu um erro ao salvar seus dados. Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
       toast({
         title: "Onboarding concluído!",
-        description: "Suas recomendações personalizadas estão prontas.",
+        description: "Seus dados foram salvos com sucesso. Redirecionando para suas recomendações...",
       });
       
       // Redirecionar para resultados
@@ -118,7 +153,7 @@ export function OnboardingLayout() {
       console.error("Erro ao finalizar onboarding:", error);
       toast({
         title: "Erro ao finalizar",
-        description: "Ocorreu um erro. Tente novamente.",
+        description: "Ocorreu um erro inesperado. Tente novamente.",
         variant: "destructive",
       });
     } finally {
