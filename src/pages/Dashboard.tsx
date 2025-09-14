@@ -3,6 +3,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 import { 
   Activity, 
   Target, 
@@ -91,9 +92,11 @@ export default function Dashboard() {
               Aqui está um resumo da sua jornada fitness hoje
             </p>
           </div>
-          <Button variant="primary" size="lg">
-            <Brain className="mr-2 h-5 w-5" />
-            Nova Análise IA
+          <Button variant="primary" size="lg" asChild>
+            <Link to="/onboarding">
+              <Brain className="mr-2 h-5 w-5" />
+              Nova Análise IA
+            </Link>
           </Button>
         </div>
 

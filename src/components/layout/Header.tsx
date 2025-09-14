@@ -52,16 +52,16 @@ export function Header({ user, onMenuClick }: HeaderProps) {
               Dashboard
             </Link>
             <Link 
-              to="/supplements" 
+              to="/onboarding" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Suplementos
+              Análise IA
             </Link>
             <Link 
-              to="/recommendations" 
+              to="/showcase" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >
-              Recomendações
+              Design System
             </Link>
           </nav>
         </div>
