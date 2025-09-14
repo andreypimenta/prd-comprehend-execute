@@ -55,12 +55,19 @@ export function OnboardingLayout() {
   
   const navigate = useNavigate();
   const { toast } = useToast();
-  const { user } = useAuth();
+  const { user, isAuthenticated } = useAuth();
   const { profile, isProfileComplete, loading: profileLoading } = useUserProfile();
+
+  // Redirect if not authenticated
+  useEffect(() => {
+    if (!isAuthenticated && !profileLoading) {
+      navigate('/login', { replace: true });
+    }
+  }, [isAuthenticated, profileLoading, navigate]);
 
   // Redirect if user already has a complete profile
   useEffect(() => {
-    if (!profileLoading && user && isProfileComplete) {
+    if (!profileLoading && isAuthenticated && isProfileComplete) {
       console.log("🚀 OnboardingLayout: Perfil já completo, redirecionando para dashboard");
       toast({
         title: "Perfil já completo",
@@ -68,7 +75,7 @@ export function OnboardingLayout() {
       });
       navigate('/dashboard', { replace: true });
     }
-  }, [user, isProfileComplete, profileLoading, navigate, toast]);
+  }, [isAuthenticated, isProfileComplete, profileLoading, navigate, toast]);
 
   // Load existing profile data if available
   useEffect(() => {
@@ -141,32 +148,30 @@ export function OnboardingLayout() {
     
     try {
       console.log("🚀 OnboardingLayout: Iniciando salvamento dos dados:", onboardingData);
-      console.log("👤 OnboardingLayout: User ID:", user?.id);
       
-      if (!user) {
-        console.error("❌ OnboardingLayout: Usuário não encontrado");
+      if (!isAuthenticated) {
+        console.error("❌ OnboardingLayout: Usuário não autenticado");
         toast({
           title: "Erro de autenticação",
-          description: "Usuário não encontrado. Faça login novamente.",
+          description: "Faça login novamente.",
           variant: "destructive",
         });
         return;
       }
 
-      // Obter sessão do Supabase Auth diretamente
-      const { data: { session } } = await supabase.auth.getSession();
-      if (!session?.user) {
-        console.error("❌ OnboardingLayout: Sessão não encontrada");
+      // Obter usuário atual do Supabase Auth
+      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      if (authError || !user) {
+        console.error("❌ OnboardingLayout: Erro ao obter usuário:", authError);
         toast({
-          title: "Erro de sessão",
+          title: "Erro de autenticação",
           description: "Sessão expirada. Faça login novamente.",
           variant: "destructive",
         });
         return;
       }
 
-      console.log("🔑 OnboardingLayout: Session User ID:", session.user.id);
-      console.log("🔑 OnboardingLayout: User Auth ID:", user.authUserId);
+      console.log("🔑 OnboardingLayout: User ID:", user.id);
 
       // Validar dados obrigatórios
       if (!onboardingData.basicInfo?.age || !onboardingData.basicInfo?.gender || 
@@ -181,7 +186,7 @@ export function OnboardingLayout() {
       }
 
       const profileData = {
-        user_id: session.user.id, // Usar session.user.id diretamente para consistência com RLS
+        user_id: user.id,
         age: onboardingData.basicInfo.age,
         gender: onboardingData.basicInfo.gender,
         weight: onboardingData.basicInfo.weight,
@@ -195,65 +200,32 @@ export function OnboardingLayout() {
 
       console.log("💾 OnboardingLayout: Dados preparados para salvamento:", profileData);
 
-      // Primeiro tentar fazer insert
-      const { data: insertData, error: insertError } = await supabase
+      // Usar upsert para inserir ou atualizar
+      const { data, error } = await supabase
         .from('user_profiles')
-        .insert(profileData)
+        .upsert(profileData, { 
+          onConflict: 'user_id',
+          ignoreDuplicates: false
+        })
         .select()
         .single();
 
-      if (insertError) {
-        console.log("ℹ️ OnboardingLayout: Insert falhou, tentando update:", insertError.message);
-        
-        // Se insert falhar, tentar update
-        const { data: updateData, error: updateError } = await supabase
-          .from('user_profiles')
-          .update(profileData)
-          .eq('user_id', session.user.id)
-          .select()
-          .single();
-
-        if (updateError) {
-          console.error("❌ OnboardingLayout: Erro ao fazer update:", updateError);
-          toast({
-            title: "Erro ao salvar perfil",
-            description: `Erro: ${updateError.message}`,
-            variant: "destructive",
-          });
-          return;
-        }
-
-        console.log("✅ OnboardingLayout: Perfil atualizado com sucesso:", updateData);
-      } else {
-        console.log("✅ OnboardingLayout: Perfil inserido com sucesso:", insertData);
-      }
-
-      toast({
-        title: "Onboarding concluído!",
-        description: "Seus dados foram salvos com sucesso. Redirecionando para suas recomendações...",
-      });
-      
-      // Aguardar um pouco para garantir que o banco foi atualizado
-      await new Promise(resolve => setTimeout(resolve, 500));
-      
-      // Verificar se o perfil foi realmente salvo
-      const { data: verifyData, error: verifyError } = await supabase
-        .from('user_profiles')
-        .select('*')
-        .eq('user_id', session.user.id)
-        .single();
-
-      if (verifyError || !verifyData) {
-        console.error("❌ OnboardingLayout: Perfil não foi salvo corretamente:", verifyError);
+      if (error) {
+        console.error("❌ OnboardingLayout: Erro ao salvar perfil:", error);
         toast({
-          title: "Erro de verificação",
-          description: "Erro: perfil não foi salvo. Tente novamente.",
+          title: "Erro ao salvar perfil",
+          description: `Erro: ${error.message}`,
           variant: "destructive",
         });
         return;
       }
 
-      console.log("✅ OnboardingLayout: Perfil verificado no banco:", verifyData);
+      console.log("✅ OnboardingLayout: Perfil salvo com sucesso:", data);
+
+      toast({
+        title: "Onboarding concluído!",
+        description: "Seus dados foram salvos com sucesso. Redirecionando para suas recomendações...",
+      });
       
       // Redirecionar para resultados
       navigate('/results');

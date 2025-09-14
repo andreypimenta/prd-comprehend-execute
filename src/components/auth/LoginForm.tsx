@@ -73,7 +73,7 @@ export function LoginForm() {
   const onSubmit = async (data: SignInFormData) => {
     try {
       console.log("📝 LoginForm: Iniciando login para:", data.email);
-      const response = await signIn(data as SignInCredentials);
+      const response = await signIn(data.email, data.password);
       
       if (response.error) {
         console.log("📝 LoginForm: Erro no login:", response.error.message);

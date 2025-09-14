@@ -94,9 +94,9 @@ export function Header({ onMenuClick }: HeaderProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={user?.image || ""} alt={user?.name || user?.email || ""} />
+                    <AvatarImage src={user?.user_metadata?.avatar_url || ""} alt={user?.user_metadata?.name || user?.email || ""} />
                     <AvatarFallback className="bg-gradient-to-r from-primary to-primary-glow text-white">
-                      {user?.name?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || "U"}
+                      {user?.user_metadata?.name?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -105,7 +105,7 @@ export function Header({ onMenuClick }: HeaderProps) {
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
                     <p className="text-sm font-medium leading-none">
-                      {user?.name || 'Usuário'}
+                      {user?.user_metadata?.name || 'Usuário'}
                     </p>
                     <p className="text-xs leading-none text-muted-foreground">
                       {user?.email}

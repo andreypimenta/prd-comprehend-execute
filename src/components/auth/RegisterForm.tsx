@@ -36,11 +36,7 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: SignUpFormData) => {
-    const response = await signUp({
-      email: data.email,
-      password: data.password,
-      name: data.name
-    });
+    const response = await signUp(data.email, data.password, data.name);
     
     if (response.error) {
       setError("root", { message: response.error.message });

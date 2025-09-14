@@ -1,14 +1,24 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { useToast } from '@/hooks/use-toast';
-import type { AuthContextType, User, Session, SignInCredentials, SignUpCredentials } from '@/types/auth';
-import * as authLib from '@/lib/auth';
 import { supabase } from '@/integrations/supabase/client';
+import type { User as SupabaseUser, Session as SupabaseSession } from '@supabase/supabase-js';
+
+interface AuthContextType {
+  user: SupabaseUser | null;
+  session: SupabaseSession | null;
+  isLoading: boolean;
+  isAuthenticated: boolean;
+  signIn: (email: string, password: string) => Promise<{ error?: any }>;
+  signUp: (email: string, password: string, name?: string) => Promise<{ error?: any }>;
+  signOut: () => Promise<void>;
+  signInWithProvider: (provider: 'google' | 'apple') => Promise<{ error?: any }>;
+}
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<User | null>(null);
-  const [session, setSession] = useState<Session | null>(null);
+  const [user, setUser] = useState<SupabaseUser | null>(null);
+  const [session, setSession] = useState<SupabaseSession | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const { toast } = useToast();
 
@@ -17,65 +27,49 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     
     // Set up auth state listener
     const { data: { subscription } } = supabase.auth.onAuthStateChange(
-      async (event, supabaseSession) => {
+      (event, supabaseSession) => {
         console.log("🔐 AuthContext: Evento de auth:", event, supabaseSession?.user?.email);
         
-        if (supabaseSession?.user) {
-          console.log("🔐 AuthContext: Usuário detectado, buscando dados customizados...");
-          // Get our custom user data
-          const customUser = await authLib.getUserByAuthId(supabaseSession.user.id);
-          if (customUser) {
-            console.log("🔐 AuthContext: Dados customizados encontrados:", customUser.email);
-            setUser(customUser);
-            setSession({
-              id: supabaseSession.access_token.substring(0, 20),
-              sessionToken: supabaseSession.access_token,
-              userId: customUser.id,
-              expires: new Date(supabaseSession.expires_at ? supabaseSession.expires_at * 1000 : Date.now() + 3600000),
-              createdAt: new Date(),
-            });
-          } else {
-            console.log("🔐 AuthContext: Dados customizados não encontrados");
-          }
-        } else {
-          console.log("🔐 AuthContext: Nenhum usuário, limpando estado");
-          setUser(null);
-          setSession(null);
-        }
+        setUser(supabaseSession?.user ?? null);
+        setSession(supabaseSession ?? null);
         setIsLoading(false);
       }
     );
 
-    // Get initial session - apenas uma vez
+    // Get initial session
     supabase.auth.getSession().then(({ data: { session } }) => {
       console.log("🔐 AuthContext: Sessão inicial:", session?.user?.email || 'nenhuma');
-      if (!session) {
-        setIsLoading(false);
-      }
+      setUser(session?.user ?? null);
+      setSession(session ?? null);
+      setIsLoading(false);
     });
 
     return () => subscription.unsubscribe();
   }, []);
 
-  const signIn = async (credentials: SignInCredentials) => {
+  const signIn = async (email: string, password: string) => {
     try {
-      console.log("🔐 AuthContext: Tentando fazer login...", credentials.email);
+      console.log("🔐 AuthContext: Tentando fazer login...", email);
       setIsLoading(true);
-      const response = await authLib.signIn(credentials);
+      
+      const { error } = await supabase.auth.signInWithPassword({
+        email,
+        password,
+      });
 
-      if (response.error) {
-        console.log("🔐 AuthContext: Erro no login:", response.error.message);
-        return response;
+      if (error) {
+        console.log("🔐 AuthContext: Erro no login:", error.message);
+        return { error };
       }
 
-      console.log("🔐 AuthContext: Login bem-sucedido! onAuthStateChange vai atualizar o estado");
+      console.log("🔐 AuthContext: Login bem-sucedido!");
       
       toast({
         title: "Login realizado com sucesso!",
         description: "Redirecionando...",
       });
 
-      return response;
+      return {};
     } catch (error) {
       console.log("🔐 AuthContext: Erro inesperado:", error);
       return { error: { message: "Erro inesperado no login" } };
@@ -84,13 +78,23 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signUp = async (credentials: SignUpCredentials) => {
+  const signUp = async (email: string, password: string, name?: string) => {
     try {
       setIsLoading(true);
-      const response = await authLib.signUp(credentials);
+      
+      const { error } = await supabase.auth.signUp({
+        email,
+        password,
+        options: {
+          emailRedirectTo: `${window.location.origin}/`,
+          data: {
+            name: name || '',
+          }
+        }
+      });
 
-      if (response.error) {
-        return response;
+      if (error) {
+        return { error };
       }
 
       toast({
@@ -98,7 +102,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         description: "Verifique seu email para confirmar a conta.",
       });
 
-      return response;
+      return {};
     } catch (error) {
       return { error: { message: "Erro inesperado no cadastro" } };
     } finally {
@@ -109,10 +113,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const signOut = async () => {
     try {
       setIsLoading(true);
-      await authLib.signOut();
-      
-      setUser(null);
-      setSession(null);
+      await supabase.auth.signOut();
 
       toast({
         title: "Logout realizado com sucesso!",
@@ -129,51 +130,26 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
-  const signInWithProvider = async (provider: string) => {
+  const signInWithProvider = async (provider: 'google' | 'apple') => {
     try {
       setIsLoading(true);
-      const response = await authLib.signInWithProvider(provider as 'google' | 'apple');
+      
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider,
+        options: {
+          redirectTo: `${window.location.origin}/`
+        }
+      });
 
-      if (response.error) {
-        return response;
+      if (error) {
+        return { error };
       }
 
-      return response;
+      return {};
     } catch (error) {
       return { error: { message: `Erro no login com ${provider}` } };
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const refreshSession = async () => {
-    try {
-      await authLib.refreshSession();
-      const sessionData = await authLib.getCurrentSession();
-      if (sessionData) {
-        setUser(sessionData.user);
-        setSession(sessionData.session);
-      }
-    } catch (error) {
-      console.error('Error refreshing session:', error);
-    }
-  };
-
-  const updateUser = async (data: Partial<User>) => {
-    try {
-      if (!user) {
-        return { error: { message: "Usuário não autenticado" } };
-      }
-
-      const updatedUser = await authLib.updateUser(user.id, data);
-      if (updatedUser) {
-        setUser(updatedUser);
-        return { user: updatedUser };
-      }
-
-      return { error: { message: "Erro ao atualizar usuário" } };
-    } catch (error) {
-      return { error: { message: "Erro inesperado ao atualizar usuário" } };
     }
   };
 
@@ -186,8 +162,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     signUp,
     signOut,
     signInWithProvider,
-    refreshSession,
-    updateUser,
   };
 
   return (
