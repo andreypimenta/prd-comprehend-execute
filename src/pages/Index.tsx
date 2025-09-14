@@ -166,7 +166,7 @@ const Index = () => {
               Life on Labs
             </p>
             
-            <p className="text-lg text-gray-300 mt-4 opacity-80">
+            <p className="text-lg text-gray-300 mt-12 opacity-80">
               Recomendações Inteligentes de Suplementos
             </p>
           </div>
