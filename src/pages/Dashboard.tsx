@@ -90,9 +90,9 @@ export default function Dashboard() {
           <Card className="text-center py-12">
             <CardContent>
               <p className="text-muted-foreground mb-4">Nenhuma análise encontrada</p>
-              <p className="text-sm text-muted-foreground mb-6">Complete seu onboarding para ver suas recomendações</p>
+              <p className="text-sm text-muted-foreground mb-6">Complete seu onboarding para gerar suas recomendações personalizadas</p>
               <Button asChild>
-                <Link to="/onboarding">Começar Análise</Link>
+                <Link to="/onboarding">Completar Perfil</Link>
               </Button>
             </CardContent>
           </Card>

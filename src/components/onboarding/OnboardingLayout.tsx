@@ -1,9 +1,11 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { OnboardingData, OnboardingStep } from "@/types/onboarding";
 import { ProgressBar } from "./ProgressBar";
@@ -53,6 +55,43 @@ export function OnboardingLayout() {
   
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { user } = useAuth();
+  const { profile, isProfileComplete, loading: profileLoading } = useUserProfile();
+
+  // Redirect if user already has a complete profile
+  useEffect(() => {
+    if (!profileLoading && user && isProfileComplete) {
+      console.log("🚀 OnboardingLayout: Perfil já completo, redirecionando para dashboard");
+      toast({
+        title: "Perfil já completo",
+        description: "Redirecionando para seu dashboard...",
+      });
+      navigate('/dashboard', { replace: true });
+    }
+  }, [user, isProfileComplete, profileLoading, navigate, toast]);
+
+  // Load existing profile data if available
+  useEffect(() => {
+    if (profile && !isProfileComplete) {
+      console.log("🚀 OnboardingLayout: Carregando dados existentes do perfil");
+      const existingData: Partial<OnboardingData> = {
+        basicInfo: {
+          age: profile.age || 0,
+          gender: (profile.gender as 'male' | 'female' | 'other') || 'other',
+          weight: profile.weight || 0,
+          height: profile.height || 0,
+        },
+        symptoms: profile.symptoms || [],
+        lifestyle: {
+          sleepQuality: profile.sleep_quality || 1,
+          stressLevel: profile.stress_level || 1,
+          exerciseFrequency: profile.exercise_frequency || 0,
+        },
+        goals: profile.health_goals || [],
+      };
+      setOnboardingData(existingData);
+    }
+  }, [profile, isProfileComplete]);
 
   const updateStepData = (stepData: Partial<OnboardingData>) => {
     setOnboardingData(prev => ({ ...prev, ...stepData }));

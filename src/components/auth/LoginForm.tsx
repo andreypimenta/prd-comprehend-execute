@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "@/contexts/AuthContext";
+import { useUserProfile } from "@/hooks/useUserProfile";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { supabase } from "@/integrations/supabase/client";
@@ -21,6 +22,7 @@ export function LoginForm() {
   const [isRedirecting, setIsRedirecting] = useState(false);
   const { toast } = useToast();
   const { signIn, user, isLoading } = useAuth();
+  const { isProfileComplete, loading: profileLoading } = useUserProfile();
   const location = useLocation();
   const navigate = useNavigate();
   
@@ -47,15 +49,26 @@ export function LoginForm() {
     }
   }, [location.search, navigate, toast]);
   
-  // Handle redirect for logged in users
+  // Handle redirect for logged in users based on profile completeness
   useEffect(() => {
-    if (user) {
-      console.log("📝 LoginForm: Usuário já logado, redirecionando...", user.email);
+    if (user && !profileLoading) {
+      console.log("📝 LoginForm: Usuário logado, verificando perfil...", { 
+        email: user.email, 
+        isProfileComplete 
+      });
+      
       setIsRedirecting(true);
-      const from = location.state?.from?.pathname || '/dashboard';
-      navigate(from, { replace: true });
+      
+      if (isProfileComplete) {
+        console.log("📝 LoginForm: Perfil completo, redirecionando para dashboard");
+        const from = location.state?.from?.pathname || '/dashboard';
+        navigate(from, { replace: true });
+      } else {
+        console.log("📝 LoginForm: Perfil incompleto, redirecionando para onboarding");
+        navigate('/onboarding', { replace: true });
+      }
     }
-  }, [user, location.state, navigate]);
+  }, [user, isProfileComplete, profileLoading, location.state, navigate]);
 
   const onSubmit = async (data: SignInFormData) => {
     try {
@@ -100,13 +113,8 @@ export function LoginForm() {
           });
         }
       } else {
-        console.log("📝 LoginForm: Login bem-sucedido! Redirecionando...");
-        setIsRedirecting(true);
-        
-        // Redirecionar imediatamente após login bem-sucedido
-        const from = location.state?.from?.pathname || '/dashboard';
-        console.log("📝 LoginForm: Redirecionando para:", from);
-        navigate(from, { replace: true });
+        console.log("📝 LoginForm: Login bem-sucedido! Aguardando verificação de perfil...");
+        // O redirecionamento será feito pelo useEffect baseado no perfil
       }
     } catch (error) {
       console.error("📝 LoginForm: Erro inesperado:", error);
@@ -211,7 +219,7 @@ export function LoginForm() {
           <Button 
             type="submit" 
             className="w-full" 
-            disabled={isLoading || isRedirecting}
+            disabled={isLoading || isRedirecting || profileLoading}
           >
             {isRedirecting ? "Redirecionando..." : isLoading ? "Entrando..." : "Entrar"}
           </Button>
