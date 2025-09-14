@@ -2,6 +2,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
+import { LoadingSpinner } from "@/components/ui/loading-spinner";
+import { EvidenceBadge } from "@/components/ui/evidence-badge";
+import { AdvancedProgress } from "@/components/ui/advanced-progress";
+import { Footer } from "@/components/layout/Footer";
 
 export default function Showcase() {
   return (
@@ -134,7 +138,106 @@ export default function Showcase() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Loading Spinners */}
+        <Card className="p-8">
+          <CardHeader>
+            <CardTitle>Loading Spinners</CardTitle>
+            <CardDescription>Indicadores de carregamento com diferentes tamanhos e cores</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="flex flex-wrap items-center gap-6">
+              <div className="flex flex-col items-center space-y-2">
+                <LoadingSpinner size="sm" />
+                <span className="text-xs text-text-mediumGray">Small</span>
+              </div>
+              <div className="flex flex-col items-center space-y-2">
+                <LoadingSpinner size="md" />
+                <span className="text-xs text-text-mediumGray">Medium</span>
+              </div>
+              <div className="flex flex-col items-center space-y-2">
+                <LoadingSpinner size="lg" />
+                <span className="text-xs text-text-mediumGray">Large</span>
+              </div>
+              <div className="flex flex-col items-center space-y-2">
+                <LoadingSpinner size="xl" />
+                <span className="text-xs text-text-mediumGray">Extra Large</span>
+              </div>
+            </div>
+            <div className="flex flex-wrap items-center gap-6">
+              <LoadingSpinner variant="primary" />
+              <LoadingSpinner variant="accent" />
+              <LoadingSpinner variant="success" />
+              <LoadingSpinner variant="warning" />
+              <LoadingSpinner variant="error" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Evidence Badges */}
+        <Card className="p-8">
+          <CardHeader>
+            <CardTitle>Evidence Badges</CardTitle>
+            <CardDescription>Badges especializados para níveis de evidência científica</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            <div className="flex flex-wrap gap-4">
+              <EvidenceBadge evidence="strong" />
+              <EvidenceBadge evidence="moderate" />
+              <EvidenceBadge evidence="limited" />
+              <EvidenceBadge evidence="inconclusive" />
+            </div>
+            <div className="flex flex-wrap gap-4">
+              <EvidenceBadge evidence="strong" size="sm" />
+              <EvidenceBadge evidence="moderate" size="md" />
+              <EvidenceBadge evidence="limited" size="lg" />
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* Advanced Progress */}
+        <Card className="p-8">
+          <CardHeader>
+            <CardTitle>Advanced Progress</CardTitle>
+            <CardDescription>Barras de progresso avançadas com labels e animações</CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-6">
+            <div className="space-y-4">
+              <AdvancedProgress 
+                value={75} 
+                showLabel 
+                label="Análise de Suplementos" 
+                showPercentage 
+              />
+              <AdvancedProgress 
+                value={45} 
+                variant="success" 
+                showLabel 
+                label="Evidências Coletadas" 
+                showPercentage 
+              />
+              <AdvancedProgress 
+                value={90} 
+                variant="warning" 
+                showLabel 
+                label="Processamento" 
+                showPercentage 
+              />
+              <AdvancedProgress 
+                value={30} 
+                variant="error" 
+                size="lg"
+                showLabel 
+                label="Status de Erro" 
+                showPercentage 
+              />
+            </div>
+          </CardContent>
+        </Card>
       </div>
+      
+      {/* Footer */}
+      <Footer />
     </div>
   );
 }
