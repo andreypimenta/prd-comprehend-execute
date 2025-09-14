@@ -24,13 +24,18 @@ const Index = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
       
+      // Scroll down logic
       if (currentScrollY > 50 && !hasScrolled) {
         setHasScrolled(true);
-        if (lolRef.current) {
-          lolRef.current.classList.add('lol-exit');
-        }
         if (lifeOnLabsRef.current) {
           lifeOnLabsRef.current.classList.add('life-on-labs-exit');
+        }
+      }
+      // Scroll up logic - reset when near top
+      else if (currentScrollY <= 50 && hasScrolled) {
+        setHasScrolled(false);
+        if (lifeOnLabsRef.current) {
+          lifeOnLabsRef.current.classList.remove('life-on-labs-exit');
         }
       }
     };
