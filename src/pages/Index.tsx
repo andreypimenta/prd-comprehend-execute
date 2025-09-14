@@ -2,6 +2,7 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Menu, X, ChevronDown } from 'lucide-react';
+import ScrambleText from '@/components/ui/scramble-text';
 import supplementsWellness1 from '@/assets/supplements-wellness-1.jpg';
 import supplementsWellness2 from '@/assets/supplements-wellness-2.jpg';
 import supplementsWellness3 from '@/assets/supplements-wellness-3.jpg';
@@ -146,7 +147,10 @@ const Index = () => {
             ref={lolRef}
             className="lol-static mb-4"
           >
-            LoL
+            <ScrambleText 
+              text="LoL" 
+              isActive={!hasScrolled}
+            />
           </h1>
           
           <p 
