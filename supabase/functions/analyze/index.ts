@@ -77,18 +77,22 @@ serve(async (req) => {
         .eq('user_id', user.id)
         .maybeSingle();
 
-      console.log('🔍 Analyze: Resultado da busca:', { onboardingData, profileError });
+      console.log('🔍 Analyze: Resultado da busca do perfil:', { onboardingData, profileError });
 
       if (profileError) {
-        console.error('🔍 Analyze: Erro na busca do perfil:', profileError);
+        console.error('❌ Analyze: Erro na busca do perfil:', profileError);
         return new Response(
-          JSON.stringify({ error: `Database error: ${profileError.message}` }),
+          JSON.stringify({ 
+            error: `Database error: ${profileError.message}`,
+            userId: user.id,
+            details: profileError 
+          }),
           { status: 500, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
 
       if (!onboardingData) {
-        console.log('🔍 Analyze: Perfil não encontrado para usuário:', user.id);
+        console.log('❌ Analyze: Perfil não encontrado para usuário:', user.id);
         return new Response(
           JSON.stringify({ 
             error: 'Profile not found. Please complete onboarding first.',
@@ -98,6 +102,13 @@ serve(async (req) => {
           { status: 404, headers: { ...corsHeaders, 'Content-Type': 'application/json' } }
         );
       }
+
+      console.log('✅ Analyze: Perfil encontrado:', {
+        userId: onboardingData.user_id,
+        age: onboardingData.age,
+        hasSymptoms: onboardingData.symptoms?.length > 0,
+        hasGoals: onboardingData.health_goals?.length > 0
+      });
 
       // Buscar todos os suplementos disponíveis
       const { data: supplements, error: supplementsError } = await supabase

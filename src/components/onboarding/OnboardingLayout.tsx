@@ -140,44 +140,77 @@ export function OnboardingLayout() {
     setIsLoading(true);
     
     try {
-      // Get current user
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      console.log("🚀 OnboardingLayout: Iniciando salvamento dos dados:", onboardingData);
+      console.log("👤 OnboardingLayout: User ID:", user?.id);
       
-      if (authError || !user) {
+      if (!user) {
+        console.error("❌ OnboardingLayout: Usuário não encontrado");
         toast({
           title: "Erro de autenticação",
-          description: "Faça login para completar o onboarding.",
+          description: "Usuário não encontrado. Faça login novamente.",
           variant: "destructive",
         });
         return;
       }
 
-      // Save user profile data
-      const profileData = {
-        user_id: user.id,
-        age: onboardingData.basicInfo?.age,
-        gender: onboardingData.basicInfo?.gender,
-        weight: onboardingData.basicInfo?.weight,
-        height: onboardingData.basicInfo?.height,
-        symptoms: onboardingData.symptoms || [],
-        sleep_quality: onboardingData.lifestyle?.sleepQuality,
-        stress_level: onboardingData.lifestyle?.stressLevel,
-        exercise_frequency: onboardingData.lifestyle?.exerciseFrequency,
-        health_goals: onboardingData.goals || []
-      };
-
-      const { error: profileError } = await supabase
-        .from('user_profiles')
-        .upsert(profileData, { onConflict: 'user_id' });
-
-      if (profileError) {
-        console.error('Error saving profile:', profileError);
+      // Validar dados obrigatórios
+      if (!onboardingData.basicInfo?.age || !onboardingData.basicInfo?.gender || 
+          !onboardingData.basicInfo?.weight || !onboardingData.basicInfo?.height) {
+        console.error("❌ OnboardingLayout: Dados básicos incompletos");
         toast({
-          title: "Erro ao salvar perfil",
-          description: "Ocorreu um erro ao salvar seus dados. Tente novamente.",
+          title: "Dados incompletos",
+          description: "Por favor, complete todos os dados básicos",
           variant: "destructive",
         });
         return;
+      }
+
+      const profileData = {
+        user_id: user.id,
+        age: onboardingData.basicInfo.age,
+        gender: onboardingData.basicInfo.gender,
+        weight: onboardingData.basicInfo.weight,
+        height: onboardingData.basicInfo.height,
+        symptoms: onboardingData.symptoms || [],
+        health_goals: onboardingData.goals || [],
+        sleep_quality: onboardingData.lifestyle?.sleepQuality,
+        stress_level: onboardingData.lifestyle?.stressLevel,
+        exercise_frequency: onboardingData.lifestyle?.exerciseFrequency,
+      };
+
+      console.log("💾 OnboardingLayout: Dados preparados para salvamento:", profileData);
+
+      // Primeiro tentar fazer insert
+      const { data: insertData, error: insertError } = await supabase
+        .from('user_profiles')
+        .insert(profileData)
+        .select()
+        .single();
+
+      if (insertError) {
+        console.log("ℹ️ OnboardingLayout: Insert falhou, tentando update:", insertError.message);
+        
+        // Se insert falhar, tentar update
+        const { data: updateData, error: updateError } = await supabase
+          .from('user_profiles')
+          .update(profileData)
+          .eq('user_id', user.id)
+          .select()
+          .single();
+
+        if (updateError) {
+          console.error("❌ OnboardingLayout: Erro ao fazer update:", updateError);
+          toast({
+            title: "Erro ao salvar perfil",
+            description: `Erro: ${updateError.message}`,
+            variant: "destructive",
+          });
+          return;
+        }
+
+        console.log("✅ OnboardingLayout: Perfil atualizado com sucesso:", updateData);
+      } else {
+        console.log("✅ OnboardingLayout: Perfil inserido com sucesso:", insertData);
       }
 
       toast({
@@ -185,14 +218,35 @@ export function OnboardingLayout() {
         description: "Seus dados foram salvos com sucesso. Redirecionando para suas recomendações...",
       });
       
-      // Redirecionar para resultados
-      navigate("/results");
+      // Aguardar um pouco para garantir que o banco foi atualizado
+      await new Promise(resolve => setTimeout(resolve, 500));
       
-    } catch (error) {
-      console.error("Erro ao finalizar onboarding:", error);
+      // Verificar se o perfil foi realmente salvo
+      const { data: verifyData, error: verifyError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', user.id)
+        .single();
+
+      if (verifyError || !verifyData) {
+        console.error("❌ OnboardingLayout: Perfil não foi salvo corretamente:", verifyError);
+        toast({
+          title: "Erro de verificação",
+          description: "Erro: perfil não foi salvo. Tente novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+
+      console.log("✅ OnboardingLayout: Perfil verificado no banco:", verifyData);
+      
+      // Redirecionar para resultados
+      navigate('/results');
+    } catch (err) {
+      console.error("💥 OnboardingLayout: Erro inesperado:", err);
       toast({
-        title: "Erro ao finalizar",
-        description: "Ocorreu um erro inesperado. Tente novamente.",
+        title: "Erro inesperado",
+        description: "Erro inesperado ao salvar perfil",
         variant: "destructive",
       });
     } finally {

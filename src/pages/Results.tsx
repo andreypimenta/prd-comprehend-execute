@@ -21,28 +21,56 @@ export default function Results() {
   }, []);
 
   const checkExistingRecommendations = async () => {
+    console.log("🔍 Results: Iniciando verificação de recomendações");
+    
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
+        console.log("❌ Results: Sessão não encontrada");
         toast({
           title: "Erro de autenticação",
           description: "Faça login para ver suas recomendações.",
           variant: "destructive",
         });
+        navigate('/login');
         return;
       }
 
+      console.log("👤 Results: Usuário autenticado:", session.user.id);
+
+      // Primeiro verificar se o perfil existe
+      const { data: profileData, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (profileError || !profileData) {
+        console.log("❌ Results: Perfil não encontrado, redirecionando para onboarding");
+        console.log("Erro do perfil:", profileError);
+        toast({
+          title: "Perfil não encontrado",
+          description: "Complete seu perfil primeiro",
+          variant: "destructive",
+        });
+        navigate('/onboarding');
+        return;
+      }
+
+      console.log("✅ Results: Perfil encontrado:", profileData);
+
+      // Agora buscar recomendações existentes
       const { data, error } = await supabase.functions.invoke('analyze', {
         headers: {
           Authorization: `Bearer ${session.access_token}`,
         },
       });
 
-      console.log('🚀 Results: Resposta ao buscar recomendações:', { data, error });
+      console.log('📊 Results: Resposta ao buscar recomendações:', { data, error });
 
       if (error) {
-        console.error('🚀 Results: Erro ao buscar recomendações:', error);
+        console.error('❌ Results: Erro ao buscar recomendações:', error);
         // Check if it's a profile not found error
         if (error.message && error.message.includes('Profile not found')) {
           toast({
@@ -64,7 +92,7 @@ export default function Results() {
 
       // Check for errors in the data response
       if (data?.error) {
-        console.error('🚀 Results: Erro retornado pela função:', data.error);
+        console.error('❌ Results: Erro retornado pela função:', data.error);
         if (data.error.includes('Profile not found')) {
           toast({
             title: "Perfil não encontrado", 
@@ -84,10 +112,13 @@ export default function Results() {
       }
 
       if (data.hasRecommendations) {
+        console.log("✅ Results: Recomendações encontradas:", data.recommendations.length);
         setRecommendations(data.recommendations);
+      } else {
+        console.log("ℹ️ Results: Nenhuma recomendação encontrada");
       }
     } catch (error) {
-      console.error('Error checking recommendations:', error);
+      console.error('💥 Results: Erro inesperado:', error);
       toast({
         title: "Erro inesperado",
         description: "Ocorreu um erro ao verificar suas recomendações.",
@@ -99,12 +130,14 @@ export default function Results() {
   };
 
   const generateRecommendations = async () => {
+    console.log("🧠 Results: Iniciando geração de recomendações");
     setAnalyzing(true);
     
     try {
       const { data: { session } } = await supabase.auth.getSession();
       
       if (!session) {
+        console.log("❌ Results: Sessão não encontrada para geração");
         toast({
           title: "Erro de autenticação",
           description: "Faça login para gerar recomendações.",
@@ -113,6 +146,29 @@ export default function Results() {
         return;
       }
 
+      console.log("👤 Results: Usuário para geração:", session.user.id);
+
+      // Verificar se o perfil existe antes de tentar gerar recomendações
+      const { data: profileCheck, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', session.user.id)
+        .single();
+
+      if (profileError || !profileCheck) {
+        console.log("❌ Results: Perfil não encontrado para geração, redirecionando");
+        console.log("Erro do perfil:", profileError);
+        toast({
+          title: "Perfil não encontrado",
+          description: "Complete seu perfil primeiro",
+          variant: "destructive",
+        });
+        navigate('/onboarding');
+        return;
+      }
+
+      console.log("✅ Results: Perfil encontrado, prosseguindo com análise:", profileCheck);
+
       const { data, error } = await supabase.functions.invoke('analyze', {
         method: 'POST',
         headers: {
@@ -120,10 +176,10 @@ export default function Results() {
         },
       });
 
-      console.log('🚀 Results: Resposta ao gerar recomendações:', { data, error });
+      console.log('🧠 Results: Resposta ao gerar recomendações:', { data, error });
 
       if (error) {
-        console.error('🚀 Results: Erro ao gerar recomendações:', error);
+        console.error('❌ Results: Erro ao gerar recomendações:', error);
         // Check if it's a profile not found error
         if (error.message && error.message.includes('Profile not found')) {
           toast({
@@ -145,7 +201,7 @@ export default function Results() {
 
       // Check for errors in the data response
       if (data?.error) {
-        console.error('🚀 Results: Erro retornado pela função:', data.error);
+        console.error('❌ Results: Erro retornado pela função:', data.error);
         if (data.error.includes('Profile not found')) {
           toast({
             title: "Perfil não encontrado",
@@ -165,6 +221,7 @@ export default function Results() {
       }
 
       if (data.success) {
+        console.log("✅ Results: Recomendações geradas com sucesso:", data.recommendations.length);
         setRecommendations(data.recommendations);
         toast({
           title: "Recomendações geradas!",
@@ -172,7 +229,7 @@ export default function Results() {
         });
       }
     } catch (error) {
-      console.error('Error generating recommendations:', error);
+      console.error('💥 Results: Erro inesperado na geração:', error);
       toast({
         title: "Erro inesperado",
         description: "Ocorreu um erro ao gerar suas recomendações.",
