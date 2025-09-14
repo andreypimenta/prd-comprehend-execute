@@ -114,7 +114,7 @@ const Index = () => {
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-              <Button variant="hero" size="xl" asChild>
+              <Button variant="primary" size="xl" asChild>
                 <Link to="/register">
                   Começar Análise Gratuita
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -271,7 +271,7 @@ const Index = () => {
                 suplementação inteligente com IA
               </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                <Button variant="hero" size="xl" asChild>
+                <Button variant="primary" size="xl" asChild>
                   <Link to="/register">
                     Começar Agora - É Grátis
                     <ArrowRight className="ml-2 h-5 w-5" />

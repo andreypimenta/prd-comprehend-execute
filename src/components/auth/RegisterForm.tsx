@@ -190,7 +190,7 @@ export function RegisterForm() {
         </div>
 
         <Button 
-          variant="google" 
+          variant="outline" 
           className="w-full"
           onClick={handleGoogleSignIn}
         >

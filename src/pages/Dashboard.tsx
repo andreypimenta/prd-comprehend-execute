@@ -91,7 +91,7 @@ export default function Dashboard() {
               Aqui está um resumo da sua jornada fitness hoje
             </p>
           </div>
-          <Button variant="hero" size="lg">
+          <Button variant="primary" size="lg">
             <Brain className="mr-2 h-5 w-5" />
             Nova Análise IA
           </Button>
