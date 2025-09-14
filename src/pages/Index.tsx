@@ -5,7 +5,6 @@ import { Menu, X, ChevronDown } from 'lucide-react';
 import supplementsWellness1 from '@/assets/supplements-wellness-1.jpg';
 import supplementsWellness2 from '@/assets/supplements-wellness-2.jpg';
 import supplementsWellness3 from '@/assets/supplements-wellness-3.jpg';
-import supplementsWellness4 from '@/assets/supplements-wellness-4.jpg';
 
 const Index = () => {
   const navigate = useNavigate();
@@ -72,8 +71,7 @@ const Index = () => {
             {[
               { img: supplementsWellness1, title: "Suplementos Premium" },
               { img: supplementsWellness2, title: "Estilo de Vida Saudável" },
-              { img: supplementsWellness3, title: "Bem-Estar Completo" },
-              { img: supplementsWellness4, title: "Performance Máxima" }
+              { img: supplementsWellness3, title: "Bem-Estar Completo" }
             ].map((item, index) => (
               <div
                 key={index}
