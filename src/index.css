@@ -317,17 +317,31 @@
   position: relative;
 }
 
-/* Barra horizontal para as letras "l" */
+/* Letra "l" minúscula orgânica e moderna */
 .lol-static .letter:first-child::after,
 .lol-static .letter:last-child::after {
   content: '';
   position: absolute;
   bottom: 0;
-  right: -20%;
-  width: 45%;
-  height: 18%;
+  right: -25%;
+  width: 50%;
+  height: 20%;
   background: currentColor;
-  border-radius: 0 0 15px 15px;
+  border-radius: 0 25px 25px 0;
+}
+
+/* Adicionar curvatura interna suave na junção */
+.lol-static .letter:first-child::before,
+.lol-static .letter:last-child::before {
+  content: '';
+  position: absolute;
+  bottom: 20%;
+  right: -2%;
+  width: 25%;
+  height: 25%;
+  background: hsl(var(--background));
+  border-radius: 0 0 20px 0;
+  z-index: 1;
 }
 
 .letter-1-exit {
