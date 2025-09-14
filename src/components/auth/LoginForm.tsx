@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useLocation } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const loginSchema = z.object({
   email: z.string().email("Email inválido"),
@@ -19,9 +21,16 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export function LoginForm() {
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const { toast } = useToast();
+  const { signIn, user, isLoading } = useAuth();
+  const location = useLocation();
+  
+  // Redirect if already logged in
+  if (user) {
+    const from = location.state?.from?.pathname || '/dashboard';
+    return <Navigate to={from} replace />;
+  }
 
   const {
     register,
@@ -33,38 +42,41 @@ export function LoginForm() {
   });
 
   const onSubmit = async (data: LoginFormData) => {
-    setIsLoading(true);
+    const { error } = await signIn(data.email, data.password);
     
-    try {
-      // TODO: Implementar autenticação com Supabase
-      console.log("Login attempt:", data);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      toast({
-        title: "Sucesso!",
-        description: "Login realizado com sucesso",
-      });
-      
-    } catch (error) {
-      setError("root", { message: "Email ou senha incorretos" });
+    if (error) {
+      setError("root", { message: error });
       toast({
         title: "Erro no login",
-        description: "Verifique suas credenciais e tente novamente",
+        description: error,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // TODO: Implementar login com Google via Supabase
-    toast({
-      title: "Em breve!",
-      description: "Login social será implementado com Supabase",
-    });
+  const handleGoogleSignIn = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+      
+      if (error) {
+        toast({
+          title: "Erro no login",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro no login",
+        description: "Erro inesperado no login com Google",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

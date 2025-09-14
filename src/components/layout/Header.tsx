@@ -10,17 +10,18 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { Bell, Search, Menu, User, Settings, LogOut, Zap } from "lucide-react";
 import { Link } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
 
 interface HeaderProps {
-  user?: {
-    name?: string;
-    email?: string;
-    image?: string;
-  } | null;
   onMenuClick?: () => void;
 }
 
-export function Header({ user, onMenuClick }: HeaderProps) {
+export function Header({ onMenuClick }: HeaderProps) {
+  const { user, signOut } = useAuth();
+
+  const handleSignOut = () => {
+    signOut();
+  };
   return (
     <header className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4">
@@ -93,9 +94,9 @@ export function Header({ user, onMenuClick }: HeaderProps) {
               <DropdownMenuTrigger asChild>
                 <Button variant="ghost" className="relative h-10 w-10 rounded-full">
                   <Avatar className="h-10 w-10">
-                    <AvatarImage src={user.image || ""} alt={user.name || ""} />
+                    <AvatarImage src={user?.user_metadata?.avatar_url || ""} alt={user?.user_metadata?.full_name || user?.email || ""} />
                     <AvatarFallback className="bg-gradient-to-r from-primary to-primary-glow text-white">
-                      {user.name?.charAt(0) || user.email?.charAt(0) || "U"}
+                      {user?.user_metadata?.full_name?.charAt(0) || user?.email?.charAt(0)?.toUpperCase() || "U"}
                     </AvatarFallback>
                   </Avatar>
                 </Button>
@@ -103,9 +104,11 @@ export function Header({ user, onMenuClick }: HeaderProps) {
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
                   <div className="flex flex-col space-y-1">
-                    <p className="text-sm font-medium leading-none">{user.name}</p>
+                    <p className="text-sm font-medium leading-none">
+                      {user?.user_metadata?.full_name || 'Usuário'}
+                    </p>
                     <p className="text-xs leading-none text-muted-foreground">
-                      {user.email}
+                      {user?.email}
                     </p>
                   </div>
                 </DropdownMenuLabel>
@@ -119,7 +122,7 @@ export function Header({ user, onMenuClick }: HeaderProps) {
                   <span>Configurações</span>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem className="text-destructive">
+                <DropdownMenuItem className="text-destructive" onClick={handleSignOut}>
                   <LogOut className="mr-2 h-4 w-4" />
                   <span>Sair</span>
                 </DropdownMenuItem>

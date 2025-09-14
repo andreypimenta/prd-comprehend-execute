@@ -8,8 +8,10 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, Mail, Lock, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
+import { supabase } from "@/integrations/supabase/client";
 
 const registerSchema = z.object({
   name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
@@ -26,10 +28,15 @@ const registerSchema = z.object({
 type RegisterFormData = z.infer<typeof registerSchema>;
 
 export function RegisterForm() {
-  const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const { toast } = useToast();
+  const { signUp, user, isLoading } = useAuth();
+
+  // Redirect if already logged in
+  if (user) {
+    return <Navigate to="/dashboard" replace />;
+  }
 
   const {
     register,
@@ -41,38 +48,41 @@ export function RegisterForm() {
   });
 
   const onSubmit = async (data: RegisterFormData) => {
-    setIsLoading(true);
+    const { error } = await signUp(data.email, data.password, data.name);
     
-    try {
-      // TODO: Implementar registro com Supabase
-      console.log("Register attempt:", data);
-      
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      
+    if (error) {
+      setError("root", { message: error });
       toast({
-        title: "Conta criada com sucesso!",
-        description: "Bem-vindo ao LoL Engine. Você já pode fazer login.",
-      });
-      
-    } catch (error) {
-      setError("root", { message: "Erro ao criar conta. Tente novamente." });
-      toast({
-        title: "Erro no registro",
-        description: "Não foi possível criar sua conta. Tente novamente.",
+        title: "Erro no cadastro",
+        description: error,
         variant: "destructive",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
-  const handleGoogleSignIn = () => {
-    // TODO: Implementar registro com Google via Supabase
-    toast({
-      title: "Em breve!",
-      description: "Registro social será implementado com Supabase",
-    });
+  const handleGoogleSignIn = async () => {
+    try {
+      const { data, error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${window.location.origin}/dashboard`
+        }
+      });
+      
+      if (error) {
+        toast({
+          title: "Erro no cadastro",
+          description: error.message,
+          variant: "destructive",
+        });
+      }
+    } catch (error) {
+      toast({
+        title: "Erro no cadastro",
+        description: "Erro inesperado no cadastro com Google",
+        variant: "destructive",
+      });
+    }
   };
 
   return (

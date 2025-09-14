@@ -85,7 +85,7 @@ export default function Dashboard() {
   if (!dashboardData) {
     return (
       <div className="min-h-screen bg-background">
-        <Header user={{ name: "Usuário", email: "", image: null }} />
+        <Header />
         <div className="container mx-auto p-6">
           <Card className="text-center py-12">
             <CardContent>
@@ -103,7 +103,7 @@ export default function Dashboard() {
 
   return (
     <div className="min-h-screen bg-background">
-      <Header user={{ name: dashboardData.user.name, email: dashboardData.user.email, image: null }} />
+      <Header />
       
       <div className="container mx-auto p-6 space-y-8">
         {/* Header */}
