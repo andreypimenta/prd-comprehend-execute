@@ -1,0 +1,85 @@
+-- Limpar todos os suplementos existentes
+DELETE FROM supplements;
+
+-- Inserir todos os suplementos da lista completa traduzidos para português
+INSERT INTO supplements (id, name, category, description, benefits, target_symptoms, dosage_min, dosage_max, dosage_unit, timing, evidence_level, contraindications, interactions) VALUES
+
+-- VITAMINAS E COMPLEXOS VITAMÍNICOS
+('vitamin-b-complex', 'Complexo B', 'vitamin', 'Grupo de vitaminas essenciais do complexo B', ARRAY['Energia', 'Sistema nervoso', 'Metabolismo'], ARRAY['Fadiga', 'Baixa energia', 'Problemas neurológicos'], 50, 100, 'mg', 'morning', 'strong', ARRAY['Hipersensibilidade'], ARRAY['Anticonvulsivantes']),
+('vitamin-c', 'Vitamina C', 'vitamin', 'Vitamina antioxidante essencial para imunidade', ARRAY['Imunidade', 'Antioxidante', 'Colágeno'], ARRAY['Baixa imunidade', 'Fadiga', 'Cicatrização lenta'], 500, 2000, 'mg', 'morning', 'strong', ARRAY['Cálculos renais'], ARRAY['Anticoagulantes']),
+('vitamin-d', 'Vitamina D', 'vitamin', 'Vitamina essencial para saúde óssea e imunidade', ARRAY['Saúde óssea', 'Imunidade', 'Humor'], ARRAY['Ossos fracos', 'Baixa imunidade', 'Depressão'], 1000, 4000, 'IU', 'morning', 'strong', ARRAY['Hipercalcemia'], ARRAY['Tiazídicos']),
+('vitamin-e', 'Vitamina E', 'vitamin', 'Antioxidante lipossolúvel', ARRAY['Antioxidante', 'Pele', 'Cardiovascular'], ARRAY['Envelhecimento', 'Problemas de pele'], 100, 400, 'IU', 'with_meal', 'moderate', ARRAY['Anticoagulantes'], ARRAY['Varfarina']),
+('vitamin-k', 'Vitamina K', 'vitamin', 'Vitamina essencial para coagulação', ARRAY['Coagulação', 'Saúde óssea'], ARRAY['Sangramento fácil', 'Ossos fracos'], 90, 120, 'mcg', 'with_meal', 'strong', ARRAY['Anticoagulantes'], ARRAY['Varfarina']),
+('vitamin-a', 'Vitamina A', 'vitamin', 'Vitamina essencial para visão e imunidade', ARRAY['Visão', 'Imunidade', 'Pele'], ARRAY['Visão noturna ruim', 'Baixa imunidade'], 900, 3000, 'mcg', 'with_meal', 'strong', ARRAY['Gravidez (altas doses)'], ARRAY['Isotretinoína']),
+('biotin', 'Biotina (Vitamina B7)', 'vitamin', 'Vitamina do complexo B para cabelo e unhas', ARRAY['Cabelo', 'Unhas', 'Metabolismo'], ARRAY['Cabelo fraco', 'Unhas quebradas'], 300, 10000, 'mcg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('folate', 'Ácido Fólico (Vitamina B9)', 'vitamin', 'Vitamina essencial para síntese de DNA', ARRAY['Formação celular', 'Gravidez', 'Coração'], ARRAY['Anemia', 'Fadiga'], 400, 800, 'mcg', 'morning', 'strong', ARRAY[]::text[], ARRAY['Metotrexato']),
+('thiamine', 'Tiamina (Vitamina B1)', 'vitamin', 'Vitamina para metabolismo energético', ARRAY['Energia', 'Sistema nervoso', 'Metabolismo'], ARRAY['Fadiga', 'Problemas neurológicos'], 1, 100, 'mg', 'morning', 'strong', ARRAY[]::text[], ARRAY[]::text[]),
+('riboflavin', 'Riboflavina (Vitamina B2)', 'vitamin', 'Vitamina para produção de energia', ARRAY['Energia', 'Antioxidante', 'Visão'], ARRAY['Fadiga', 'Problemas de visão'], 1.3, 100, 'mg', 'morning', 'strong', ARRAY[]::text[], ARRAY[]::text[]),
+('niacin', 'Niacina (Vitamina B3)', 'vitamin', 'Vitamina para metabolismo e colesterol', ARRAY['Metabolismo', 'Colesterol', 'Energia'], ARRAY['Fadiga', 'Colesterol alto'], 16, 100, 'mg', 'morning', 'strong', ARRAY['Úlceras'], ARRAY['Estatinas']),
+('pantothenic-acid', 'Ácido Pantotênico (Vitamina B5)', 'vitamin', 'Vitamina para síntese hormonal', ARRAY['Hormônios', 'Energia', 'Estresse'], ARRAY['Fadiga', 'Estresse'], 5, 100, 'mg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+
+-- MINERAIS
+('magnesium', 'Magnésio', 'mineral', 'Mineral essencial para músculos e nervos', ARRAY['Músculos', 'Sono', 'Estresse'], ARRAY['Cãibras', 'Insônia', 'Ansiedade'], 200, 400, 'mg', 'evening', 'strong', ARRAY['Insuficiência renal'], ARRAY['Antibióticos']),
+('zinc', 'Zinco', 'mineral', 'Mineral essencial para imunidade e cicatrização', ARRAY['Imunidade', 'Cicatrização', 'Testosterona'], ARRAY['Baixa imunidade', 'Cicatrização lenta'], 8, 40, 'mg', 'morning', 'strong', ARRAY['Deficiência de cobre'], ARRAY['Quinolonas']),
+('calcium', 'Cálcio', 'mineral', 'Mineral essencial para ossos e dentes', ARRAY['Saúde óssea', 'Músculos', 'Nervos'], ARRAY['Ossos fracos', 'Cãibras'], 1000, 1200, 'mg', 'with_meal', 'strong', ARRAY['Cálculos renais'], ARRAY['Tiazídicos']),
+('iron', 'Ferro', 'mineral', 'Mineral essencial para transporte de oxigênio', ARRAY['Energia', 'Sangue', 'Oxigenação'], ARRAY['Anemia', 'Fadiga', 'Palidez'], 8, 45, 'mg', 'morning', 'strong', ARRAY['Hemocromatose'], ARRAY['Quinolonas']),
+('selenium', 'Selênio', 'mineral', 'Mineral antioxidante essencial', ARRAY['Antioxidante', 'Tireoide', 'Imunidade'], ARRAY['Baixa imunidade', 'Problemas de tireoide'], 55, 200, 'mcg', 'morning', 'moderate', ARRAY['Selenose'], ARRAY[]::text[]),
+('chromium', 'Cromo', 'mineral', 'Mineral para metabolismo da glicose', ARRAY['Glicemia', 'Metabolismo', 'Peso'], ARRAY['Resistência à insulina', 'Cravings'], 25, 200, 'mcg', 'with_meal', 'moderate', ARRAY['Diabetes medicado'], ARRAY['Insulina']),
+('copper', 'Cobre', 'mineral', 'Mineral essencial para formação sanguínea', ARRAY['Formação sanguínea', 'Colágeno', 'Energia'], ARRAY['Anemia', 'Fadiga'], 0.9, 10, 'mg', 'morning', 'moderate', ARRAY['Doença de Wilson'], ARRAY['Zinco']),
+('manganese', 'Manganês', 'mineral', 'Mineral para metabolismo e antioxidação', ARRAY['Metabolismo', 'Antioxidante', 'Ossos'], ARRAY['Fadiga', 'Problemas ósseos'], 1.8, 11, 'mg', 'morning', 'moderate', ARRAY['Parkinson'], ARRAY[]::text[]),
+('iodine', 'Iodo', 'mineral', 'Mineral essencial para função tireoidiana', ARRAY['Tireoide', 'Metabolismo', 'Desenvolvimento'], ARRAY['Hipotireoidismo', 'Fadiga'], 150, 300, 'mcg', 'morning', 'strong', ARRAY['Hipertireoidismo'], ARRAY['Hormônios tireoidianos']),
+('potassium', 'Potássio', 'mineral', 'Eletrólito essencial para coração e músculos', ARRAY['Cardiovascular', 'Músculos', 'Pressão'], ARRAY['Hipertensão', 'Cãibras'], 3500, 4700, 'mg', 'any', 'strong', ARRAY['Insuficiência renal'], ARRAY['IECA']),
+('phosphorus', 'Fósforo', 'mineral', 'Mineral para ossos e energia celular', ARRAY['Saúde óssea', 'Energia celular', 'DNA'], ARRAY['Ossos fracos', 'Fadiga'], 700, 1250, 'mg', 'with_meal', 'strong', ARRAY['Insuficiência renal'], ARRAY['Antiácidos']),
+('molybdenum', 'Molibdênio', 'mineral', 'Mineral para metabolismo de aminoácidos', ARRAY['Metabolismo', 'Desintoxicação'], ARRAY['Fadiga', 'Problemas metabólicos'], 45, 150, 'mcg', 'morning', 'limited', ARRAY[]::text[], ARRAY[]::text[]),
+('boron', 'Boro', 'mineral', 'Mineral para saúde óssea e hormonal', ARRAY['Saúde óssea', 'Hormônios', 'Cognição'], ARRAY['Osteoporose', 'Baixo hormônio'], 3, 20, 'mg', 'morning', 'limited', ARRAY[]::text[], ARRAY[]::text[]),
+('vanadium', 'Vanádio', 'mineral', 'Mineral para metabolismo da glicose', ARRAY['Glicemia', 'Metabolismo'], ARRAY['Resistência à insulina'], 10, 100, 'mcg', 'with_meal', 'limited', ARRAY[]::text[], ARRAY[]::text[]),
+('strontium', 'Estrôncio', 'mineral', 'Mineral para densidade óssea', ARRAY['Saúde óssea', 'Densidade'], ARRAY['Osteoporose'], 340, 680, 'mg', 'evening', 'limited', ARRAY[]::text[], ARRAY['Cálcio']),
+
+-- AMINOÁCIDOS
+('l-carnitine', 'L-Carnitina', 'amino_acid', 'Aminoácido para metabolismo de gorduras', ARRAY['Queima de gordura', 'Energia', 'Performance'], ARRAY['Fadiga', 'Baixa performance'], 500, 3000, 'mg', 'morning', 'moderate', ARRAY['Hipotireoidismo'], ARRAY[]::text[]),
+('arginine', 'Arginina', 'amino_acid', 'Aminoácido para óxido nítrico', ARRAY['Circulação', 'Performance', 'Imunidade'], ARRAY['Má circulação', 'Baixa performance'], 3000, 6000, 'mg', 'morning', 'moderate', ARRAY['Herpes'], ARRAY['Sildenafil']),
+('lysine', 'Lisina', 'amino_acid', 'Aminoácido essencial para proteínas', ARRAY['Síntese proteica', 'Imunidade', 'Colágeno'], ARRAY['Baixa imunidade', 'Herpes'], 1000, 3000, 'mg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('tryptophan', 'Triptofano', 'amino_acid', 'Precursor da serotonina', ARRAY['Humor', 'Sono', 'Serotonina'], ARRAY['Depressão', 'Insônia', 'Ansiedade'], 500, 2000, 'mg', 'evening', 'moderate', ARRAY['Síndrome da serotonina'], ARRAY['Antidepressivos']),
+('tyrosine', 'Tirosina', 'amino_acid', 'Precursor de neurotransmissores', ARRAY['Concentração', 'Humor', 'Energia'], ARRAY['Fadiga mental', 'Baixa concentração'], 500, 2000, 'mg', 'morning', 'moderate', ARRAY['Hipertireoidismo'], ARRAY['MAOIs']),
+('glutamine', 'Glutamina', 'amino_acid', 'Aminoácido para recuperação muscular', ARRAY['Recuperação', 'Imunidade', 'Intestino'], ARRAY['Recuperação lenta', 'Intestino permeável'], 5000, 15000, 'mg', 'any', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('glycine', 'Glicina', 'amino_acid', 'Aminoácido para sono e colágeno', ARRAY['Sono', 'Colágeno', 'Relaxamento'], ARRAY['Insônia', 'Ansiedade'], 1000, 3000, 'mg', 'evening', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('taurine', 'Taurina', 'amino_acid', 'Aminoácido para coração e músculos', ARRAY['Cardiovascular', 'Músculos', 'Antioxidante'], ARRAY['Fadiga', 'Problemas cardiovasculares'], 500, 2000, 'mg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('beta-alanine', 'Beta-Alanina', 'amino_acid', 'Aminoácido para performance muscular', ARRAY['Performance', 'Resistência muscular'], ARRAY['Fadiga muscular', 'Baixa resistência'], 2000, 5000, 'mg', 'morning', 'strong', ARRAY[]::text[], ARRAY[]::text[]),
+('histidine', 'Histidina', 'amino_acid', 'Aminoácido essencial para histamina', ARRAY['Imunidade', 'Neurotransmissores'], ARRAY['Alergias', 'Inflamação'], 500, 1500, 'mg', 'morning', 'limited', ARRAY[]::text[], ARRAY[]::text[]),
+('leucine', 'Leucina', 'amino_acid', 'Aminoácido de cadeia ramificada', ARRAY['Síntese proteica', 'Recuperação'], ARRAY['Perda muscular', 'Recuperação lenta'], 2500, 5000, 'mg', 'any', 'strong', ARRAY[]::text[], ARRAY[]::text[]),
+('isoleucine', 'Isoleucina', 'amino_acid', 'Aminoácido de cadeia ramificada', ARRAY['Energia muscular', 'Recuperação'], ARRAY['Fadiga muscular'], 1200, 2400, 'mg', 'any', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('valine', 'Valina', 'amino_acid', 'Aminoácido de cadeia ramificada', ARRAY['Energia muscular', 'Recuperação'], ARRAY['Fadiga muscular'], 1300, 2600, 'mg', 'any', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('ornithine', 'Ornitina', 'amino_acid', 'Aminoácido para detoxificação', ARRAY['Detoxificação', 'Sono', 'Fadiga'], ARRAY['Fadiga', 'Estresse'], 400, 2000, 'mg', 'evening', 'limited', ARRAY[]::text[], ARRAY[]::text[]),
+('citrulline', 'Citrulina', 'amino_acid', 'Precursor do óxido nítrico', ARRAY['Circulação', 'Performance', 'Bomba muscular'], ARRAY['Má circulação', 'Baixa performance'], 3000, 8000, 'mg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('cysteine', 'Cisteína', 'amino_acid', 'Precursor da glutationa', ARRAY['Antioxidante', 'Detoxificação'], ARRAY['Estresse oxidativo'], 500, 1500, 'mg', 'morning', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+
+-- ERVAS E EXTRATOS (seleção dos principais)
+('ashwagandha', 'Ashwagandha', 'herb', 'Adaptógeno para estresse e cortisol', ARRAY['Estresse', 'Cortisol', 'Energia'], ARRAY['Estresse excessivo', 'Fadiga', 'Ansiedade'], 300, 600, 'mg', 'evening', 'strong', ARRAY['Autoimunes'], ARRAY['Sedativos']),
+('rhodiola', 'Rhodiola Rosea', 'herb', 'Adaptógeno para fadiga e performance', ARRAY['Fadiga', 'Performance mental', 'Estresse'], ARRAY['Fadiga mental', 'Estresse', 'Baixa concentração'], 200, 600, 'mg', 'morning', 'strong', ARRAY['Transtorno bipolar'], ARRAY['Antidepressivos']),
+('ginseng', 'Ginseng Panax', 'herb', 'Adaptógeno para energia e cognição', ARRAY['Energia', 'Cognição', 'Imunidade'], ARRAY['Fadiga', 'Baixa concentração'], 200, 800, 'mg', 'morning', 'strong', ARRAY['Hipertensão'], ARRAY['Varfarina']),
+('bacopa', 'Bacopa Monnieri', 'herb', 'Nootrópico para memória e aprendizado', ARRAY['Memória', 'Aprendizado', 'Cognição'], ARRAY['Má memória', 'Dificuldade de concentração'], 300, 600, 'mg', 'with_meal', 'strong', ARRAY[]::text[], ARRAY['Sedativos']),
+('ginkgo', 'Ginkgo Biloba', 'herb', 'Circulatório e nootrópico', ARRAY['Circulação', 'Memória', 'Concentração'], ARRAY['Má circulação', 'Problemas de memória'], 120, 240, 'mg', 'morning', 'moderate', ARRAY['Anticoagulantes'], ARRAY['Varfarina']),
+('turmeric', 'Cúrcuma', 'herb', 'Anti-inflamatório natural potente', ARRAY['Anti-inflamatório', 'Antioxidante', 'Articular'], ARRAY['Inflamação', 'Dores articulares'], 500, 1500, 'mg', 'with_meal', 'strong', ARRAY['Cálculos biliares'], ARRAY['Anticoagulantes']),
+('green-tea', 'Chá Verde (EGCG)', 'herb', 'Antioxidante e termogênico', ARRAY['Antioxidante', 'Queima de gordura', 'Energia'], ARRAY['Baixa energia', 'Peso excessivo'], 300, 800, 'mg', 'morning', 'strong', ARRAY['Anemia por ferro'], ARRAY['Betabloqueadores']),
+('milk-thistle', 'Cardo Mariano', 'herb', 'Hepatoprotetor e detoxificante', ARRAY['Fígado', 'Detoxificação'], ARRAY['Problemas hepáticos'], 200, 800, 'mg', 'with_meal', 'strong', ARRAY[]::text[], ARRAY['Diabetes medicamentos']),
+('echinacea', 'Equinácea', 'herb', 'Estimulante imunológico', ARRAY['Imunidade', 'Anti-infeccioso'], ARRAY['Baixa imunidade', 'Resfriados frequentes'], 300, 1200, 'mg', 'morning', 'moderate', ARRAY['Autoimunes'], ARRAY['Imunossupressores']),
+('valerian', 'Valeriana', 'herb', 'Sedativo natural para sono', ARRAY['Sono', 'Relaxamento', 'Ansiedade'], ARRAY['Insônia', 'Ansiedade'], 300, 900, 'mg', 'evening', 'moderate', ARRAY[]::text[], ARRAY['Sedativos']),
+
+-- OUTROS SUPLEMENTOS IMPORTANTES
+('fish-oil', 'Óleo de Peixe (Ômega-3)', 'other', 'Ácidos graxos essenciais EPA e DHA', ARRAY['Cardiovascular', 'Cérebro', 'Anti-inflamatório'], ARRAY['Inflamação', 'Problemas cardiovasculares'], 1000, 4000, 'mg', 'with_meal', 'strong', ARRAY[]::text[], ARRAY['Anticoagulantes']),
+('coq10', 'Coenzima Q10', 'other', 'Antioxidante celular e energético', ARRAY['Energia celular', 'Cardiovascular', 'Antioxidante'], ARRAY['Fadiga', 'Problemas cardíacos'], 100, 300, 'mg', 'with_meal', 'strong', ARRAY[]::text[], ARRAY['Varfarina']),
+('melatonin', 'Melatonina', 'other', 'Hormônio do sono', ARRAY['Sono', 'Jet lag', 'Antioxidante'], ARRAY['Insônia', 'Jet lag'], 0.5, 10, 'mg', 'evening', 'strong', ARRAY['Gravidez'], ARRAY['Sedativos']),
+('creatine', 'Creatina', 'other', 'Para força e potência muscular', ARRAY['Força', 'Potência', 'Cognição'], ARRAY['Baixa força', 'Fadiga muscular'], 3, 5, 'g', 'any', 'strong', ARRAY['Insuficiência renal'], ARRAY[]::text[]),
+('caffeine', 'Cafeína', 'other', 'Estimulante natural', ARRAY['Energia', 'Concentração', 'Performance'], ARRAY['Fadiga', 'Baixa concentração'], 100, 400, 'mg', 'morning', 'strong', ARRAY['Ansiedade'], ARRAY['Estimulantes']),
+('whey-protein', 'Whey Protein', 'other', 'Proteína do soro do leite', ARRAY['Músculos', 'Recuperação', 'Saciedade'], ARRAY['Baixa massa muscular'], 25, 50, 'g', 'any', 'strong', ARRAY['Alergia ao leite'], ARRAY[]::text[]),
+('collagen', 'Colágeno', 'other', 'Proteína estrutural', ARRAY['Pele', 'Articulações', 'Ossos'], ARRAY['Rugas', 'Dores articulares'], 10, 30, 'g', 'any', 'moderate', ARRAY[]::text[], ARRAY[]::text[]),
+('glucosamine', 'Glucosamina', 'other', 'Para cartilagem articular', ARRAY['Articulações', 'Cartilagem'], ARRAY['Artrite', 'Dores articulares'], 1500, 3000, 'mg', 'with_meal', 'moderate', ARRAY['Diabetes'], ARRAY['Anticoagulantes']),
+('chondroitin', 'Condroitina', 'other', 'Para elasticidade articular', ARRAY['Articulações', 'Cartilagem'], ARRAY['Artrite', 'Rigidez'], 800, 1200, 'mg', 'with_meal', 'moderate', ARRAY[]::text[], ARRAY['Anticoagulantes']),
+('psyllium', 'Psyllium', 'other', 'Fibra solúvel para intestino', ARRAY['Saúde intestinal', 'Colesterol', 'Saciedade'], ARRAY['Constipação', 'Colesterol alto'], 5, 15, 'g', 'with_meal', 'strong', ARRAY['Obstrução intestinal'], ARRAY['Medicamentos']),
+('lactobacillus', 'Lactobacillus', 'other', 'Probiótico para saúde intestinal', ARRAY['Microbiota', 'Imunidade', 'Digestão'], ARRAY['Disbiose', 'Problemas digestivos'], 10, 100, 'billion CFU', 'with_meal', 'strong', ARRAY['Imunodeprimidos'], ARRAY[]::text[]),
+('berberine', 'Berberina', 'other', 'Alcaloide para glicemia', ARRAY['Glicemia', 'Colesterol', 'Peso'], ARRAY['Diabetes', 'Colesterol alto'], 500, 1500, 'mg', 'with_meal', 'strong', ARRAY[]::text[], ARRAY['Diabetes medicamentos']),
+('resveratrol', 'Resveratrol', 'other', 'Polifenol antioxidante e anti-aging', ARRAY['Antioxidante', 'Anti-aging', 'Cardiovascular'], ARRAY['Envelhecimento', 'Inflamação'], 100, 500, 'mg', 'with_meal', 'moderate', ARRAY[]::text[], ARRAY['Anticoagulantes']),
+('quercetin', 'Quercetina', 'other', 'Flavonoide antioxidante e anti-histamínico', ARRAY['Antioxidante', 'Anti-histamínico', 'Anti-inflamatório'], ARRAY['Alergias', 'Inflamação'], 500, 1000, 'mg', 'with_meal', 'moderate', ARRAY[]::text[], ARRAY[]::text[]);
+
+-- Contagem total de suplementos inseridos
+SELECT COUNT(*) as total_suplementos FROM supplements;
