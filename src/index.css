@@ -213,10 +213,38 @@
   animation-delay: 0.4s;
 }
 
-/* LoL Animation - Scramble Effect */
-@keyframes lolExit {
-  0% { transform: translateY(0) scale(1); opacity: 1; }
-  100% { transform: translateY(-100vh) scale(0.8); opacity: 0; }
+/* LoL Animation - Individual Letter Movement Effect */
+@keyframes letter1Exit {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(-300px, -400px) rotate(-45deg) scale(0.7); 
+    opacity: 0; 
+  }
+}
+
+@keyframes letter2Exit {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(150px, 300px) rotate(180deg) scale(1.2); 
+    opacity: 0; 
+  }
+}
+
+@keyframes letter3Exit {
+  0% { 
+    transform: translate(0, 0) rotate(0deg) scale(1); 
+    opacity: 1; 
+  }
+  100% { 
+    transform: translate(400px, -250px) rotate(90deg) scale(0.8); 
+    opacity: 0; 
+  }
 }
 
 @keyframes lifeOnLabsExit {
@@ -244,6 +272,23 @@
   color: hsl(var(--cream-light));
   text-shadow: 0 0 30px hsl(var(--cream-light) / 0.5);
   letter-spacing: -0.02em;
+}
+
+.letter {
+  display: inline-block;
+  transition: all 0.3s ease;
+}
+
+.letter-1-exit {
+  animation: letter1Exit 1.8s ease-out forwards;
+}
+
+.letter-2-exit {
+  animation: letter2Exit 1.8s ease-out forwards;
+}
+
+.letter-3-exit {
+  animation: letter3Exit 1.8s ease-out forwards;
 }
 
 .lol-exit {
