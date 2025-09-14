@@ -318,29 +318,29 @@
 }
 
 /* Letra "l" minúscula orgânica e moderna */
-.lol-static .letter:first-child::after,
-.lol-static .letter:last-child::after {
+.lol-static .letter:nth-child(1)::after,
+.lol-static .letter:nth-child(3)::after {
   content: '';
   position: absolute;
   bottom: 0;
-  right: -25%;
-  width: 50%;
-  height: 20%;
+  right: -5%;
+  width: 45%;
+  height: 18%;
   background: currentColor;
-  border-radius: 0 25px 25px 0;
+  border-radius: 0 12px 12px 0;
 }
 
 /* Adicionar curvatura interna suave na junção */
-.lol-static .letter:first-child::before,
-.lol-static .letter:last-child::before {
+.lol-static .letter:nth-child(1)::before,
+.lol-static .letter:nth-child(3)::before {
   content: '';
   position: absolute;
-  bottom: 20%;
-  right: -2%;
-  width: 25%;
-  height: 25%;
+  bottom: 18%;
+  right: 0%;
+  width: 18%;
+  height: 18%;
   background: hsl(var(--background));
-  border-radius: 0 0 20px 0;
+  border-radius: 0 0 15px 0;
   z-index: 1;
 }
 
