@@ -1,21 +1,16 @@
+import { useState, useEffect } from 'react';
+import { supabase } from "@/integrations/supabase/client";
 import { Header } from "@/components/layout/Header";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { DashboardOverview } from "@/components/dashboard/DashboardOverview";
+import { RecommendationsGrid } from "@/components/dashboard/RecommendationsGrid";
+import { ConfidenceChart } from "@/components/dashboard/ConfidenceChart";
+import { ExportButton } from "@/components/export/ExportButton";
+import type { DashboardData } from '@/types/dashboard';
 import { Link } from "react-router-dom";
-import { 
-  Activity, 
-  Target, 
-  TrendingUp, 
-  Zap, 
-  Brain, 
-  Heart, 
-  Dumbbell,
-  Calendar,
-  Award,
-  ChevronRight
-} from "lucide-react";
 
 export default function Dashboard() {
   const [dashboardData, setDashboardData] = useState<DashboardData | null>(null);
