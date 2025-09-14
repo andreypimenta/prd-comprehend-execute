@@ -43,11 +43,33 @@ export function RegisterForm() {
     
     if (response.error) {
       setError("root", { message: response.error.message });
-      toast({
-        title: "Erro no cadastro",
-        description: response.error.message,
-        variant: "destructive",
-      });
+      
+      // Mensagem específica para email já cadastrado
+      if (response.error.code === "email_already_exists") {
+        toast({
+          title: "Email já cadastrado",
+          description: (
+            <div className="space-y-2">
+              <p>{response.error.message}</p>
+              <div className="flex gap-2 mt-2">
+                <Link 
+                  to="/login" 
+                  className="text-primary hover:text-primary-glow font-semibold underline"
+                >
+                  Fazer Login
+                </Link>
+              </div>
+            </div>
+          ),
+          variant: "destructive",
+        });
+      } else {
+        toast({
+          title: "Erro no cadastro",
+          description: response.error.message,
+          variant: "destructive",
+        });
+      }
     } else {
       // Cadastro bem-sucedido - mostrar mensagem de confirmação
       setRegisteredEmail(data.email);

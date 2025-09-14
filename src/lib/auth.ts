@@ -204,8 +204,37 @@ function getAppUrl(): string {
   return 'https://ehjpdcbyoqaoazknymbj.supabase.co';
 }
 
+// Check if email already exists in the database
+export async function checkEmailExists(email: string): Promise<boolean> {
+  try {
+    const { data, error } = await supabase
+      .from('users')
+      .select('id')
+      .eq('email', email.toLowerCase())
+      .single();
+
+    // If no data or error, email doesn't exist
+    return !error && !!data;
+  } catch (error) {
+    console.error('Error checking email:', error);
+    return false;
+  }
+}
+
 export async function signUp(credentials: SignUpCredentials): Promise<AuthResponse> {
   try {
+    // First, check if email already exists
+    const emailExists = await checkEmailExists(credentials.email);
+    
+    if (emailExists) {
+      return { 
+        error: { 
+          message: "Este email já está cadastrado. Tente fazer login ou recuperar sua senha.", 
+          code: "email_already_exists" 
+        } 
+      };
+    }
+
     const redirectUrl = `${getAppUrl()}/login?confirmed=true`;
     
     const { data, error } = await supabase.auth.signUp({
