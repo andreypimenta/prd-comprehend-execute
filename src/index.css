@@ -336,8 +336,8 @@
   content: '';
   position: absolute;
   bottom: 0;
-  right: -120px;
-  width: 120px;
+  right: -30px;
+  width: 80px;
   height: 45px;
   background: currentColor;
   border-radius: 0 0 25px 0;
