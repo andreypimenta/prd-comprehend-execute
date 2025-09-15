@@ -318,7 +318,7 @@
   display: inline-block;
   color: hsl(var(--lol-cream)); /* Cor creme/off-white */
   text-shadow: 0 0 40px hsl(var(--lol-cream) / 0.4);
-  letter-spacing: -0.08em; /* Espaçamento mais apertado para visual moderno */
+  letter-spacing: -0.12em; /* Espaçamento mais apertado para aproximar as letras */
   text-transform: uppercase;
   /* Características geométricas e minimalistas */
   font-feature-settings: 'liga' off, 'kern' 1;
