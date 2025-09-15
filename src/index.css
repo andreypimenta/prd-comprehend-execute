@@ -338,8 +338,19 @@
 
 /* Características específicas das letras L e O conforme especificações */
 
-/* Letra "L" - Linhas retas e limpas, espessura uniforme e robusta */
-.lol-static .letter:nth-child(1),
+/* Letra "L" esquerda - com espaçamento adicional */
+.lol-static .letter:nth-child(1) {
+  position: relative;
+  /* Cantos levemente arredondados nas extremidades */
+  border-radius: 12px;
+  /* Espessura uniforme e robusta - sem elementos adicionais */
+  font-weight: 900;
+  /* Proporções equilibradas entre altura e largura */
+  transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
+  margin-left: 0.15em; /* Afasta o L esquerdo */
+}
+
+/* Letra "L" direita - sem espaçamento adicional */
 .lol-static .letter:nth-child(3) {
   position: relative;
   /* Cantos levemente arredondados nas extremidades */
