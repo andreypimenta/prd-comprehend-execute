@@ -115,7 +115,7 @@ export function RegisterForm() {
   }
   return <Card className="w-full max-w-md mx-auto backdrop-blur-sm bg-card/95 shadow-card border-border/50">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-blue-900 to-blue-700 bg-clip-text text-transparent">
+        <CardTitle className="text-3xl font-bold bg-clip-text text-transparent" style={{ backgroundImage: 'linear-gradient(to right, hsl(218, 15%, 32%), hsl(218, 15%, 42%))' }}>
           Criar Conta
         </CardTitle>
         <p className="text-muted-foreground">
