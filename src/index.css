@@ -335,7 +335,7 @@
 .lol-static .letter:nth-child(3)::after {
   content: '';
   position: absolute;
-  bottom: -15px;
+  bottom: -10px;
   right: -30px;
   width: 80px;
   height: 45px;
