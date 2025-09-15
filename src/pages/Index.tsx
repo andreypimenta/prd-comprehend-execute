@@ -146,7 +146,7 @@ const Index = () => {
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
+      <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-32">
         <div className="text-center space-y-6 px-4">
           <div className="text-center">
             <h1 
