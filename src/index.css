@@ -323,44 +323,24 @@
   position: relative;
 }
 
-/* Letra "l" minúscula limpa e moderna */
+/* Letras "L" minúsculas simples e limpas */
 .lol-static .letter:nth-child(1),
 .lol-static .letter:nth-child(3) {
   position: relative;
-  overflow: hidden;
+  border-radius: 6px 6px 0 0;
 }
 
+/* Pé horizontal da letra "l" */
 .lol-static .letter:nth-child(1)::after,
 .lol-static .letter:nth-child(3)::after {
   content: '';
   position: absolute;
   bottom: 0;
-  right: -4%;
-  width: 30%;
-  height: 12%;
+  right: -2px;
+  width: 24px;
+  height: 8px;
   background: currentColor;
-  border-radius: 0 16px 16px 0;
-  z-index: 2;
-}
-
-/* Curvatura interna suave sem sobreposição */
-.lol-static .letter:nth-child(1)::before,
-.lol-static .letter:nth-child(3)::before {
-  content: '';
-  position: absolute;
-  bottom: 12%;
-  right: -1%;
-  width: 16%;
-  height: 16%;
-  background: hsl(var(--background));
-  border-radius: 0 0 12px 0;
-  z-index: 3;
-}
-
-/* Arredondamento das terminações verticais da letra "l" */
-.lol-static .letter:nth-child(1),
-.lol-static .letter:nth-child(3) {
-  border-radius: 8px 8px 0 0;
+  border-radius: 0 6px 6px 0;
 }
 
 .letter-1-exit {
