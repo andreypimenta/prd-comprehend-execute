@@ -359,7 +359,7 @@
   font-weight: 900;
   /* Proporções equilibradas entre altura e largura */
   transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
-  margin-left: 0.10em; /* Aumenta espaço entre O e segundo L */
+  margin-left: 0.06em; /* Aumenta espaço entre O e segundo L */
 }
 
 /* Letra "O" - Formato circular perfeito, espessura consistente */
