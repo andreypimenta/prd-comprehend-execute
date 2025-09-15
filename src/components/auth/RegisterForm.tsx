@@ -113,12 +113,12 @@ export function RegisterForm() {
   }
 
   return (
-    <Card className="w-full max-w-md mx-auto backdrop-blur-sm bg-card/95 shadow-card border-border/50">
+    <Card className="w-full max-w-md mx-auto backdrop-blur-md bg-white/5 shadow-2xl border border-white/20 hover:bg-white/10 transition-all duration-300">
       <CardHeader className="space-y-1 text-center">
-        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-primary to-primary-glow bg-clip-text text-transparent">
+        <CardTitle className="text-3xl font-bold bg-gradient-to-r from-accent to-primary bg-clip-text text-transparent">
           Criar Conta
         </CardTitle>
-        <p className="text-muted-foreground">
+        <p className="text-white/80">
           Junte-se ao LoL Engine e comece sua jornada
         </p>
       </CardHeader>
@@ -217,10 +217,10 @@ export function RegisterForm() {
 
         <div className="relative">
           <div className="absolute inset-0 flex items-center">
-            <span className="w-full border-t border-border" />
+            <span className="w-full border-t border-white/20" />
           </div>
           <div className="relative flex justify-center text-xs uppercase">
-            <span className="bg-background px-2 text-muted-foreground">
+            <span className="bg-transparent px-2 text-white/60">
               Ou continue com
             </span>
           </div>
@@ -264,10 +264,10 @@ export function RegisterForm() {
         </div>
 
         <div className="text-center text-sm">
-          <span className="text-muted-foreground">Já tem uma conta? </span>
+          <span className="text-white/60">Já tem uma conta? </span>
           <Link 
             to="/login" 
-            className="text-primary hover:text-primary-glow font-semibold hover:underline transition-colors"
+            className="text-accent hover:text-primary font-semibold hover:underline transition-colors"
           >
             Fazer login
           </Link>
