@@ -348,6 +348,7 @@
   /* Proporções equilibradas entre altura e largura */
   transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
   margin-left: 0.15em; /* Afasta o L esquerdo */
+  margin-right: 0.06em; /* Mesmo espaçamento entre L e O */
 }
 
 /* Letra "L" direita - com espaçamento adicional do O */
