@@ -414,6 +414,9 @@
   margin-top: -0.5rem;
   text-shadow: 0 0 20px hsl(var(--lol-cream) / 0.25);
   display: block;
+  text-align: center;
+  position: relative;
+  left: 0.05em; /* Slight offset to align with the O */
   z-index: 1;
   transform: translateZ(0);
   transition: all 0.3s ease-out;
