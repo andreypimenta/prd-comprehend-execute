@@ -154,7 +154,7 @@ const Index = () => {
               className="lol-static mb-2"
             >
               <ScrambleText 
-                text="lol" 
+                text="tot" 
                 isActive={hasScrolled}
               />
             </h1>
