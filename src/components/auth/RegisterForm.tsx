@@ -201,7 +201,7 @@ export function RegisterForm() {
 
         <div className="text-center text-sm">
           <span className="text-muted-foreground">Já tem uma conta? </span>
-          <Link to="/login" className="text-primary hover:text-primary-glow font-semibold hover:underline transition-colors">
+          <Link to="/login" className="font-semibold hover:underline transition-colors" style={{ color: 'hsl(218, 15%, 32%)' }}>
             Fazer login
           </Link>
         </div>
