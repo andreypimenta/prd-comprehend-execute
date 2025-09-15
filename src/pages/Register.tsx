@@ -90,15 +90,15 @@ export default function Register() {
             </div>
 
             {/* LoL Branding */}
-            <div className="text-center mb-6">
-              <div className="mb-3">
-                <h1 className="lol-static text-4xl md:text-5xl font-bold">
+            <div className="text-center mb-8">
+              <div className="mb-4">
+                <h1 className="lol-static text-6xl md:text-7xl font-bold">
                   <ScrambleText 
                     text="lol" 
                     isActive={false}
                   />
                 </h1>
-                <p className="life-on-labs text-xs tracking-widest uppercase opacity-80 mt-1">
+                <p className="life-on-labs text-sm tracking-widest uppercase opacity-80 mt-2">
                   Life on Labs
                 </p>
               </div>
