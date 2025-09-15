@@ -46,6 +46,11 @@
 
     --radius: 0.5rem;
 
+    /* LoL Design System - Cores específicas baseadas nas características */
+    --lol-cream: 60 29% 96%;        /* Creme/off-white (#F5F5DC) */
+    --lol-navy: 225 15% 35%;        /* Azul navy escuro (#4A4A6A) */
+    --lol-cream-rgb: 245 245 220;   /* Para sombras e efeitos */
+
     --sidebar-background: 0 0% 98%;
 
     --sidebar-foreground: 240 5.3% 26.1%;
@@ -138,7 +143,8 @@
   }
   body {
     @apply bg-background text-foreground font-sans antialiased;
-    background: hsl(218 15% 32%);
+    /* Fundo azul navy conforme especificações (#4A4A6A) */
+    background: hsl(var(--lol-navy));
   }
 }
 
@@ -304,43 +310,55 @@
 }
 
 .lol-static {
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  font-weight: 800;
-  font-size: clamp(20rem, 40vw, 55rem);
-  line-height: 0.8;
+  /* Fonte Sans-serif moderna, extra bold, geométrica com cantos arredondados */
+  font-family: 'Inter', 'Helvetica Neue', 'Arial Black', sans-serif;
+  font-weight: 900; /* Extra bold/Black weight */
+  font-size: clamp(12rem, 30vw, 40rem);
+  line-height: 0.85;
   display: inline-block;
-  color: hsl(var(--cream-light));
-  text-shadow: 0 0 30px hsl(var(--cream-light) / 0.5);
-  letter-spacing: -0.02em;
-  text-transform: lowercase;
+  color: hsl(var(--lol-cream)); /* Cor creme/off-white */
+  text-shadow: 0 0 40px hsl(var(--lol-cream) / 0.4);
+  letter-spacing: -0.08em; /* Espaçamento mais apertado para visual moderno */
+  text-transform: uppercase;
+  /* Características geométricas e minimalistas */
+  font-feature-settings: 'liga' off, 'kern' 1;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 .letter {
   display: inline-block;
-  transition: all 0.3s ease;
-  transform: translate(0, 0) rotate(0deg) scale(1.2);
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translate(0, 0) rotate(0deg) scale(1);
   opacity: 1;
   position: relative;
+  /* Cantos levemente arredondados nas extremidades */
+  border-radius: 8px;
 }
 
-/* Letras "l" minúsculas como na referência */
+/* Características específicas das letras L e O conforme especificações */
+
+/* Letra "L" - Linhas retas e limpas, espessura uniforme e robusta */
 .lol-static .letter:nth-child(1),
 .lol-static .letter:nth-child(3) {
   position: relative;
-  border-radius: 12px 12px 0 0;
+  /* Cantos levemente arredondados nas extremidades */
+  border-radius: 12px;
+  /* Espessura uniforme e robusta - sem elementos adicionais */
+  font-weight: 900;
+  /* Proporções equilibradas entre altura e largura */
+  transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
 }
 
-/* Pé horizontal da letra "l" - formato da referência */
-.lol-static .letter:nth-child(1)::after,
-.lol-static .letter:nth-child(3)::after {
-  content: '';
-  position: absolute;
-  bottom: -10px;
-  right: -30px;
-  width: 60px;
-  height: 25px;
-  background: currentColor;
-  border-radius: 0 0 20px 0;
+/* Letra "O" - Formato circular perfeito, espessura consistente */
+.lol-static .letter:nth-child(2) {
+  position: relative;
+  /* Formato circular perfeito */
+  border-radius: 50%;
+  /* Contra-forma bem proporcionada */
+  font-weight: 900;
+  /* Aparência sólida e geométrica */
+  transform: scale(1.05); /* Ligeiramente maior para destaque circular */
 }
 
 .letter-1-exit {
@@ -372,15 +390,15 @@
 }
 
 .life-on-labs {
-  font-family: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  font-weight: 300;
-  font-size: clamp(0.8rem, 1.8vw, 1.8rem);
-  color: hsl(var(--cream-light) / 0.9);
+  font-family: 'Inter', 'Plus Jakarta Sans', sans-serif;
+  font-weight: 400; /* Peso normal para contraste com o LoL extra bold */
+  font-size: clamp(0.9rem, 2vw, 2rem);
+  color: hsl(var(--lol-cream) / 0.85); /* Cor creme com ligeira transparência */
   opacity: 1;
-  letter-spacing: 0.15em;
+  letter-spacing: 0.12em;
   text-transform: lowercase;
   margin-top: -0.5rem;
-  text-shadow: 0 0 20px hsl(var(--cream-medium) / 0.3);
+  text-shadow: 0 0 20px hsl(var(--lol-cream) / 0.25);
   display: block;
   z-index: 1;
   transform: translateZ(0);
