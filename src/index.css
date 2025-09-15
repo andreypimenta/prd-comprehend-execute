@@ -335,12 +335,12 @@
 .lol-static .letter:nth-child(3)::after {
   content: '';
   position: absolute;
-  bottom: -15px;
+  bottom: 0;
   right: -120px;
   width: 120px;
   height: 45px;
   background: currentColor;
-  border-radius: 0 0 25px 25px;
+  border-radius: 0 0 25px 0;
 }
 
 .letter-1-exit {
