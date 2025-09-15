@@ -6,7 +6,6 @@ import ScrambleText from '@/components/ui/scramble-text';
 import supplementsWellness1 from '@/assets/supplements-wellness-1.jpg';
 import supplementsWellness2 from '@/assets/supplements-wellness-2.jpg';
 import supplementsWellness3 from '@/assets/supplements-wellness-3.jpg';
-
 const Index = () => {
   const navigate = useNavigate();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -16,14 +15,12 @@ const Index = () => {
   const heroRef = useRef<HTMLElement>(null);
   const lolRef = useRef<HTMLHeadingElement>(null);
   const lifeOnLabsRef = useRef<HTMLParagraphElement>(null);
-
   useEffect(() => {
     setIsVisible(true);
-    
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
       setScrollY(currentScrollY);
-      
+
       // Scroll down logic
       if (currentScrollY > 50 && !hasScrolled) {
         setHasScrolled(true);
@@ -39,7 +36,6 @@ const Index = () => {
         }
       }
     };
-
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [hasScrolled]);
@@ -48,62 +44,50 @@ const Index = () => {
   const WellnessGallery = () => {
     const [imagesVisible, setImagesVisible] = useState(false);
     const galleryRef = useRef<HTMLDivElement>(null);
-
     useEffect(() => {
-      const observer = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setImagesVisible(true);
-          }
-        },
-        { threshold: 0.3 }
-      );
-
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          setImagesVisible(true);
+        }
+      }, {
+        threshold: 0.3
+      });
       if (galleryRef.current) {
         observer.observe(galleryRef.current);
       }
-
       return () => observer.disconnect();
     }, []);
-
-    return (
-      <section ref={galleryRef} className="py-32 px-6">
+    return <section ref={galleryRef} className="py-32 px-6">
         <div className="max-w-7xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-bold text-center mb-20 tracking-tight text-white">
             Bem-Estar & Suplementação
           </h2>
           
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {[
-              { img: supplementsWellness1, title: "Suplementos Premium" },
-              { img: supplementsWellness2, title: "Estilo de Vida Saudável" },
-              { img: supplementsWellness3, title: "Bem-Estar Completo" }
-            ].map((item, index) => (
-              <div
-                key={index}
-                className={`relative overflow-hidden rounded-lg aspect-square ${
-                  imagesVisible ? 'image-slide-in' : 'opacity-0'
-                }`}
-                style={{ animationDelay: `${index * 0.2}s` }}
-              >
-                <img
-                  src={item.img}
-                  alt={item.title}
-                  className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
-                />
+            {[{
+            img: supplementsWellness1,
+            title: "Suplementos Premium"
+          }, {
+            img: supplementsWellness2,
+            title: "Estilo de Vida Saudável"
+          }, {
+            img: supplementsWellness3,
+            title: "Bem-Estar Completo"
+          }].map((item, index) => <div key={index} className={`relative overflow-hidden rounded-lg aspect-square ${imagesVisible ? 'image-slide-in' : 'opacity-0'}`} style={{
+            animationDelay: `${index * 0.2}s`
+          }}>
+                <img src={item.img} alt={item.title} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
                 <div className="absolute inset-0 bg-black/40 flex items-end p-6">
                   <h3 className="text-white text-xl font-bold">{item.title}</h3>
                 </div>
-              </div>
-            ))}
+              </div>)}
           </div>
         </div>
-      </section>
-    );
+      </section>;
   };
-
-  return (
-    <div className="min-h-screen text-white overflow-x-hidden" style={{ backgroundColor: 'hsl(225, 15%, 35%)' }}>
+  return <div className="min-h-screen text-white overflow-x-hidden" style={{
+    backgroundColor: 'hsl(218, 15%, 32%)'
+  }}>
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-6">
@@ -124,45 +108,31 @@ const Index = () => {
               </button>
             </div>
 
-            <button 
-              className="md:hidden text-white"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
+            <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
               {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
           </nav>
 
           {/* Mobile Menu */}
-          {isMenuOpen && (
-            <div className="md:hidden mt-6 pt-6 border-t border-white/20">
+          {isMenuOpen && <div className="md:hidden mt-6 pt-6 border-t border-white/20">
               <div className="flex flex-col space-y-4">
                 <button onClick={() => navigate('/showcase')} className="font-medium text-white text-left">Showcase</button>
                 <button onClick={() => navigate('/login')} className="font-medium text-white text-left">Entrar</button>
                 <button onClick={() => navigate('/register')} className="font-medium text-white text-left">Começar</button>
               </div>
-            </div>
-          )}
+            </div>}
         </div>
       </header>
 
       {/* Hero Section */}
-      <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden pt-32">
+      <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
         <div className="text-center space-y-6 px-4">
           <div className="text-center">
-            <h1 
-              ref={lolRef}
-              className="lol-static mb-2"
-            >
-               <ScrambleText 
-                text="LOL" 
-                isActive={hasScrolled}
-              />
+            <h1 ref={lolRef} className="lol-static mb-2">
+              <ScrambleText text="lol" isActive={hasScrolled} />
             </h1>
             
-            <p 
-              ref={lifeOnLabsRef}
-              className="life-on-labs mb-6"
-            >
+            <p ref={lifeOnLabsRef} className="life-on-labs mb-6 mx-0 px-0 text-center">
               Life on Labs
             </p>
             
@@ -172,19 +142,10 @@ const Index = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-12">
-            <Button
-              onClick={() => navigate('/register')}
-              size="lg"
-              className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-full"
-            >
+            <Button onClick={() => navigate('/register')} size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-full">
               Começar Análise Gratuita
             </Button>
-            <Button
-              onClick={() => navigate('/showcase')}
-              variant="outline"
-              size="lg"
-              className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold rounded-full"
-            >
+            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold rounded-full">
               Ver Demonstração
             </Button>
           </div>
@@ -328,8 +289,6 @@ const Index = () => {
           </p>
         </div>
       </footer>
-    </div>
-  );
+    </div>;
 };
-
 export default Index;
