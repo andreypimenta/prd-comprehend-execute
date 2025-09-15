@@ -337,10 +337,10 @@
   position: absolute;
   bottom: -10px;
   right: -30px;
-  width: 80px;
-  height: 30px;
+  width: 60px;
+  height: 25px;
   background: currentColor;
-  border-radius: 0 0 25px 0;
+  border-radius: 0 0 20px 0;
 }
 
 .letter-1-exit {

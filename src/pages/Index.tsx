@@ -153,8 +153,8 @@ const Index = () => {
               ref={lolRef}
               className="lol-static mb-2"
             >
-              <ScrambleText 
-                text="lol" 
+               <ScrambleText 
+                text="LOL" 
                 isActive={hasScrolled}
               />
             </h1>
