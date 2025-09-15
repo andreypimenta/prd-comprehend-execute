@@ -350,7 +350,7 @@
   margin-left: 0.15em; /* Afasta o L esquerdo */
 }
 
-/* Letra "L" direita - sem espaçamento adicional */
+/* Letra "L" direita - com espaçamento adicional do O */
 .lol-static .letter:nth-child(3) {
   position: relative;
   /* Cantos levemente arredondados nas extremidades */
@@ -359,6 +359,7 @@
   font-weight: 900;
   /* Proporções equilibradas entre altura e largura */
   transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
+  margin-left: 0.15em; /* Aumenta espaço entre O e segundo L */
 }
 
 /* Letra "O" - Formato circular perfeito, espessura consistente */
