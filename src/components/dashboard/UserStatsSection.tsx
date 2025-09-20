@@ -11,15 +11,15 @@ import { Activity, Target, TrendingUp, Calendar } from "lucide-react"
 export function UserStatsSection() {
   const { profile, loading: profileLoading } = useUserProfile()
   const { selectedSupplements, loading: supplementsLoading } = useSelectedSupplements()
-  const { getProgressSummary } = useCheckin()
+  const { getProgressSummary, loading: checkinLoading } = useCheckin()
   
   const progressSummary = getProgressSummary()
-  const activeSupplements = selectedSupplements.filter(s => s.is_active)
+  const activeSupplements = selectedSupplements?.filter(s => s.is_active) || []
 
   const userStats = [
     {
       title: "Aderência Mensal",
-      value: progressSummary.average_compliance || 0,
+      value: progressSummary?.average_compliance ?? 0,
       icon: Activity,
       color: "hsl(var(--accent))",
       isPercentage: true
@@ -40,7 +40,7 @@ export function UserStatsSection() {
     }
   ]
 
-  if (profileLoading || supplementsLoading) {
+  if (profileLoading || supplementsLoading || checkinLoading) {
     return (
       <div className="space-y-6">
         <div className="h-32 bg-muted animate-pulse rounded-lg" />
@@ -152,7 +152,7 @@ export function UserStatsSection() {
         </CardHeader>
         <CardContent className="flex justify-center py-6">
           <ProgressRing 
-            value={progressSummary.average_compliance || 0} 
+            value={progressSummary?.average_compliance ?? 0} 
             size={120}
             strokeWidth={8}
             color="hsl(var(--primary))"
