@@ -140,6 +140,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       await supabase.auth.signOut();
 
       toast.success("Logout realizado com sucesso!");
+      navigate('/');
     } catch (error) {
       toast.error("Erro ao fazer logout");
     } finally {

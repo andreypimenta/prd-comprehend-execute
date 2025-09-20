@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ConfirmationPage } from "@/components/auth/ConfirmationPage";
+import LogoutTrigger from "@/components/LogoutTrigger";
 import SupabaseConfig from "./pages/SupabaseConfig";
 import GoogleOAuthSetup from "./pages/GoogleOAuthSetup";
 import GoogleOAuthDiagnostic from "./pages/GoogleOAuthDiagnostic";
@@ -33,6 +34,7 @@ const App = () => (
       <SidebarProvider>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/logout" element={<LogoutTrigger />} />
           <Route path="/login" element={<Login />} />
           <Route path="/register" element={<Register />} />
           <Route path="/confirm" element={<ConfirmationPage />} />
