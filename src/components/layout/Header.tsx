@@ -65,6 +65,18 @@ export function Header({ onMenuClick }: HeaderProps) {
               Recomendações
             </Link>
             <Link 
+              to="/checkin" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Check-in
+            </Link>
+            <Link 
+              to="/progress" 
+              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
+            >
+              Progresso
+            </Link>
+            <Link 
               to="/showcase" 
               className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
             >

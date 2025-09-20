@@ -13,6 +13,8 @@ import Register from "./pages/Register";
 import Dashboard from "./pages/Dashboard";
 import Onboarding from "./pages/Onboarding";
 import Results from "./pages/Results";
+import Checkin from "./pages/Checkin";
+import Progress from "./pages/Progress";
 import Showcase from "./pages/Showcase";
 import NotFound from "./pages/NotFound";
 
@@ -43,6 +45,16 @@ const App = () => (
         <Route path="/results" element={
           <ProtectedRoute>
             <Results />
+          </ProtectedRoute>
+        } />
+        <Route path="/checkin" element={
+          <ProtectedRoute>
+            <Checkin />
+          </ProtectedRoute>
+        } />
+        <Route path="/progress" element={
+          <ProtectedRoute>
+            <Progress />
           </ProtectedRoute>
         } />
         <Route path="/showcase" element={<Showcase />} />
