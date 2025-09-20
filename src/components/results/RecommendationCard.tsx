@@ -1,7 +1,8 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
-import { Clock, Zap, Shield, DollarSign } from "lucide-react";
+import { Button } from "@/components/ui/button";
+import { Clock, Zap, Shield, DollarSign, Plus, Check } from "lucide-react";
 import type { Recommendation } from "@/types/supplements";
 
 interface RecommendationCardProps {
@@ -18,9 +19,17 @@ interface RecommendationCardProps {
       price_max?: number;
     };
   };
+  isSelected?: boolean;
+  onToggleSelection?: (recommendationId: string, supplementId: string) => void;
+  disabled?: boolean;
 }
 
-export function RecommendationCard({ recommendation }: RecommendationCardProps) {
+export function RecommendationCard({ 
+  recommendation, 
+  isSelected = false, 
+  onToggleSelection, 
+  disabled = false 
+}: RecommendationCardProps) {
   const supplement = recommendation.supplements;
   
   if (!supplement) {
@@ -167,6 +176,31 @@ export function RecommendationCard({ recommendation }: RecommendationCardProps) 
             </div>
           )}
         </div>
+
+        {/* Selection Button */}
+        {onToggleSelection && (
+          <div className="pt-4 border-t">
+            <Button
+              onClick={() => onToggleSelection(recommendation.id, supplement.id)}
+              disabled={disabled}
+              variant={isSelected ? "primary" : "outline"}
+              className="w-full"
+              size="sm"
+            >
+              {isSelected ? (
+                <>
+                  <Check className="w-4 h-4 mr-2" />
+                  Selecionado
+                </>
+              ) : (
+                <>
+                  <Plus className="w-4 h-4 mr-2" />
+                  Selecionar para usar
+                </>
+              )}
+            </Button>
+          </div>
+        )}
       </CardContent>
     </Card>
   );

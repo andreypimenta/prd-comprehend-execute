@@ -8,7 +8,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
 import { WellbeingRating } from './WellbeingRating';
 import { SymptomImprovementRating } from './SymptomImprovementRating';
-import { ComplianceTrackerPRD } from './ComplianceTrackerPRD';
+import { SelectedSupplementsTrackerPRD } from './SelectedSupplementsTrackerPRD';
 import { FeedbackSection } from './FeedbackSection';
 import { CheckinFormData } from '@/types/checkin';
 import { useCheckin } from '@/hooks/useCheckin';
@@ -279,8 +279,7 @@ export const CheckinForm = () => {
             )}
 
             {currentStep === 3 && (
-              <ComplianceTrackerPRD
-                supplements={supplements}
+              <SelectedSupplementsTrackerPRD
                 compliance={formData.compliance}
                 onChange={(compliance) => setFormData(prev => ({ ...prev, compliance }))}
               />

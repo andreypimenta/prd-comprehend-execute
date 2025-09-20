@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Trash2, Plus } from 'lucide-react';
 
-interface SupplementCompliance {
+export interface SupplementCompliance {
   supplement_id: string;
   supplement_name: string;
   days_taken: number;

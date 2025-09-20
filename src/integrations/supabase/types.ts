@@ -290,6 +290,42 @@ export type Database = {
         }
         Relationships: []
       }
+      user_selected_supplements: {
+        Row: {
+          created_at: string
+          id: string
+          is_active: boolean
+          recommendation_id: string
+          start_date: string
+          supplement_id: string
+          target_duration_weeks: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          recommendation_id: string
+          start_date?: string
+          supplement_id: string
+          target_duration_weeks?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_active?: boolean
+          recommendation_id?: string
+          start_date?: string
+          supplement_id?: string
+          target_duration_weeks?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       users: {
         Row: {
           auth_user_id: string | null

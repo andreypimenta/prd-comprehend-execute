@@ -2,23 +2,51 @@ import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { Loader2, Sparkles, RefreshCw } from "lucide-react";
+import { Loader2, Sparkles, RefreshCw, CheckCircle } from "lucide-react";
 import { RecommendationCard } from "@/components/results/RecommendationCard";
 import { ResultsOverview } from "@/components/results/ResultsOverview";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
+import { useSelectedSupplements } from "@/hooks/useSelectedSupplements";
 import type { Recommendation } from "@/types/supplements";
 
 export default function Results() {
   const [recommendations, setRecommendations] = useState<Recommendation[]>([]);
   const [loading, setLoading] = useState(true);
   const [analyzing, setAnalyzing] = useState(false);
+  const [hasSelectedAny, setHasSelectedAny] = useState(false);
+  
   const { toast } = useToast();
   const navigate = useNavigate();
+  
+  const {
+    isSupplementSelected,
+    addSelectedSupplement,
+    removeSelectedSupplement,
+    getActiveSupplements,
+    loading: selectionsLoading
+  } = useSelectedSupplements();
 
   useEffect(() => {
     checkExistingRecommendations();
   }, []);
+
+  useEffect(() => {
+    const activeSupplements = getActiveSupplements();
+    setHasSelectedAny(activeSupplements.length > 0);
+  }, [getActiveSupplements]);
+
+  const handleToggleSelection = async (recommendationId: string, supplementId: string) => {
+    try {
+      if (isSupplementSelected(recommendationId)) {
+        await removeSelectedSupplement(recommendationId);
+      } else {
+        await addSelectedSupplement(recommendationId, supplementId);
+      }
+    } catch (error) {
+      console.error('Error toggling supplement selection:', error);
+    }
+  };
 
   const checkExistingRecommendations = async () => {
     console.log("🔍 Results: Iniciando verificação de recomendações");
@@ -312,6 +340,32 @@ export default function Results() {
           </p>
         </div>
 
+        {/* Selection Summary */}
+        {hasSelectedAny && (
+          <Card className="bg-accent/10 border-accent">
+            <CardContent className="pt-6">
+              <div className="flex items-center space-x-2 mb-2">
+                <CheckCircle className="w-5 h-5 text-accent" />
+                <h3 className="font-semibold text-accent">
+                  Suplementos Selecionados
+                </h3>
+              </div>
+              <p className="text-sm text-muted-foreground">
+                {getActiveSupplements().length} suplementos adicionados à sua rotina.
+                Acesse a aba "Progresso" para acompanhar seu uso diário.
+              </p>
+              <Button
+                variant="accent"
+                size="sm"
+                onClick={() => navigate('/progress')}
+                className="mt-3"
+              >
+                Ver Progresso
+              </Button>
+            </CardContent>
+          </Card>
+        )}
+
         {/* Overview */}
         <ResultsOverview recommendations={recommendations} />
 
@@ -338,6 +392,9 @@ export default function Results() {
               <RecommendationCard
                 key={recommendation.id}
                 recommendation={recommendation}
+                isSelected={isSupplementSelected(recommendation.id)}
+                onToggleSelection={handleToggleSelection}
+                disabled={selectionsLoading}
               />
             ))}
           </div>
