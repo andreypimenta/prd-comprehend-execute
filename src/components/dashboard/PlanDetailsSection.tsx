@@ -18,11 +18,11 @@ interface Supplement {
 
 export function PlanDetailsSection() {
   const { selectedSupplements, loading: supplementsLoading } = useSelectedSupplements()
-  const { getTrendData, getProgressSummary } = useCheckin()
+  const { getTrendData, getProgressSummary, loading: checkinLoading } = useCheckin()
   const [supplements, setSupplements] = useState<Supplement[]>([])
   const [loading, setLoading] = useState(true)
 
-  const activeSupplements = selectedSupplements.filter(s => s.is_active)
+  const activeSupplements = selectedSupplements?.filter(s => s.is_active) || []
   const trendData = getTrendData()
   const progressSummary = getProgressSummary()
 
@@ -52,7 +52,7 @@ export function PlanDetailsSection() {
     fetchSupplements()
   }, [activeSupplements])
 
-  if (supplementsLoading || loading) {
+  if (supplementsLoading || loading || checkinLoading) {
     return (
       <div className="space-y-6">
         <div className="h-48 bg-muted animate-pulse rounded-lg" />
@@ -190,7 +190,7 @@ export function PlanDetailsSection() {
       )}
 
       {/* Progress Summary */}
-      {progressSummary.recent_improvements.length > 0 && (
+      {progressSummary?.recent_improvements?.length > 0 && (
         <Card className="bg-gradient-to-br from-accent/5 to-primary/5 border-border/50 shadow-soft">
           <CardHeader>
             <CardTitle className="text-lg font-semibold text-card-foreground">
