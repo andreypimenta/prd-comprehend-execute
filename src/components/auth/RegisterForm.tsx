@@ -4,11 +4,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { Eye, EyeOff, User, Mail, Lock } from "lucide-react";
 import { Link, Navigate } from "react-router-dom";
-import { supabase } from "@/integrations/supabase/client";
 import { signUpSchema, type SignUpFormData } from "@/lib/validations";
 import { SuccessRegistrationMessage } from "./SuccessRegistrationMessage";
 export function RegisterForm() {
@@ -17,14 +16,7 @@ export function RegisterForm() {
   const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const [registeredEmail, setRegisteredEmail] = useState("");
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
-  const {
-    toast
-  } = useToast();
-  const {
-    signUp,
-    user,
-    isLoading
-  } = useAuth();
+  const { signUp, signInWithProvider, user, isLoading } = useAuth();
 
   // Redirect if already logged in
   if (user) {
@@ -43,67 +35,37 @@ export function RegisterForm() {
   const onSubmit = async (data: SignUpFormData) => {
     const response = await signUp(data.email, data.password, data.name);
     if (response.error) {
-      setError("root", {
-        message: response.error.message
-      });
+      setError("root", { message: response.error.message });
 
       // Mensagem específica para email já cadastrado
       if (response.error.code === "email_already_exists") {
-        toast({
-          title: "Email já cadastrado",
-          description: <div className="space-y-2">
-              <p>{response.error.message}</p>
-              <div className="flex gap-2 mt-2">
-                <Link to="/login" className="text-primary hover:text-primary-glow font-semibold underline">
-                  Fazer Login
-                </Link>
-              </div>
-            </div>,
-          variant: "destructive"
-        });
+        toast.error("Este email já está cadastrado. Faça login ou use outro email.");
       } else {
-        toast({
-          title: "Erro no cadastro",
-          description: response.error.message,
-          variant: "destructive"
-        });
+        toast.error(`Erro no cadastro: ${response.error.message}`);
       }
     } else {
       // Cadastro bem-sucedido - mostrar mensagem de confirmação
       setRegisteredEmail(data.email);
       setRegistrationSuccess(true);
-      toast({
-        title: "Cadastro realizado!",
-        description: "Verifique seu email para confirmar a conta.",
-        variant: "default"
-      });
+      toast.success("Cadastro realizado! Verifique seu email para confirmar a conta.");
     }
   };
   const handleSocialSignIn = async (provider: 'google' | 'apple') => {
     setSocialLoading(provider);
     try {
-      const {
-        data,
-        error
-      } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`
+      const response = await signInWithProvider(provider);
+      if (response.error) {
+        if (response.error.message.includes("provider is not enabled")) {
+          toast.error("Google OAuth não configurado. Configure no Supabase e tente novamente.");
+          setTimeout(() => {
+            window.open('/google-oauth-setup', '_blank');
+          }, 1000);
+        } else {
+          toast.error(`Erro no cadastro: ${response.error.message}`);
         }
-      });
-      if (error) {
-        toast({
-          title: "Erro no cadastro",
-          description: error.message,
-          variant: "destructive"
-        });
       }
     } catch (error) {
-      toast({
-        title: "Erro no cadastro",
-        description: `Erro inesperado no cadastro com ${provider === 'google' ? 'Google' : 'Apple'}`,
-        variant: "destructive"
-      });
+      toast.error(`Erro inesperado no cadastro com ${provider === 'google' ? 'Google' : 'Apple'}`);
     } finally {
       setSocialLoading(null);
     }

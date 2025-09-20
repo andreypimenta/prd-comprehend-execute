@@ -118,24 +118,25 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
   const signInWithProvider = async (provider: 'google' | 'apple') => {
     try {
-      setIsLoading(true);
+      console.log(`🔐 AuthContext: Tentando login com ${provider}...`);
       
       const { error } = await supabase.auth.signInWithOAuth({
         provider,
         options: {
-          redirectTo: `${window.location.origin}/`
+          redirectTo: `${window.location.origin}/dashboard`
         }
       });
 
       if (error) {
+        console.log(`🔐 AuthContext: Erro no login com ${provider}:`, error.message);
         return { error };
       }
 
+      console.log(`🔐 AuthContext: Redirecionando para ${provider}...`);
       return {};
     } catch (error) {
+      console.log(`🔐 AuthContext: Erro inesperado no ${provider}:`, error);
       return { error: { message: `Erro no login com ${provider}` } };
-    } finally {
-      setIsLoading(false);
     }
   };
 

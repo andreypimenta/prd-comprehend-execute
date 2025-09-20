@@ -40,8 +40,8 @@ export function GoogleOAuthConfig() {
           <Alert>
             <CheckCircle className="h-4 w-4" />
             <AlertDescription>
-              O erro "provider is not enabled" indica que o Google OAuth não está configurado no Supabase.
-              Siga os passos abaixo para configurar corretamente.
+              <strong>Erro detectado:</strong> "Connection to accounts.google.com was refused" indica problemas na configuração do Google OAuth.
+              Siga os passos abaixo para resolver.
             </AlertDescription>
           </Alert>
 

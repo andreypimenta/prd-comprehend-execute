@@ -20,7 +20,7 @@ export function LoginForm() {
   const [pendingEmail, setPendingEmail] = useState<string>("");
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const { signIn, user, isLoading } = useAuth();
+  const { signIn, signInWithProvider, user, isLoading } = useAuth();
   const { isProfileComplete, loading: profileLoading } = useUserProfile();
   const location = useLocation();
   const navigate = useNavigate();
@@ -103,22 +103,15 @@ export function LoginForm() {
   const handleSocialSignIn = async (provider: 'google' | 'apple') => {
     setSocialLoading(provider);
     try {
-      const { data, error } = await supabase.auth.signInWithOAuth({
-        provider,
-        options: {
-          redirectTo: `${window.location.origin}/dashboard`
-        }
-      });
-      
-      if (error) {
-        if (error.message.includes("provider is not enabled")) {
+      const response = await signInWithProvider(provider);
+      if (response.error) {
+        if (response.error.message.includes("provider is not enabled")) {
           toast.error("Google OAuth não configurado. Configure no Supabase e tente novamente.");
-          // Open config page after a delay
           setTimeout(() => {
             window.open('/google-oauth-setup', '_blank');
           }, 1000);
         } else {
-          toast.error(`Erro no login: ${error.message}`);
+          toast.error(`Erro no login: ${response.error.message}`);
         }
       }
     } catch (error) {
