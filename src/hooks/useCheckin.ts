@@ -10,6 +10,12 @@ export const useCheckin = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const getWeekNumber = (date: Date) => {
+    const firstDayOfYear = new Date(date.getFullYear(), 0, 1);
+    const pastDaysOfYear = (date.getTime() - firstDayOfYear.getTime()) / 86400000;
+    return Math.ceil((pastDaysOfYear + firstDayOfYear.getDay() + 1) / 7);
+  };
+
   const getCurrentWeekNumber = async (): Promise<number> => {
     try {
       const { data: user } = await supabase.auth.getUser();
@@ -78,26 +84,29 @@ export const useCheckin = () => {
       const { data: user } = await supabase.auth.getUser();
       if (!user?.user?.id) throw new Error('User not authenticated');
 
-      // Calculate overall compliance percentage
-      const adherenceValues = Object.values(formData.supplement_adherence);
-      const overallCompliance = adherenceValues.length > 0
-        ? adherenceValues.reduce((sum, item) => {
-            const compliance = (item.days_taken / item.total_days) * 100;
+      // Calculate overall compliance percentage from new structure
+      const complianceValues = Object.values(formData.compliance);
+      const overallCompliance = complianceValues.length > 0
+        ? complianceValues.reduce((sum, item) => {
+            const compliance = (item.daysCompliant / 7) * 100;
             return sum + compliance;
-          }, 0) / adherenceValues.length
+          }, 0) / complianceValues.length
         : 0;
+
+      // Get current week in PRD format
+      const now = new Date();
+      const year = now.getFullYear();
+      const week = getWeekNumber(now);
+      const weekFormatted = `${year}-W${week.toString().padStart(2, '0')}`;
 
       const checkinData = {
         user_id: user.user.id,
-        week_number: currentWeek,
-        fatigue_level: formData.fatigue_level,
-        energy_level: formData.energy_level,
-        mood_level: formData.mood_level,
-        sleep_quality: formData.sleep_quality,
-        stress_level: formData.stress_level,
-        focus_level: formData.focus_level,
-        custom_symptoms: formData.custom_symptoms,
-        supplement_adherence: formData.supplement_adherence,
+        week_number: getWeekNumber(now),
+        week_number_formatted: weekFormatted,
+        symptom_ratings: formData.symptom_ratings,
+        wellbeing: formData.wellbeing,
+        compliance: formData.compliance,
+        feedback: formData.feedback,
         overall_compliance_percentage: overallCompliance,
         notes: formData.notes,
         side_effects: formData.side_effects,
@@ -135,26 +144,7 @@ export const useCheckin = () => {
   const getProgressSummary = (): ProgressSummary | null => {
     if (checkinHistory.length === 0) return null;
 
-    const recentCheckins = checkinHistory.slice(0, 4); // Last 4 weeks
-    const calculateTrend = (values: (number | undefined)[]): 'improving' | 'stable' | 'worsening' => {
-      const validValues = values.filter(v => v !== undefined) as number[];
-      if (validValues.length < 2) return 'stable';
-      
-      const first = validValues[validValues.length - 1];
-      const last = validValues[0];
-      const diff = last - first;
-      
-      if (Math.abs(diff) < 1) return 'stable';
-      return diff > 0 ? 'improving' : 'worsening';
-    };
-
-    const fatigueValues = recentCheckins.map(c => c.fatigue_level);
-    const energyValues = recentCheckins.map(c => c.energy_level);
-    const moodValues = recentCheckins.map(c => c.mood_level);
-    const sleepValues = recentCheckins.map(c => c.sleep_quality);
-    const stressValues = recentCheckins.map(c => c.stress_level);
-    const focusValues = recentCheckins.map(c => c.focus_level);
-
+    const recentCheckins = checkinHistory.slice(0, 4);
     const avgCompliance = checkinHistory.reduce((sum, c) => 
       sum + (c.overall_compliance_percentage || 0), 0) / checkinHistory.length;
 
@@ -163,12 +153,12 @@ export const useCheckin = () => {
       total_checkins: checkinHistory.length,
       average_compliance: avgCompliance,
       symptom_trends: {
-        fatigue_trend: calculateTrend(fatigueValues),
-        energy_trend: calculateTrend(energyValues),
-        mood_trend: calculateTrend(moodValues),
-        sleep_trend: calculateTrend(sleepValues),
-        stress_trend: calculateTrend(stressValues),
-        focus_trend: calculateTrend(focusValues),
+        fatigue_trend: 'stable',
+        energy_trend: 'stable',
+        mood_trend: 'stable',
+        sleep_trend: 'stable',
+        stress_trend: 'stable',
+        focus_trend: 'stable',
       },
       recent_improvements: [],
       areas_of_concern: [],
@@ -177,17 +167,11 @@ export const useCheckin = () => {
 
   const getTrendData = (): TrendData[] => {
     return checkinHistory
-      .slice(0, 8) // Last 8 weeks
+      .slice(0, 8)
       .reverse()
       .map(checkin => ({
         week: checkin.week_number,
         date: checkin.checkin_date,
-        fatigue_level: checkin.fatigue_level,
-        energy_level: checkin.energy_level,
-        mood_level: checkin.mood_level,
-        sleep_quality: checkin.sleep_quality,
-        stress_level: checkin.stress_level,
-        focus_level: checkin.focus_level,
         compliance_percentage: checkin.overall_compliance_percentage,
       }));
   };

@@ -2,9 +2,25 @@ export interface WeeklyCheckin {
   id: string;
   user_id: string;
   week_number: number;
+  week_number_formatted?: string; // "2025-W37" format
   checkin_date: string;
   
-  // Symptom ratings (1-10 scale)
+  // Symptom ratings with improvement tracking
+  symptom_ratings?: Record<string, {
+    current: number; // 1-10
+    improvement: number; // -2 to +2 (much worse to much better)
+    notes?: string;
+  }>;
+  
+  // Wellbeing (1-5 scale as per PRD)
+  wellbeing?: {
+    energy: number;
+    mood: number;
+    sleep: number;
+    overall: number;
+  };
+  
+  // Legacy symptom fields (keep for backward compatibility)
   fatigue_level?: number;
   energy_level?: number;
   mood_level?: number;
@@ -19,7 +35,14 @@ export interface WeeklyCheckin {
     notes?: string;
   }>;
   
-  // Supplement compliance
+  // Supplement compliance (updated structure)
+  compliance?: Record<string, {
+    daysCompliant: number; // 0-7
+    missedDoses: number;
+    reasonsForMissing?: string[];
+  }>;
+  
+  // Legacy supplement adherence (keep for backward compatibility)
   supplement_adherence?: Record<string, {
     supplement_id: string;
     supplement_name: string;
@@ -31,6 +54,13 @@ export interface WeeklyCheckin {
   }>;
   overall_compliance_percentage?: number;
   
+  // Feedback structure as per PRD
+  feedback?: {
+    positiveChanges: string[];
+    concerns: string[];
+    overallSatisfaction: number; // 1-5
+  };
+  
   // Additional notes
   notes?: string;
   side_effects?: string;
@@ -39,6 +69,13 @@ export interface WeeklyCheckin {
   weight?: number;
   exercise_frequency?: number;
   
+  // Calculated metrics
+  metrics?: {
+    wellbeingScore: number;
+    complianceScore: number;
+    overallImprovement: number;
+  };
+  
   created_at: string;
   updated_at: string;
 }
@@ -46,11 +83,12 @@ export interface WeeklyCheckin {
 export interface CheckinReminder {
   id: string;
   user_id: string;
-  next_checkin_date: string;
-  reminder_frequency: number; // days
+  type: 'weekly_checkin' | 'supplement_reminder';
+  scheduled_for: string;
   is_active: boolean;
   email_notifications: boolean;
   push_notifications: boolean;
+  sent: boolean;
   created_at: string;
   updated_at: string;
 }
@@ -92,34 +130,40 @@ export interface CheckinMetrics {
 }
 
 export interface CheckinFormData {
-  // Step 1: Symptom evaluation
-  fatigue_level: number;
-  energy_level: number;
-  mood_level: number;
-  sleep_quality: number;
-  stress_level: number;
-  focus_level: number;
-  custom_symptoms: Array<{
-    symptom: string;
-    severity: number;
+  // Step 1: Symptom evaluation with improvement tracking
+  symptom_ratings: Record<string, {
+    current: number; // 1-10
+    improvement: number; // -2 to +2
     notes?: string;
   }>;
   
-  // Step 2: Supplement adherence
-  supplement_adherence: Record<string, {
-    supplement_id: string;
-    supplement_name: string;
-    days_taken: number;
-    total_days: number;
-    missed_days?: string[];
-    side_effects?: string;
+  // Step 2: Wellbeing (1-5 scale as per PRD)
+  wellbeing: {
+    energy: number;
+    mood: number;
+    sleep: number;
+    overall: number;
+  };
+  
+  // Step 3: Supplement compliance (PRD format)
+  compliance: Record<string, {
+    daysCompliant: number; // 0-7
+    missedDoses: number;
+    reasonsForMissing?: string[];
   }>;
   
-  // Step 3: Wellness metrics
+  // Step 4: Feedback and notes
+  feedback: {
+    positiveChanges: string[];
+    concerns: string[];
+    overallSatisfaction: number; // 1-5
+  };
+  
+  // Additional wellness metrics
   weight?: number;
   exercise_frequency?: number;
   
-  // Step 4: Notes and observations
+  // Legacy support
   notes?: string;
   side_effects?: string;
 }

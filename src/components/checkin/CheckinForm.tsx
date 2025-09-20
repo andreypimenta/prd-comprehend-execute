@@ -6,8 +6,10 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { Progress } from '@/components/ui/progress';
-import { SymptomRating } from './SymptomRating';
-import { ComplianceTracker } from './ComplianceTracker';
+import { WellbeingRating } from './WellbeingRating';
+import { SymptomImprovementRating } from './SymptomImprovementRating';
+import { ComplianceTrackerPRD } from './ComplianceTrackerPRD';
+import { FeedbackSection } from './FeedbackSection';
 import { CheckinFormData } from '@/types/checkin';
 import { useCheckin } from '@/hooks/useCheckin';
 import { supabase } from '@/integrations/supabase/client';
@@ -15,10 +17,10 @@ import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { toast } from 'sonner';
 
 const STEPS = [
-  { id: 1, title: 'Avaliação de Sintomas', description: 'Como você se sente esta semana?' },
-  { id: 2, title: 'Aderência aos Suplementos', description: 'Quantos dias você tomou seus suplementos?' },
-  { id: 3, title: 'Métricas de Bem-estar', description: 'Registre peso e exercícios' },
-  { id: 4, title: 'Observações', description: 'Notas adicionais e efeitos colaterais' },
+  { id: 1, title: 'Avaliação de Sintomas', description: 'Como seus sintomas estão esta semana?' },
+  { id: 2, title: 'Bem-estar Geral', description: 'Avalie seu bem-estar de 1 a 5' },
+  { id: 3, title: 'Aderência aos Suplementos', description: 'Quantos dias você tomou seus suplementos?' },
+  { id: 4, title: 'Feedback', description: 'Compartilhe suas observações' },
 ];
 
 export const CheckinForm = () => {
@@ -29,14 +31,19 @@ export const CheckinForm = () => {
   const [supplements, setSupplements] = useState<Array<{ id: string; name: string }>>([]);
   
   const [formData, setFormData] = useState<CheckinFormData>({
-    fatigue_level: 5,
-    energy_level: 5,
-    mood_level: 5,
-    sleep_quality: 5,
-    stress_level: 5,
-    focus_level: 5,
-    custom_symptoms: [],
-    supplement_adherence: {},
+    symptom_ratings: {},
+    wellbeing: {
+      energy: 3,
+      mood: 3,
+      sleep: 3,
+      overall: 3,
+    },
+    compliance: {},
+    feedback: {
+      positiveChanges: [],
+      concerns: [],
+      overallSatisfaction: 3,
+    },
     weight: undefined,
     exercise_frequency: undefined,
     notes: '',
@@ -55,6 +62,16 @@ export const CheckinForm = () => {
     try {
       const { data: user } = await supabase.auth.getUser();
       if (!user?.user?.id) return;
+
+      const { data: userProfile, error: profileError } = await supabase
+        .from('user_profiles')
+        .select('symptoms')
+        .eq('user_id', user.user.id)
+        .single();
+
+      if (profileError) throw profileError;
+
+      const symptoms = userProfile?.symptoms || ['fadiga', 'energia', 'humor', 'sono', 'estresse', 'foco'];
 
       const { data: recommendations, error } = await supabase
         .from('recommendations')
@@ -77,20 +94,30 @@ export const CheckinForm = () => {
 
       setSupplements(supplementList);
 
+      // Initialize symptom ratings for user's symptoms
+      const initialSymptomRatings: Record<string, { current: number; improvement: number; notes?: string; }> = {};
+      symptoms.forEach(symptom => {
+        initialSymptomRatings[symptom] = {
+          current: 5,
+          improvement: 0,
+          notes: ''
+        };
+      });
+
       // Initialize compliance tracking
-      const initialCompliance: Record<string, any> = {};
+      const initialCompliance: Record<string, { daysCompliant: number; missedDoses: number; reasonsForMissing?: string[]; }> = {};
       supplementList.forEach(supplement => {
         initialCompliance[supplement.id] = {
-          supplement_id: supplement.id,
-          supplement_name: supplement.name,
-          days_taken: 0,
-          total_days: 7,
+          daysCompliant: 7,
+          missedDoses: 0,
+          reasonsForMissing: []
         };
       });
       
       setFormData(prev => ({
         ...prev,
-        supplement_adherence: initialCompliance,
+        symptom_ratings: initialSymptomRatings,
+        compliance: initialCompliance,
       }));
     } catch (error) {
       console.error('Error fetching supplements:', error);
@@ -173,126 +200,97 @@ export const CheckinForm = () => {
           <CardContent>
             {currentStep === 1 && (
               <div className="space-y-6">
-                <SymptomRating
-                  label="Nível de Fadiga"
-                  value={formData.fatigue_level}
-                  onChange={(value) => setFormData(prev => ({ ...prev, fatigue_level: value }))}
-                  description="Como tem sido seu cansaço esta semana?"
-                  lowLabel="Sem fadiga"
-                  highLabel="Muito fatigado"
-                />
-                <SymptomRating
-                  label="Nível de Energia"
-                  value={formData.energy_level}
-                  onChange={(value) => setFormData(prev => ({ ...prev, energy_level: value }))}
-                  description="Quanta energia você teve esta semana?"
-                  lowLabel="Sem energia"
-                  highLabel="Muita energia"
-                />
-                <SymptomRating
-                  label="Humor"
-                  value={formData.mood_level}
-                  onChange={(value) => setFormData(prev => ({ ...prev, mood_level: value }))}
-                  description="Como tem estado seu humor?"
-                  lowLabel="Muito baixo"
-                  highLabel="Excelente"
-                />
-                <SymptomRating
-                  label="Qualidade do Sono"
-                  value={formData.sleep_quality}
-                  onChange={(value) => setFormData(prev => ({ ...prev, sleep_quality: value }))}
-                  description="Como tem dormido esta semana?"
-                  lowLabel="Muito mal"
-                  highLabel="Excelente"
-                />
-                <SymptomRating
-                  label="Nível de Estresse"
-                  value={formData.stress_level}
-                  onChange={(value) => setFormData(prev => ({ ...prev, stress_level: value }))}
-                  description="Quanto estresse você sentiu?"
-                  lowLabel="Sem estresse"
-                  highLabel="Muito estressado"
-                />
-                <SymptomRating
-                  label="Capacidade de Foco"
-                  value={formData.focus_level}
-                  onChange={(value) => setFormData(prev => ({ ...prev, focus_level: value }))}
-                  description="Como tem sido sua concentração?"
-                  lowLabel="Sem foco"
-                  highLabel="Foco excelente"
-                />
+                {Object.keys(formData.symptom_ratings).map((symptom) => (
+                  <SymptomImprovementRating
+                    key={symptom}
+                    symptomName={symptom}
+                    currentRating={formData.symptom_ratings[symptom].current}
+                    improvementRating={formData.symptom_ratings[symptom].improvement}
+                    notes={formData.symptom_ratings[symptom].notes}
+                    onCurrentChange={(value) => setFormData(prev => ({
+                      ...prev,
+                      symptom_ratings: {
+                        ...prev.symptom_ratings,
+                        [symptom]: { ...prev.symptom_ratings[symptom], current: value }
+                      }
+                    }))}
+                    onImprovementChange={(value) => setFormData(prev => ({
+                      ...prev,
+                      symptom_ratings: {
+                        ...prev.symptom_ratings,
+                        [symptom]: { ...prev.symptom_ratings[symptom], improvement: value }
+                      }
+                    }))}
+                    onNotesChange={(notes) => setFormData(prev => ({
+                      ...prev,
+                      symptom_ratings: {
+                        ...prev.symptom_ratings,
+                        [symptom]: { ...prev.symptom_ratings[symptom], notes }
+                      }
+                    }))}
+                  />
+                ))}
               </div>
             )}
 
             {currentStep === 2 && (
-              <ComplianceTracker
-                supplements={supplements}
-                compliance={formData.supplement_adherence}
-                onChange={(compliance) => setFormData(prev => ({ ...prev, supplement_adherence: compliance }))}
-              />
+              <div className="space-y-6">
+                <WellbeingRating
+                  label="Nível de Energia"
+                  value={formData.wellbeing.energy}
+                  onChange={(value) => setFormData(prev => ({ 
+                    ...prev, 
+                    wellbeing: { ...prev.wellbeing, energy: value }
+                  }))}
+                  description="Quanta energia você teve esta semana?"
+                  icon="⚡"
+                />
+                <WellbeingRating
+                  label="Humor Geral"
+                  value={formData.wellbeing.mood}
+                  onChange={(value) => setFormData(prev => ({ 
+                    ...prev, 
+                    wellbeing: { ...prev.wellbeing, mood: value }
+                  }))}
+                  description="Como tem estado seu humor?"
+                  icon="😊"
+                />
+                <WellbeingRating
+                  label="Qualidade do Sono"
+                  value={formData.wellbeing.sleep}
+                  onChange={(value) => setFormData(prev => ({ 
+                    ...prev, 
+                    wellbeing: { ...prev.wellbeing, sleep: value }
+                  }))}
+                  description="Como tem dormido esta semana?"
+                  icon="😴"
+                />
+                <WellbeingRating
+                  label="Bem-estar Geral"
+                  value={formData.wellbeing.overall}
+                  onChange={(value) => setFormData(prev => ({ 
+                    ...prev, 
+                    wellbeing: { ...prev.wellbeing, overall: value }
+                  }))}
+                  description="Como você se sente no geral?"
+                  icon="🌟"
+                />
+              </div>
             )}
 
             {currentStep === 3 && (
-              <div className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  <div>
-                    <Label htmlFor="weight">Peso (kg) - Opcional</Label>
-                    <Input
-                      id="weight"
-                      type="number"
-                      step="0.1"
-                      placeholder="Ex: 70.5"
-                      value={formData.weight || ''}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        weight: e.target.value ? parseFloat(e.target.value) : undefined 
-                      }))}
-                      className="mt-1"
-                    />
-                  </div>
-                  <div>
-                    <Label htmlFor="exercise">Dias de exercício (última semana)</Label>
-                    <Input
-                      id="exercise"
-                      type="number"
-                      min="0"
-                      max="7"
-                      placeholder="Ex: 3"
-                      value={formData.exercise_frequency || ''}
-                      onChange={(e) => setFormData(prev => ({ 
-                        ...prev, 
-                        exercise_frequency: e.target.value ? parseInt(e.target.value) : undefined 
-                      }))}
-                      className="mt-1"
-                    />
-                  </div>
-                </div>
-              </div>
+              <ComplianceTrackerPRD
+                supplements={supplements}
+                compliance={formData.compliance}
+                onChange={(compliance) => setFormData(prev => ({ ...prev, compliance }))}
+              />
             )}
 
             {currentStep === 4 && (
-              <div className="space-y-6">
-                <div>
-                  <Label htmlFor="notes">Observações Gerais (Opcional)</Label>
-                  <Textarea
-                    id="notes"
-                    placeholder="Como você se sentiu esta semana? Alguma mudança importante na sua rotina ou saúde?"
-                    value={formData.notes}
-                    onChange={(e) => setFormData(prev => ({ ...prev, notes: e.target.value }))}
-                    className="mt-1 min-h-[100px]"
-                  />
-                </div>
-                <div>
-                  <Label htmlFor="side-effects">Efeitos Colaterais (Opcional)</Label>
-                  <Textarea
-                    id="side-effects"
-                    placeholder="Notou algum efeito colateral dos suplementos ou outros sintomas?"
-                    value={formData.side_effects}
-                    onChange={(e) => setFormData(prev => ({ ...prev, side_effects: e.target.value }))}
-                    className="mt-1 min-h-[100px]"
-                  />
-                </div>
-              </div>
+              <FeedbackSection
+                feedback={formData.feedback}
+                onChange={(feedback) => setFormData(prev => ({ ...prev, feedback }))}
+              />
             )}
           </CardContent>
         </Card>

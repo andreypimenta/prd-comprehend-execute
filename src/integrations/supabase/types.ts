@@ -352,8 +352,10 @@ export type Database = {
           energy_level: number | null
           exercise_frequency: number | null
           fatigue_level: number | null
+          feedback: Json | null
           focus_level: number | null
           id: string
+          metrics: Json | null
           mood_level: number | null
           notes: string | null
           overall_compliance_percentage: number | null
@@ -364,7 +366,9 @@ export type Database = {
           updated_at: string
           user_id: string
           week_number: number
+          week_number_formatted: string | null
           weight: number | null
+          wellbeing: Json | null
         }
         Insert: {
           checkin_date?: string
@@ -373,8 +377,10 @@ export type Database = {
           energy_level?: number | null
           exercise_frequency?: number | null
           fatigue_level?: number | null
+          feedback?: Json | null
           focus_level?: number | null
           id?: string
+          metrics?: Json | null
           mood_level?: number | null
           notes?: string | null
           overall_compliance_percentage?: number | null
@@ -385,7 +391,9 @@ export type Database = {
           updated_at?: string
           user_id: string
           week_number: number
+          week_number_formatted?: string | null
           weight?: number | null
+          wellbeing?: Json | null
         }
         Update: {
           checkin_date?: string
@@ -394,8 +402,10 @@ export type Database = {
           energy_level?: number | null
           exercise_frequency?: number | null
           fatigue_level?: number | null
+          feedback?: Json | null
           focus_level?: number | null
           id?: string
+          metrics?: Json | null
           mood_level?: number | null
           notes?: string | null
           overall_compliance_percentage?: number | null
@@ -406,7 +416,9 @@ export type Database = {
           updated_at?: string
           user_id?: string
           week_number?: number
+          week_number_formatted?: string | null
           weight?: number | null
+          wellbeing?: Json | null
         }
         Relationships: []
       }
