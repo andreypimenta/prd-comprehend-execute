@@ -1,5 +1,5 @@
-import { createContext, useContext, useEffect, useState, ReactNode } from 'react';
-import { useToast } from '@/hooks/use-toast';
+import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
+import { toast } from 'sonner';
 import { supabase } from '@/integrations/supabase/client';
 import type { User as SupabaseUser, Session as SupabaseSession } from '@supabase/supabase-js';
 
@@ -17,12 +17,11 @@ interface AuthContextType {
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<SupabaseUser | null>(null);
-  const [session, setSession] = useState<SupabaseSession | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const { toast } = useToast();
+  const [user, setUser] = React.useState<SupabaseUser | null>(null);
+  const [session, setSession] = React.useState<SupabaseSession | null>(null);
+  const [isLoading, setIsLoading] = React.useState(true);
 
-  useEffect(() => {
+  React.useEffect(() => {
     console.log("🔐 AuthContext: Inicializando autenticação...");
     
     // Set up auth state listener
@@ -64,10 +63,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
       console.log("🔐 AuthContext: Login bem-sucedido!");
       
-      toast({
-        title: "Login realizado com sucesso!",
-        description: "Redirecionando...",
-      });
+      toast.success("Login realizado com sucesso!");
 
       return {};
     } catch (error) {
@@ -97,10 +93,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         return { error };
       }
 
-      toast({
-        title: "Conta criada com sucesso!",
-        description: "Verifique seu email para confirmar a conta.",
-      });
+      toast.success("Conta criada com sucesso! Verifique seu email para confirmar a conta.");
 
       return {};
     } catch (error) {
@@ -115,16 +108,9 @@ export function AuthProvider({ children }: { children: ReactNode }) {
       setIsLoading(true);
       await supabase.auth.signOut();
 
-      toast({
-        title: "Logout realizado com sucesso!",
-        description: "Até logo!",
-      });
+      toast.success("Logout realizado com sucesso!");
     } catch (error) {
-      toast({
-        title: "Erro inesperado",
-        description: "Erro ao fazer logout",
-        variant: "destructive",
-      });
+      toast.error("Erro ao fazer logout");
     } finally {
       setIsLoading(false);
     }
