@@ -2,20 +2,16 @@ import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Copy, ExternalLink, CheckCircle } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 
 export function GoogleOAuthConfig() {
-  const { toast } = useToast();
   
   const projectUrl = window.location.origin;
   const supabaseProjectId = "ehjpdcbyoqaoazknymbj";
 
   const copyToClipboard = (text: string, label: string) => {
     navigator.clipboard.writeText(text);
-    toast({
-      title: "Copiado!",
-      description: `${label} copiado para a área de transferência.`,
-    });
+    toast.success(`${label} copiado para a área de transferência.`);
   };
 
   const openGoogleConsole = () => {

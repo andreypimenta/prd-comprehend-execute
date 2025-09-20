@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
-import { useToast } from "@/hooks/use-toast";
+import { toast } from "sonner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { Eye, EyeOff, Mail, Lock } from "lucide-react";
@@ -20,7 +20,6 @@ export function LoginForm() {
   const [pendingEmail, setPendingEmail] = useState<string>("");
   const [socialLoading, setSocialLoading] = useState<string | null>(null);
   const [isRedirecting, setIsRedirecting] = useState(false);
-  const { toast } = useToast();
   const { signIn, user, isLoading } = useAuth();
   const { isProfileComplete, loading: profileLoading } = useUserProfile();
   const location = useLocation();
@@ -40,14 +39,11 @@ export function LoginForm() {
   useEffect(() => {
     const urlParams = new URLSearchParams(location.search);
     if (urlParams.get('confirmed') === 'true') {
-      toast({
-        title: "Email confirmado com sucesso!",
-        description: "Agora você pode fazer login normalmente.",
-      });
+      toast.success("Email confirmado com sucesso! Agora você pode fazer login normalmente.");
       // Clean up the URL
       navigate('/login', { replace: true });
     }
-  }, [location.search, navigate, toast]);
+  }, [location.search, navigate]);
   
   // Handle redirect for logged in users based on profile completeness
   useEffect(() => {
@@ -83,34 +79,16 @@ export function LoginForm() {
             response.error.message.includes("email_not_confirmed")) {
           setPendingEmail(data.email);
           setShowEmailConfirmation(true);
-          toast({
-            title: "Email não confirmado",
-            description: "Confirme seu email para fazer login.",
-            variant: "default",
-          });
+          toast.info("Email não confirmado. Confirme seu email para fazer login.");
         } else if (response.error.message.includes("requested path is invalid") ||
                    response.error.message.includes("localhost")) {
-          toast({
-            title: "Erro de configuração",
-            description: "Problema com URLs do Supabase. Verifique a configuração.",
-            variant: "destructive",
-            action: (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => window.open('/supabase-config', '_blank')}
-              >
-                Ver Configuração
-              </Button>
-            ),
-          });
+          toast.error("Problema com URLs do Supabase. Verifique a configuração.");
+          setTimeout(() => {
+            window.open('/supabase-config', '_blank');
+          }, 1000);
         } else {
           setError("root", { message: response.error.message });
-          toast({
-            title: "Erro no login",
-            description: response.error.message,
-            variant: "destructive",
-          });
+          toast.error(`Erro no login: ${response.error.message}`);
         }
       } else {
         console.log("📝 LoginForm: Login bem-sucedido! Aguardando verificação de perfil...");
@@ -118,11 +96,7 @@ export function LoginForm() {
       }
     } catch (error) {
       console.error("📝 LoginForm: Erro inesperado:", error);
-      toast({
-        title: "Erro inesperado",
-        description: "Tente novamente em alguns instantes.",
-        variant: "destructive",
-      });
+      toast.error("Erro inesperado. Tente novamente em alguns instantes.");
     }
   };
 
@@ -138,34 +112,17 @@ export function LoginForm() {
       
       if (error) {
         if (error.message.includes("provider is not enabled")) {
-          toast({
-            title: "Google OAuth não configurado",
-            description: "Configure o Google OAuth no Supabase.",
-            variant: "destructive",
-            action: (
-              <Button 
-                variant="outline" 
-                size="sm" 
-                onClick={() => window.open('/google-oauth-setup', '_blank')}
-              >
-                Configurar
-              </Button>
-            ),
-          });
+          toast.error("Google OAuth não configurado. Configure no Supabase e tente novamente.");
+          // Open config page after a delay
+          setTimeout(() => {
+            window.open('/google-oauth-setup', '_blank');
+          }, 1000);
         } else {
-          toast({
-            title: "Erro no login",
-            description: error.message,
-            variant: "destructive",
-          });
+          toast.error(`Erro no login: ${error.message}`);
         }
       }
     } catch (error) {
-      toast({
-        title: "Erro no login",
-        description: `Erro inesperado no login com ${provider === 'google' ? 'Google' : 'Apple'}`,
-        variant: "destructive",
-      });
+      toast.error(`Erro inesperado no login com ${provider === 'google' ? 'Google' : 'Apple'}`);
     } finally {
       setSocialLoading(null);
     }
