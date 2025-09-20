@@ -76,7 +76,7 @@ const Index = () => {
           }].map((item, index) => <div key={index} className={`relative overflow-hidden rounded-lg aspect-square ${imagesVisible ? 'image-slide-in' : 'opacity-0'}`} style={{
             animationDelay: `${index * 0.2}s`
           }}>
-                
+                <img src={item.img} alt={item.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-black/40 flex items-end p-6">
                   <h3 className="text-white text-xl font-bold">{item.title}</h3>
                 </div>
