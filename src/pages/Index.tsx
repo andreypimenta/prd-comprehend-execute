@@ -85,9 +85,7 @@ const Index = () => {
         </div>
       </section>;
   };
-  return <div className="min-h-screen text-white overflow-x-hidden" style={{
-    backgroundColor: 'hsl(218, 15%, 32%)'
-  }}>
+  return <div className="min-h-screen bg-background text-card-foreground overflow-x-hidden">
       {/* Header */}
       <header className="fixed top-0 left-0 right-0 z-50 bg-black/20 backdrop-blur-sm">
         <div className="container mx-auto px-6 py-6">
@@ -103,9 +101,9 @@ const Index = () => {
               <button onClick={() => navigate('/login')} className="link-underline font-medium text-white">
                 Entrar
               </button>
-              <button onClick={() => navigate('/register')} className="btn-minimalist">
+              <Button onClick={() => navigate('/register')} variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
                 Começar
-              </button>
+              </Button>
             </div>
 
             <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -142,10 +140,10 @@ const Index = () => {
           </div>
           
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-12">
-            <Button onClick={() => navigate('/register')} size="lg" className="bg-white text-black hover:bg-gray-100 px-8 py-6 text-lg font-semibold rounded-full">
+            <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold">
               Começar Análise Gratuita
             </Button>
-            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-white text-white hover:bg-white hover:text-black px-8 py-6 text-lg font-semibold rounded-full">
+            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold">
               Ver Demonstração
             </Button>
           </div>
@@ -271,9 +269,9 @@ const Index = () => {
           <p className="text-xl text-gray-400 mb-12">
             Junte-se a milhares que descobriram o poder da suplementação inteligente com IA.
           </p>
-          <Link to="/register" className="btn-minimalist">
+          <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-4 text-lg font-semibold">
             Começar Agora - É Grátis
-          </Link>
+          </Button>
         </div>
       </section>
 
