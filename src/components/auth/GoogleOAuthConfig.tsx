@@ -130,6 +130,25 @@ export function GoogleOAuthConfig() {
                 </ul>
               </div>
             </div>
+
+            <div className="space-y-4 border-t pt-4">
+              <h3 className="text-lg font-semibold">🔍 Diagnóstico Automático</h3>
+              
+              <div className="space-y-2">
+                <p className="text-sm text-muted-foreground">
+                  Se você continua enfrentando problemas, use nossa ferramenta de diagnóstico automático para identificar e resolver configurações incorretas:
+                </p>
+                
+                <Button 
+                  onClick={() => window.open('/google-oauth-diagnostic', '_blank')} 
+                  variant="outline" 
+                  className="w-full"
+                >
+                  <ExternalLink className="w-4 h-4 mr-2" />
+                  Executar Diagnóstico OAuth
+                </Button>
+              </div>
+            </div>
           </div>
         </CardContent>
       </Card>

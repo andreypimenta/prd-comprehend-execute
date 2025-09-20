@@ -55,17 +55,45 @@ export function RegisterForm() {
     try {
       const response = await signInWithProvider(provider);
       if (response.error) {
+        console.error(`OAuth Error (${provider}):`, response.error);
+        
         if (response.error.message.includes("provider is not enabled")) {
           toast.error("Google OAuth não configurado. Configure no Supabase e tente novamente.");
           setTimeout(() => {
             window.open('/google-oauth-setup', '_blank');
           }, 1000);
+        } else if (response.error.message.includes("connection was refused") || 
+                   response.error.message.includes("accounts.google.com")) {
+          toast.error("Erro de conexão com Google. Verifique configuração no Google Cloud Console.");
+          setTimeout(() => {
+            window.open('/google-oauth-diagnostic', '_blank');
+          }, 1000);
+        } else if (response.error.message.includes("redirect_uri_mismatch")) {
+          toast.error("URLs de redirecionamento não coincidem. Verifique configuração.");
+          setTimeout(() => {
+            window.open('/google-oauth-diagnostic', '_blank');
+          }, 1000);
+        } else if (response.error.message.includes("unauthorized_client")) {
+          toast.error("Cliente não autorizado. Verifique Client ID no Google Console.");
+          setTimeout(() => {
+            window.open('/google-oauth-diagnostic', '_blank');
+          }, 1000);
         } else {
           toast.error(`Erro no cadastro: ${response.error.message}`);
         }
       }
-    } catch (error) {
-      toast.error(`Erro inesperado no cadastro com ${provider === 'google' ? 'Google' : 'Apple'}`);
+    } catch (error: any) {
+      console.error(`Unexpected OAuth Error (${provider}):`, error);
+      
+      if (error?.message?.includes("accounts.google.com") || 
+          error?.message?.includes("connection was refused")) {
+        toast.error("Conexão com Google recusada. Execute o diagnóstico para resolver.");
+        setTimeout(() => {
+          window.open('/google-oauth-diagnostic', '_blank');
+        }, 1000);
+      } else {
+        toast.error(`Erro inesperado no cadastro com ${provider === 'google' ? 'Google' : 'Apple'}`);
+      }
     } finally {
       setSocialLoading(null);
     }

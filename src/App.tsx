@@ -7,6 +7,7 @@ import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ConfirmationPage } from "@/components/auth/ConfirmationPage";
 import SupabaseConfig from "./pages/SupabaseConfig";
 import GoogleOAuthSetup from "./pages/GoogleOAuthSetup";
+import GoogleOAuthDiagnostic from "./pages/GoogleOAuthDiagnostic";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -32,6 +33,7 @@ const App = () => (
         <Route path="/confirm" element={<ConfirmationPage />} />
         <Route path="/supabase-config" element={<SupabaseConfig />} />
         <Route path="/google-oauth-setup" element={<GoogleOAuthSetup />} />
+        <Route path="/google-oauth-diagnostic" element={<GoogleOAuthDiagnostic />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />
