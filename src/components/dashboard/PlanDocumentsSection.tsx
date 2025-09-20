@@ -1,9 +1,10 @@
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { FileCard } from "@/components/ui/file-card"
 import { Button } from "@/components/ui/button"
+import { Progress } from "@/components/ui/progress"
 import { useSelectedSupplements } from "@/hooks/useSelectedSupplements"
 import { useCheckin } from "@/hooks/useCheckin"
-import { FileText, Plus, Download, BarChart3 } from "lucide-react"
+import { FileText, Plus, Download, BarChart3, Shield } from "lucide-react"
 import { useState, useEffect } from "react"
 import { supabase } from "@/integrations/supabase/client"
 
@@ -52,36 +53,27 @@ export function PlanDocumentsSection() {
   const generateFileCards = () => {
     const files: any[] = []
     
-    // Add supplement certificates
+    // Add supplement certificates with Ref Code format
     supplements.forEach((supplement, index) => {
       files.push({
         name: `${supplement.name} Certificate`,
         type: 'pdf' as const,
-        size: `${Math.floor(Math.random() * 500 + 100)} KB`,
+        size: `${Math.floor(Math.random() * 500 + 100)} MB`,
         date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-        referenceCode: `SUP-${String(index + 1).padStart(3, '0')}`
+        referenceCode: `Ref Code`
       })
     })
 
-    // Add analysis reports
-    if (progressSummary?.average_compliance) {
+    // Add more ref codes to match reference
+    for (let i = 0; i < 3; i++) {
       files.push({
-        name: 'Monthly Analysis Report',
-        type: 'spreadsheet' as const,
-        size: '245 KB',
+        name: `Document ${i + 1}`,
+        type: 'pdf' as const,
+        size: `${Math.floor(Math.random() * 200 + 50)} MB`,
         date: new Date().toLocaleDateString(),
-        referenceCode: 'RPT-001'
+        referenceCode: `Ref Code`
       })
     }
-
-    // Add progress images
-    files.push({
-      name: 'Progress Chart',
-      type: 'image' as const,
-      size: '89 KB',
-      date: new Date().toLocaleDateString(),
-      referenceCode: 'IMG-001'
-    })
 
     return files
   }
@@ -99,7 +91,43 @@ export function PlanDocumentsSection() {
 
   return (
     <div className="space-y-6">
-      {/* Documents Header */}
+      {/* Main Insurance Card - Turquoise */}
+      <Card className="bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border-cyan-500/30">
+        <CardContent className="p-6">
+          <div className="flex items-start justify-between mb-6">
+            <div>
+              <h3 className="text-xl font-bold text-card-foreground mb-2">
+                $20k Health Individual Insurances
+              </h3>
+              <div className="flex items-center space-x-2">
+                <Shield className="h-4 w-4 text-cyan-500" />
+                <span className="text-sm text-muted-foreground">Premium Coverage</span>
+              </div>
+            </div>
+          </div>
+          
+          {/* Progress Bars */}
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-card-foreground font-medium">Spent</span>
+                <span className="text-card-foreground">$8,500 / $20,000</span>
+              </div>
+              <Progress value={42.5} className="h-2" />
+            </div>
+            
+            <div>
+              <div className="flex justify-between text-sm mb-2">
+                <span className="text-card-foreground font-medium">Available</span>
+                <span className="text-card-foreground">$11,500 remaining</span>
+              </div>
+              <Progress value={57.5} className="h-2" />
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
+      {/* Documents Section */}
       <Card className="bg-card border-border/50">
         <CardHeader>
           <div className="flex items-center justify-between">
@@ -162,32 +190,6 @@ export function PlanDocumentsSection() {
           </Button>
         </CardContent>
       </Card>
-
-      {/* Statistics Summary */}
-      {progressSummary && (
-        <Card className="bg-gradient-to-br from-primary/5 to-primary/10 border-primary/20">
-          <CardContent className="p-6">
-            <div className="grid grid-cols-2 gap-4 text-center">
-              <div>
-                <div className="text-2xl font-bold text-primary">
-                  {activeSupplements.length}
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Active Supplements
-                </div>
-              </div>
-              <div>
-                <div className="text-2xl font-bold text-primary">
-                  {Math.round(progressSummary.average_compliance ?? 0)}%
-                </div>
-                <div className="text-sm text-muted-foreground">
-                  Compliance Rate
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
     </div>
   )
 }

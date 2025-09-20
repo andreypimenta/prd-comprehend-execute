@@ -2,39 +2,28 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { Calendar } from "@/components/ui/calendar"
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { useCheckin } from "@/hooks/useCheckin"
-import { Calendar as CalendarIcon, Plus, Bell, CheckCircle2 } from "lucide-react"
+import { useUserProfile } from "@/hooks/useUserProfile"
+import { Calendar as CalendarIcon, User, Stethoscope } from "lucide-react"
 import { useState } from "react"
-import { Link } from "react-router-dom"
 
 export function CalendarActionsSection() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
   const { getProgressSummary, loading: checkinLoading } = useCheckin()
+  const { profile } = useUserProfile()
   
   const progressSummary = getProgressSummary()
   
-  // Generate some mock notification data
-  const notifications = [
+  // Medical appointment notifications
+  const medicalNotifications = [
     {
       id: 1,
-      message: "Time for your evening supplements",
-      code: "REM-001",
-      time: "2 hours ago",
-      type: "reminder"
-    },
-    {
-      id: 2,
-      message: "Weekly progress report available",
-      code: "RPT-002", 
-      time: "1 day ago",
-      type: "report"
-    },
-    {
-      id: 3,
-      message: "Supplement delivery scheduled",
-      code: "DEL-003",
-      time: "2 days ago", 
-      type: "delivery"
+      doctor: "Dr.Stiv Lupin",
+      specialty: "Surgeon",
+      time: "5:00PM - 6:00PM",
+      date: "Today",
+      type: "consultation"
     }
   ]
 
@@ -56,6 +45,28 @@ export function CalendarActionsSection() {
 
   return (
     <div className="space-y-6">
+      {/* User Profile Card */}
+      <Card className="bg-card border-border/50">
+        <CardContent className="p-6">
+          <div className="flex items-center space-x-4">
+            <Avatar className="h-16 w-16">
+              <AvatarImage src="/placeholder-avatar.jpg" />
+              <AvatarFallback className="bg-primary text-primary-foreground text-lg font-semibold">
+                {profile?.age?.toString().slice(-2) || "U"}
+              </AvatarFallback>
+            </Avatar>
+            <div>
+              <h3 className="font-semibold text-lg text-card-foreground">
+                Usuário
+              </h3>
+              <p className="text-sm text-muted-foreground">
+                {profile?.age ? `${profile.age} anos` : "Idade não informada"}
+              </p>
+            </div>
+          </div>
+        </CardContent>
+      </Card>
+
       {/* Calendar Card */}
       <Card className="bg-card border-border/50">
         <CardHeader>
@@ -90,82 +101,55 @@ export function CalendarActionsSection() {
         </CardContent>
       </Card>
 
-      {/* Main Action Button */}
+      {/* Make Appointment Button */}
       <Card className="bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30">
         <CardContent className="p-6 text-center">
           <Button 
-            asChild
             size="lg" 
             className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
           >
-            <Link to="/checkin">
-              <CheckCircle2 className="h-6 w-6 mr-2" />
-              Make Check-in
-            </Link>
+            <Stethoscope className="h-6 w-6 mr-2" />
+            Make An Appointment
           </Button>
           <p className="text-sm text-muted-foreground mt-3">
-            Track your daily supplement intake and wellness
+            Schedule your next medical consultation
           </p>
         </CardContent>
       </Card>
 
-      {/* Notifications */}
+      {/* Medical Appointments */}
       <Card className="bg-card border-border/50">
         <CardHeader>
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-card-foreground flex items-center">
-              <Bell className="h-5 w-5 mr-2 text-primary" />
-              Notifications
+            <CardTitle className="text-lg font-semibold text-card-foreground">
+              Medical Appointments
             </CardTitle>
-            <Badge variant="secondary" className="bg-primary/20 text-primary">
-              {notifications.length}
+            <Badge className="bg-green-500/20 text-green-700 border-green-500/30">
+              100%
             </Badge>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          {notifications.map((notification) => (
-            <div key={notification.id} className="p-3 bg-muted/30 rounded-lg border border-border/30">
+          {medicalNotifications.map((appointment) => (
+            <div key={appointment.id} className="p-4 bg-muted/30 rounded-lg border border-border/30">
               <div className="flex items-start justify-between">
                 <div className="flex-1">
-                  <p className="text-sm font-medium text-card-foreground mb-1">
-                    {notification.message}
-                  </p>
-                  <div className="flex items-center space-x-2">
-                    <Badge variant="outline" className="text-xs font-mono">
-                      {notification.code}
-                    </Badge>
-                    <span className="text-xs text-muted-foreground">
-                      {notification.time}
-                    </span>
+                  <div className="flex items-center space-x-2 mb-2">
+                    <User className="h-4 w-4 text-primary" />
+                    <p className="text-sm font-semibold text-card-foreground">
+                      {appointment.doctor}, {appointment.specialty}
+                    </p>
                   </div>
+                  <p className="text-sm text-muted-foreground">
+                    {appointment.time}
+                  </p>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    {appointment.date}
+                  </p>
                 </div>
               </div>
             </div>
           ))}
-        </CardContent>
-      </Card>
-
-      {/* Quick Stats */}
-      <Card className="bg-card border-border/50">
-        <CardContent className="p-4">
-          <div className="grid grid-cols-2 gap-4 text-center">
-            <div>
-              <div className="text-xl font-bold text-primary">
-                {checkinDates.length}
-              </div>
-              <div className="text-xs text-muted-foreground">
-                This Week
-              </div>
-            </div>
-            <div>
-              <div className="text-xl font-bold text-primary">
-                {Math.round(progressSummary?.average_compliance ?? 0)}%
-              </div>
-              <div className="text-xs text-muted-foreground">
-                Average
-              </div>
-            </div>
-          </div>
         </CardContent>
       </Card>
     </div>
