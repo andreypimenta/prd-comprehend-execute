@@ -3,10 +3,29 @@ import { CircularProgress } from "@/components/ui/circular-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useAuth } from "@/contexts/AuthContext";
+import { useSelectedSupplements } from "@/hooks/useSelectedSupplements";
+import { useCheckin } from "@/hooks/useCheckin";
 
 export function UserProfileSection() {
   const { user } = useAuth();
-  const { profile, loading } = useUserProfile();
+  const { profile, loading, isProfileComplete } = useUserProfile();
+  const { selectedSupplements } = useSelectedSupplements();
+  const { checkinHistory } = useCheckin();
+
+  // Calculate profile completeness percentage
+  const getProfileCompleteness = () => {
+    if (!profile) return 0;
+    const fields = [profile.age, profile.gender, profile.weight, profile.height, profile.symptoms?.length, profile.health_goals?.length];
+    const filledFields = fields.filter(field => field !== null && field !== undefined && field !== 0).length;
+    return Math.round((filledFields / fields.length) * 100);
+  };
+
+  // Calculate check-in consistency (last 4 weeks)
+  const getCheckinConsistency = () => {
+    if (!checkinHistory?.length) return 0;
+    const recentCheckins = checkinHistory.slice(0, 4); // Last 4 weeks
+    return Math.round((recentCheckins.length / 4) * 100);
+  };
 
   if (loading) {
     return (
@@ -32,7 +51,7 @@ export function UserProfileSection() {
     <Card className="w-full bg-card border border-border shadow-sm">
       <CardHeader className="pb-4">
         <CardTitle className="text-lg font-semibold text-card-foreground">
-          Your Plan Statistics
+          Your Health Profile
         </CardTitle>
       </CardHeader>
       <CardContent className="space-y-6">
@@ -42,7 +61,7 @@ export function UserProfileSection() {
             <Avatar className="h-32 w-32">
               <AvatarImage src="/placeholder-avatar.jpg" />
               <AvatarFallback className="bg-primary text-primary-foreground text-2xl font-semibold">
-                {profile?.age?.toString().slice(-2) || "U"}
+                {user?.email?.charAt(0).toUpperCase() || "U"}
               </AvatarFallback>
             </Avatar>
           </div>
@@ -52,7 +71,7 @@ export function UserProfileSection() {
         <div className="grid grid-cols-3 gap-4">
           <div className="flex flex-col items-center space-y-2">
             <CircularProgress
-              value={75}
+              value={getProfileCompleteness()}
               size={64}
               strokeWidth={6}
               color="hsl(var(--primary))"
@@ -60,17 +79,17 @@ export function UserProfileSection() {
             />
             <div className="text-center">
               <p className="text-xs font-medium text-muted-foreground">
-                Current
+                Profile
               </p>
               <p className="text-xs font-medium text-muted-foreground">
-                Expenses
+                Completeness
               </p>
             </div>
           </div>
 
           <div className="flex flex-col items-center space-y-2">
             <CircularProgress
-              value={85}
+              value={selectedSupplements.filter(s => s.is_active).length * 20} // Max 5 supplements = 100%
               size={64}
               strokeWidth={6}
               color="hsl(var(--primary))"
@@ -78,17 +97,17 @@ export function UserProfileSection() {
             />
             <div className="text-center">
               <p className="text-xs font-medium text-muted-foreground">
-                General
+                Active
               </p>
               <p className="text-xs font-medium text-muted-foreground">
-                Health
+                Supplements
               </p>
             </div>
           </div>
 
           <div className="flex flex-col items-center space-y-2">
             <CircularProgress
-              value={38}
+              value={getCheckinConsistency()}
               size={64}
               strokeWidth={6}
               color="hsl(var(--primary))"
@@ -96,10 +115,10 @@ export function UserProfileSection() {
             />
             <div className="text-center">
               <p className="text-xs font-medium text-muted-foreground">
-                Spending More
+                Check-in
               </p>
               <p className="text-xs font-medium text-muted-foreground">
-                Than Last Month
+                Consistency
               </p>
             </div>
           </div>

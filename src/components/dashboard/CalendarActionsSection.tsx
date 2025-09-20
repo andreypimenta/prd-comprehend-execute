@@ -1,38 +1,17 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { Button } from "@/components/ui/button"
-import { Badge } from "@/components/ui/badge"
-import { Calendar } from "@/components/ui/calendar"
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
-import { useCheckin } from "@/hooks/useCheckin"
-import { useUserProfile } from "@/hooks/useUserProfile"
-import { Calendar as CalendarIcon, User, Stethoscope } from "lucide-react"
-import { useState } from "react"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+import { Calendar } from "@/components/ui/calendar";
+import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useCheckin } from "@/hooks/useCheckin";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { useState } from "react";
+import { CalendarDays, Stethoscope, Clock, User, Edit2, Activity } from "lucide-react";
 
 export function CalendarActionsSection() {
-  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date())
-  const { getProgressSummary, loading: checkinLoading } = useCheckin()
-  const { profile } = useUserProfile()
-  
-  const progressSummary = getProgressSummary()
-  
-  // Medical appointment notifications
-  const medicalNotifications = [
-    {
-      id: 1,
-      doctor: "Dr.Stiv Lupin",
-      specialty: "Surgeon",
-      time: "5:00PM - 6:00PM",
-      date: "Today",
-      type: "consultation"
-    }
-  ]
-
-  // Highlight dates with check-ins (mock data)
-  const checkinDates = [
-    new Date(2025, 8, 18), // September 18, 2025
-    new Date(2025, 8, 19), // September 19, 2025
-    new Date(2025, 8, 20), // September 20, 2025
-  ]
+  const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
+  const { checkinHistory, loading: checkinLoading } = useCheckin();
+  const { profile } = useUserProfile();
 
   if (checkinLoading) {
     return (
@@ -40,118 +19,138 @@ export function CalendarActionsSection() {
         <div className="h-64 bg-muted animate-pulse rounded-lg" />
         <div className="h-48 bg-muted animate-pulse rounded-lg" />
       </div>
-    )
+    );
   }
 
   return (
     <div className="space-y-6">
       {/* User Profile Card */}
-      <Card className="bg-card border-border/50">
-        <CardContent className="p-6">
-          <div className="flex items-center space-x-4">
-            <Avatar className="h-16 w-16">
-              <AvatarImage src="/placeholder-avatar.jpg" />
-              <AvatarFallback className="bg-primary text-primary-foreground text-lg font-semibold">
-                {profile?.age?.toString().slice(-2) || "U"}
-              </AvatarFallback>
-            </Avatar>
-            <div>
-              <h3 className="font-semibold text-lg text-card-foreground">
-                Usuário
-              </h3>
-              <p className="text-sm text-muted-foreground">
-                {profile?.age ? `${profile.age} anos` : "Idade não informada"}
-              </p>
+      <Card className="bg-card border border-border shadow-sm">
+        <CardContent className="p-4">
+          <div className="flex items-center justify-between">
+            <div className="flex items-center space-x-3">
+              <Avatar className="h-12 w-12">
+                <AvatarImage src="/placeholder-avatar.jpg" />
+                <AvatarFallback className="bg-primary text-primary-foreground text-sm font-semibold">
+                  NL
+                </AvatarFallback>
+              </Avatar>
+              <div>
+                <p className="font-medium text-card-foreground">Nika Larsen</p>
+                <p className="text-sm text-muted-foreground">
+                  {profile?.age || 31} years old
+                </p>
+              </div>
             </div>
+            <Button variant="ghost" size="sm" className="h-8 w-8 p-0">
+              <Edit2 className="h-4 w-4" />
+            </Button>
           </div>
         </CardContent>
       </Card>
 
-      {/* Calendar Card */}
-      <Card className="bg-card border-border/50">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-card-foreground flex items-center">
-            <CalendarIcon className="h-5 w-5 mr-2 text-primary" />
-            Calendar
-          </CardTitle>
-        </CardHeader>
-        <CardContent>
+      {/* Calendar with Check-in Dates */}
+      <Card className="bg-card border border-border shadow-sm">
+        <CardContent className="p-4">
           <Calendar
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
             className="rounded-md border-0"
             modifiers={{
-              checkin: checkinDates
+              checkin: checkinHistory?.map(c => new Date(c.checkin_date)) || []
             }}
-            modifiersStyles={{
-              checkin: { 
-                backgroundColor: 'hsl(var(--primary))', 
-                color: 'hsl(var(--primary-foreground))',
-                borderRadius: '50%'
-              }
+            modifiersClassNames={{
+              checkin: "bg-green-500/20 text-green-700 font-semibold"
+            }}
+            classNames={{
+              months: "flex flex-col sm:flex-row space-y-4 sm:space-x-4 sm:space-y-0",
+              month: "space-y-4",
+              caption: "flex justify-center pt-1 relative items-center",
+              caption_label: "text-sm font-medium",
+              nav: "space-x-1 flex items-center",
+              nav_button: "h-7 w-7 bg-transparent p-0 opacity-50 hover:opacity-100",
+              nav_button_previous: "absolute left-1",
+              nav_button_next: "absolute right-1",
+              table: "w-full border-collapse space-y-1",
+              head_row: "flex",
+              head_cell: "text-muted-foreground rounded-md w-8 font-normal text-[0.8rem]",
+              row: "flex w-full mt-2",
+              cell: "text-center text-sm p-0 relative [&:has([aria-selected])]:bg-accent first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20",
+              day: "h-8 w-8 p-0 font-normal aria-selected:opacity-100 rounded-md",
+              day_selected: "bg-primary text-primary-foreground hover:bg-primary hover:text-primary-foreground focus:bg-primary focus:text-primary-foreground",
+              day_today: "bg-accent text-accent-foreground",
+              day_outside: "text-muted-foreground opacity-50",
+              day_disabled: "text-muted-foreground opacity-50",
+              day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
+              day_hidden: "invisible",
             }}
           />
-          <div className="mt-4 flex items-center justify-center">
-            <div className="flex items-center space-x-2 text-xs text-muted-foreground">
-              <div className="h-3 w-3 rounded-full bg-primary" />
-              <span>Check-in completed</span>
-            </div>
-          </div>
         </CardContent>
       </Card>
 
-      {/* Make Appointment Button */}
-      <Card className="bg-gradient-to-br from-primary/10 to-primary/20 border-primary/30">
-        <CardContent className="p-6 text-center">
-          <Button 
-            size="lg" 
-            className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-semibold py-6 text-lg"
-          >
-            <Stethoscope className="h-6 w-6 mr-2" />
-            Make An Appointment
-          </Button>
-          <p className="text-sm text-muted-foreground mt-3">
-            Schedule your next medical consultation
-          </p>
-        </CardContent>
-      </Card>
+      {/* Complete Check-in Button */}
+      <Button className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 rounded-full flex items-center justify-center gap-2">
+        <Activity className="h-4 w-4" />
+        {checkinHistory?.some(c => 
+          new Date(c.checkin_date).toDateString() === new Date().toDateString()
+        ) ? "View Progress" : "Complete Check-in"}
+      </Button>
 
-      {/* Medical Appointments */}
-      <Card className="bg-card border-border/50">
-        <CardHeader>
+      {/* Health Reminders */}
+      <Card className="bg-card border border-border shadow-sm">
+        <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
-            <CardTitle className="text-lg font-semibold text-card-foreground">
-              Medical Appointments
+            <CardTitle className="text-base font-semibold text-card-foreground">
+              Reminders
             </CardTitle>
-            <Badge className="bg-green-500/20 text-green-700 border-green-500/30">
-              100%
-            </Badge>
+            <Button variant="ghost" size="sm" className="h-6 w-6 p-0">
+              <span className="sr-only">View all</span>
+              →
+            </Button>
           </div>
         </CardHeader>
         <CardContent className="space-y-3">
-          {medicalNotifications.map((appointment) => (
-            <div key={appointment.id} className="p-4 bg-muted/30 rounded-lg border border-border/30">
-              <div className="flex items-start justify-between">
-                <div className="flex-1">
-                  <div className="flex items-center space-x-2 mb-2">
-                    <User className="h-4 w-4 text-primary" />
-                    <p className="text-sm font-semibold text-card-foreground">
-                      {appointment.doctor}, {appointment.specialty}
-                    </p>
-                  </div>
-                  <p className="text-sm text-muted-foreground">
-                    {appointment.time}
-                  </p>
-                  <p className="text-xs text-muted-foreground mt-1">
-                    {appointment.date}
-                  </p>
+          <div className="p-3 rounded-lg bg-muted/50">
+            <div className="flex items-start justify-between">
+              <div className="flex-1">
+                <p className="font-medium text-sm text-card-foreground">
+                  Weekly Check-in
+                </p>
+                <p className="text-xs text-muted-foreground">
+                  Health Progress
+                </p>
+                <div className="flex items-center gap-1 mt-1">
+                  <Clock className="h-3 w-3 text-muted-foreground" />
+                  <span className="text-xs text-muted-foreground">
+                    Due tomorrow
+                  </span>
                 </div>
               </div>
             </div>
-          ))}
+          </div>
+          {profile?.symptoms && profile.symptoms.length > 0 && (
+            <div className="p-3 rounded-lg bg-muted/50">
+              <div className="flex items-start justify-between">
+                <div className="flex-1">
+                  <p className="font-medium text-sm text-card-foreground">
+                    Supplement Reminder
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    Daily supplements
+                  </p>
+                  <div className="flex items-center gap-1 mt-1">
+                    <Clock className="h-3 w-3 text-muted-foreground" />
+                    <span className="text-xs text-muted-foreground">
+                      Morning routine
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }

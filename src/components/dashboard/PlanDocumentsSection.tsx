@@ -1,12 +1,14 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
-import { FileCard } from "@/components/ui/file-card"
-import { Button } from "@/components/ui/button"
-import { Progress } from "@/components/ui/progress"
-import { useSelectedSupplements } from "@/hooks/useSelectedSupplements"
-import { useCheckin } from "@/hooks/useCheckin"
-import { FileText, Plus, Download, BarChart3, Shield } from "lucide-react"
-import { useState, useEffect } from "react"
-import { supabase } from "@/integrations/supabase/client"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
+import { Progress } from "@/components/ui/progress";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useSelectedSupplements } from "@/hooks/useSelectedSupplements";
+import { useCheckin } from "@/hooks/useCheckin";
+import { useUserProfile } from "@/hooks/useUserProfile";
+import { supabase } from "@/integrations/supabase/client";
+import { useState, useEffect } from "react";
+import { ArrowUpRight, Calendar, TrendingUp, Plus, Target, Activity, Heart, FileText } from "lucide-react";
+import { Button } from "@/components/ui/button";
 
 interface Supplement {
   id: string
@@ -15,181 +17,158 @@ interface Supplement {
 }
 
 export function PlanDocumentsSection() {
-  const { selectedSupplements, loading: supplementsLoading } = useSelectedSupplements()
-  const { getProgressSummary } = useCheckin()
-  const [supplements, setSupplements] = useState<Supplement[]>([])
-  const [loading, setLoading] = useState(true)
+  const { selectedSupplements, loading: selectionsLoading } = useSelectedSupplements();
+  const { getTrendData, getProgressSummary, checkinHistory, loading: checkinLoading } = useCheckin();
+  const { profile } = useUserProfile();
+  const [supplements, setSupplements] = useState<Supplement[]>([]);
+  const [totalRecommendations, setTotalRecommendations] = useState(0);
+  const [loading, setLoading] = useState(true);
 
-  const activeSupplements = selectedSupplements?.filter(s => s.is_active) || []
-  const progressSummary = getProgressSummary()
+  const activeSupplements = selectedSupplements?.filter(s => s.is_active) || [];
+  const progressSummary = getProgressSummary();
 
   useEffect(() => {
-    const fetchSupplements = async () => {
-      if (activeSupplements.length === 0) {
-        setLoading(false)
-        return
-      }
-
+    const fetchSupplementDetails = async () => {
+      if (selectionsLoading) return;
+      
       try {
-        const supplementIds = activeSupplements.map(s => s.supplement_id)
+        const supplementIds = activeSupplements.map(s => s.supplement_id);
+        if (supplementIds.length === 0) {
+          setSupplements([]);
+          setLoading(false);
+          return;
+        }
+
+        // Fetch supplement details
         const { data, error } = await supabase
           .from('supplements')
           .select('id, name, category')
-          .in('id', supplementIds)
+          .in('id', supplementIds);
 
-        if (error) throw error
-        setSupplements(data || [])
+        if (error) throw error;
+        setSupplements(data || []);
+
+        // Fetch total recommendations count
+        const { count } = await supabase
+          .from('recommendations')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', (await supabase.auth.getUser()).data.user?.id);
+        
+        setTotalRecommendations(count || 0);
       } catch (error) {
-        console.error('Error fetching supplements:', error)
+        console.error('Error fetching supplement details:', error);
+        setSupplements([]);
       } finally {
-        setLoading(false)
+        setLoading(false);
       }
-    }
+    };
 
-    fetchSupplements()
-  }, [activeSupplements])
+    fetchSupplementDetails();
+  }, [activeSupplements, selectionsLoading]);
 
-  // Generate file cards for supplements and reports
-  const generateFileCards = () => {
-    const files: any[] = []
-    
-    // Add supplement certificates with Ref Code format
-    supplements.forEach((supplement, index) => {
-      files.push({
-        name: `${supplement.name} Certificate`,
-        type: 'pdf' as const,
-        size: `${Math.floor(Math.random() * 500 + 100)} MB`,
-        date: new Date(Date.now() - Math.random() * 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
-        referenceCode: `Ref Code`
-      })
-    })
-
-    // Add more ref codes to match reference
-    for (let i = 0; i < 3; i++) {
-      files.push({
-        name: `Document ${i + 1}`,
-        type: 'pdf' as const,
-        size: `${Math.floor(Math.random() * 200 + 50)} MB`,
-        date: new Date().toLocaleDateString(),
-        referenceCode: `Ref Code`
-      })
-    }
-
-    return files
-  }
-
-  if (supplementsLoading || loading) {
+  if (selectionsLoading || loading) {
     return (
       <div className="space-y-6">
         <div className="h-64 bg-muted animate-pulse rounded-lg" />
         <div className="h-48 bg-muted animate-pulse rounded-lg" />
       </div>
-    )
+    );
   }
-
-  const files = generateFileCards()
 
   return (
     <div className="space-y-6">
-      {/* Main Insurance Card - Turquoise */}
-      <Card className="bg-gradient-to-br from-cyan-500/20 to-teal-500/20 border-cyan-500/30">
-        <CardContent className="p-6">
-          <div className="flex items-start justify-between mb-6">
-            <div>
-              <h3 className="text-xl font-bold text-card-foreground mb-2">
-                $20k Health Individual Insurances
-              </h3>
-              <div className="flex items-center space-x-2">
-                <Shield className="h-4 w-4 text-cyan-500" />
-                <span className="text-sm text-muted-foreground">Premium Coverage</span>
-              </div>
-            </div>
-          </div>
-          
-          {/* Progress Bars */}
-          <div className="space-y-4">
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-card-foreground font-medium">Spent</span>
-                <span className="text-card-foreground">$8,500 / $20,000</span>
-              </div>
-              <Progress value={42.5} className="h-2" />
-            </div>
-            
-            <div>
-              <div className="flex justify-between text-sm mb-2">
-                <span className="text-card-foreground font-medium">Available</span>
-                <span className="text-card-foreground">$11,500 remaining</span>
-              </div>
-              <Progress value={57.5} className="h-2" />
-            </div>
-          </div>
-        </CardContent>
-      </Card>
-
-      {/* Documents Section */}
-      <Card className="bg-card border-border/50">
-        <CardHeader>
-          <div className="flex items-center justify-between">
-            <CardTitle className="text-xl font-bold text-card-foreground flex items-center">
-              <FileText className="h-6 w-6 mr-2 text-primary" />
-              Details About Your Plan
-            </CardTitle>
-            <Button size="sm" variant="outline" className="border-primary/30 hover:border-primary">
-              <Plus className="h-4 w-4 mr-1" />
-              Add
-            </Button>
-          </div>
-        </CardHeader>
-        <CardContent className="space-y-4">
-          {files.length === 0 ? (
-            <div className="text-center py-12">
-              <FileText className="h-12 w-12 mx-auto text-muted-foreground mb-4" />
-              <h3 className="text-lg font-semibold text-card-foreground mb-2">
-                No documents yet
-              </h3>
-              <p className="text-muted-foreground mb-6">
-                Your supplement certificates and reports will appear here
-              </p>
-            </div>
-          ) : (
-            <div className="space-y-3">
-              {files.map((file, index) => (
-                <FileCard
-                  key={index}
-                  name={file.name}
-                  type={file.type}
-                  size={file.size}
-                  date={file.date}
-                  referenceCode={file.referenceCode}
-                  onView={() => console.log('View file:', file.name)}
-                  onDownload={() => console.log('Download file:', file.name)}
-                />
-              ))}
-            </div>
-          )}
-        </CardContent>
-      </Card>
-
-      {/* Quick Actions */}
-      <Card className="bg-card border-border/50">
-        <CardHeader>
-          <CardTitle className="text-lg font-semibold text-card-foreground flex items-center">
-            <BarChart3 className="h-5 w-5 mr-2 text-primary" />
-            Quick Actions
+      <Card className="bg-card border border-border shadow-sm">
+        <CardHeader className="pb-4">
+          <CardTitle className="text-lg font-semibold text-card-foreground">
+            Your Supplement Journey
           </CardTitle>
         </CardHeader>
-        <CardContent className="space-y-3">
-          <Button className="w-full justify-start bg-primary hover:bg-primary/90 text-primary-foreground">
-            <Download className="h-4 w-4 mr-2" />
-            Download Complete Plan
-          </Button>
-          <Button variant="outline" className="w-full justify-start border-primary/30 hover:border-primary hover:bg-primary/5">
-            <FileText className="h-4 w-4 mr-2" />
-            Generate Monthly Report
-          </Button>
+        <CardContent className="space-y-6">
+          {/* Active Supplement Plan Card - Turquoise */}
+          <Card className="bg-cyan-400 text-cyan-950 border-0 relative overflow-hidden">
+            <div className="absolute top-4 right-4">
+              <ArrowUpRight className="h-5 w-5 text-cyan-950" />
+            </div>
+            <CardContent className="p-6">
+              <div className="space-y-4">
+                <div className="flex items-center gap-2">
+                  <Badge variant="secondary" className="bg-cyan-950 text-cyan-400 hover:bg-cyan-950">
+                    {activeSupplements.length} Active
+                  </Badge>
+                </div>
+                <div>
+                  <h3 className="text-lg font-semibold text-cyan-950">
+                    Active Supplement Plan
+                  </h3>
+                </div>
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm font-medium text-cyan-950">
+                    <span>Started {activeSupplements.length}</span>
+                    <span>Total {totalRecommendations} recommended</span>
+                  </div>
+                  <div className="h-2 bg-cyan-950/20 rounded-full overflow-hidden">
+                    <div 
+                      className="h-full bg-cyan-950 transition-all duration-300"
+                      style={{ width: `${totalRecommendations > 0 ? (activeSupplements.length / totalRecommendations) * 100 : 0}%` }}
+                    />
+                  </div>
+                </div>
+              </div>
+            </CardContent>
+          </Card>
+
+          {/* Health Data Overview */}
+          <Card className="bg-card border-border">
+            <CardHeader className="pb-3">
+              <CardTitle className="text-base font-semibold text-card-foreground">
+                Health Overview
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3">
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                    <Activity className="h-4 w-4 text-primary" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm text-card-foreground">Recent Check-ins</div>
+                    <div className="text-xs text-muted-foreground">{checkinHistory?.length || 0} completed</div>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">
+                  {checkinHistory?.[0]?.checkin_date ? new Date(checkinHistory[0].checkin_date).toLocaleDateString() : '-'}
+                </div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
+                    <Target className="h-4 w-4 text-secondary" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm text-card-foreground">Health Goals</div>
+                    <div className="text-xs text-muted-foreground">{profile?.health_goals?.length || 0} active goals</div>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">Active</div>
+              </div>
+              
+              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+                <div className="flex items-center gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                    <Heart className="h-4 w-4 text-accent" />
+                  </div>
+                  <div>
+                    <div className="font-medium text-sm text-card-foreground">Current Symptoms</div>
+                    <div className="text-xs text-muted-foreground">{profile?.symptoms?.length || 0} monitored</div>
+                  </div>
+                </div>
+                <div className="text-xs text-muted-foreground">Tracking</div>
+              </div>
+            </CardContent>
+          </Card>
         </CardContent>
       </Card>
     </div>
-  )
+  );
 }
