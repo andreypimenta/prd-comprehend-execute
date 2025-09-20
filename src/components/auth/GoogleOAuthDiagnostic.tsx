@@ -168,9 +168,12 @@ export function GoogleOAuthDiagnostic() {
           <Alert>
             <AlertTriangle className="h-4 w-4" />
             <AlertDescription>
-              <strong>Erro atual:</strong> "A conexão com accounts.google.com foi recusada"
-              <br />
-              Este erro geralmente indica configuração incorreta no Google Cloud Console.
+              <strong>Erros comuns do Google OAuth:</strong>
+              <ul className="mt-2 space-y-1 text-sm">
+                <li>• <strong>403 - "Você não tem acesso a esta página"</strong>: OAuth Consent Screen não configurado ou app em modo "Testing" sem usuários autorizados</li>
+                <li>• <strong>"Conexão recusada"</strong>: URLs incorretas no Google Cloud Console</li>
+                <li>• <strong>"redirect_uri_mismatch"</strong>: URL de callback não coincide</li>
+              </ul>
             </AlertDescription>
           </Alert>
 
@@ -291,17 +294,72 @@ export function GoogleOAuthDiagnostic() {
 
       <Card>
         <CardHeader>
-          <CardTitle>Passo a Passo Detalhado</CardTitle>
+          <CardTitle>🚨 Solução para Erro 403</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-4">
+          <Alert>
+            <XCircle className="h-4 w-4" />
+            <AlertDescription>
+              <strong>Erro 403 específico:</strong> O aplicativo está em modo "Testing" mas você não está na lista de usuários de teste.
+            </AlertDescription>
+          </Alert>
+
+          <div className="space-y-3">
+            <h4 className="font-semibold">Opções para resolver:</h4>
+            
+            <div className="space-y-2">
+              <h5 className="font-medium">Opção 1: Adicionar seu email como usuário de teste</h5>
+              <ol className="list-decimal list-inside space-y-1 text-sm pl-4">
+                <li>Acesse o <strong>OAuth Consent Screen</strong> no Google Cloud Console</li>
+                <li>Vá para a seção <strong>"Test users"</strong></li>
+                <li>Clique em <strong>"ADD USERS"</strong></li>
+                <li>Adicione seu email e salve</li>
+              </ol>
+            </div>
+
+            <div className="space-y-2">
+              <h5 className="font-medium">Opção 2: Publicar o app (Recomendado)</h5>
+              <ol className="list-decimal list-inside space-y-1 text-sm pl-4">
+                <li>No <strong>OAuth Consent Screen</strong>, clique em <strong>"PUBLISH APP"</strong></li>
+                <li>Confirme que quer tornar o app público</li>
+                <li>O app ficará disponível para qualquer usuário Google</li>
+              </ol>
+            </div>
+          </div>
+
+          <Button 
+            onClick={() => openUrl('https://console.cloud.google.com/apis/credentials/consent')}
+            className="w-full"
+          >
+            Configurar OAuth Consent Screen
+            <ExternalLink className="w-4 h-4 ml-2" />
+          </Button>
+        </CardContent>
+      </Card>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>Passo a Passo Completo</CardTitle>
         </CardHeader>
         <CardContent>
           <ol className="list-decimal list-inside space-y-3 text-sm">
             <li><strong>Acesse o Google Cloud Console</strong> e selecione seu projeto</li>
-            <li><strong>Vá para "APIs & Services" → "Credentials"</strong></li>
-            <li><strong>Selecione ou crie um OAuth 2.0 Client ID</strong> do tipo "Web application"</li>
-            <li><strong>Em "Authorized JavaScript origins"</strong>, adicione as URLs do projeto</li>
-            <li><strong>Em "Authorized redirect URIs"</strong>, adicione a URL de callback do Supabase</li>
-            <li><strong>Configure o OAuth Consent Screen</strong> com os domínios autorizados</li>
-            <li><strong>Copie Client ID e Client Secret</strong> para o Supabase</li>
+            <li><strong>Configure o OAuth Consent Screen PRIMEIRO:</strong>
+              <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                <li>Vá para "APIs & Services" → "OAuth consent screen"</li>
+                <li>Escolha "External" e preencha as informações obrigatórias</li>
+                <li>Adicione domínio autorizado: <code>ehjpdcbyoqaoazknymbj.supabase.co</code></li>
+                <li>Publique o app ou adicione usuários de teste</li>
+              </ul>
+            </li>
+            <li><strong>Crie as credenciais OAuth:</strong>
+              <ul className="list-disc list-inside ml-4 mt-1 space-y-1">
+                <li>Vá para "APIs & Services" → "Credentials"</li>
+                <li>Crie OAuth 2.0 Client ID do tipo "Web application"</li>
+                <li>Configure as URLs conforme mostrado acima</li>
+              </ul>
+            </li>
+            <li><strong>Configure no Supabase</strong> com Client ID e Secret</li>
             <li><strong>Teste o login</strong> após salvar as configurações</li>
           </ol>
         </CardContent>
