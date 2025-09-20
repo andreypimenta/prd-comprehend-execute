@@ -73,6 +73,42 @@ export type Database = {
           },
         ]
       }
+      checkin_reminders: {
+        Row: {
+          created_at: string
+          email_notifications: boolean
+          id: string
+          is_active: boolean
+          next_checkin_date: string
+          push_notifications: boolean
+          reminder_frequency: number
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email_notifications?: boolean
+          id?: string
+          is_active?: boolean
+          next_checkin_date: string
+          push_notifications?: boolean
+          reminder_frequency?: number
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email_notifications?: boolean
+          id?: string
+          is_active?: boolean
+          next_checkin_date?: string
+          push_notifications?: boolean
+          reminder_frequency?: number
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       recommendations: {
         Row: {
           confidence: number
@@ -308,6 +344,72 @@ export type Database = {
         }
         Relationships: []
       }
+      weekly_checkins: {
+        Row: {
+          checkin_date: string
+          created_at: string
+          custom_symptoms: Json | null
+          energy_level: number | null
+          exercise_frequency: number | null
+          fatigue_level: number | null
+          focus_level: number | null
+          id: string
+          mood_level: number | null
+          notes: string | null
+          overall_compliance_percentage: number | null
+          side_effects: string | null
+          sleep_quality: number | null
+          stress_level: number | null
+          supplement_adherence: Json | null
+          updated_at: string
+          user_id: string
+          week_number: number
+          weight: number | null
+        }
+        Insert: {
+          checkin_date?: string
+          created_at?: string
+          custom_symptoms?: Json | null
+          energy_level?: number | null
+          exercise_frequency?: number | null
+          fatigue_level?: number | null
+          focus_level?: number | null
+          id?: string
+          mood_level?: number | null
+          notes?: string | null
+          overall_compliance_percentage?: number | null
+          side_effects?: string | null
+          sleep_quality?: number | null
+          stress_level?: number | null
+          supplement_adherence?: Json | null
+          updated_at?: string
+          user_id: string
+          week_number: number
+          weight?: number | null
+        }
+        Update: {
+          checkin_date?: string
+          created_at?: string
+          custom_symptoms?: Json | null
+          energy_level?: number | null
+          exercise_frequency?: number | null
+          fatigue_level?: number | null
+          focus_level?: number | null
+          id?: string
+          mood_level?: number | null
+          notes?: string | null
+          overall_compliance_percentage?: number | null
+          side_effects?: string | null
+          sleep_quality?: number | null
+          stress_level?: number | null
+          supplement_adherence?: Json | null
+          updated_at?: string
+          user_id?: string
+          week_number?: number
+          weight?: number | null
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
@@ -316,6 +418,10 @@ export type Database = {
       get_current_user_id: {
         Args: Record<PropertyKey, never>
         Returns: string
+      }
+      get_current_week_number: {
+        Args: { user_id: string }
+        Returns: number
       }
     }
     Enums: {
