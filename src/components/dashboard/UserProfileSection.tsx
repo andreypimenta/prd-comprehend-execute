@@ -5,10 +5,12 @@ import { CircularProgress } from "@/components/ui/circular-progress"
 import { useUserProfile } from "@/hooks/useUserProfile"
 import { useSelectedSupplements } from "@/hooks/useSelectedSupplements"
 import { useCheckin } from "@/hooks/useCheckin"
+import { useAuth } from "@/contexts/AuthContext"
 import { User, TrendingUp, Pill, Calendar, DollarSign } from "lucide-react"
 import { useState } from "react"
 
 export function UserProfileSection() {
+  const { user } = useAuth()
   const { profile, loading: profileLoading } = useUserProfile()
   const { selectedSupplements, loading: supplementsLoading } = useSelectedSupplements()
   const { getProgressSummary, loading: checkinLoading } = useCheckin()
@@ -55,7 +57,7 @@ export function UserProfileSection() {
             />
           </div>
           <CardTitle className="text-xl font-bold text-card-foreground">
-            Your Plan Statistics
+            {user?.user_metadata?.name || user?.email?.split('@')[0] || 'Your'} Plan Statistics
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
