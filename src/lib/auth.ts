@@ -201,7 +201,7 @@ function getAppUrl(): string {
     return window.location.origin;
   }
   // Fallback for server-side rendering - use the actual preview URL
-  return 'https://8594051b-3005-4567-a5cf-abaa6c55c493.sandbox.lovable.dev';
+  return 'https://8594051b-3005-4567-a5cf-abaa6c55c493.lovableproject.com';
 }
 
 // Helper function to get confirmation redirect URL
