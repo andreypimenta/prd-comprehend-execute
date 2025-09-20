@@ -6,6 +6,7 @@ import { Routes, Route } from "react-router-dom";
 import { ProtectedRoute } from "@/components/auth/ProtectedRoute";
 import { ConfirmationPage } from "@/components/auth/ConfirmationPage";
 import SupabaseConfig from "./pages/SupabaseConfig";
+import GoogleOAuthSetup from "./pages/GoogleOAuthSetup";
 import Index from "./pages/Index";
 import Login from "./pages/Login";
 import Register from "./pages/Register";
@@ -28,6 +29,7 @@ const App = () => (
         <Route path="/register" element={<Register />} />
         <Route path="/confirm" element={<ConfirmationPage />} />
         <Route path="/supabase-config" element={<SupabaseConfig />} />
+        <Route path="/google-oauth-setup" element={<GoogleOAuthSetup />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
             <Dashboard />

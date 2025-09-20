@@ -137,11 +137,28 @@ export function LoginForm() {
       });
       
       if (error) {
-        toast({
-          title: "Erro no login",
-          description: error.message,
-          variant: "destructive",
-        });
+        if (error.message.includes("provider is not enabled")) {
+          toast({
+            title: "Google OAuth não configurado",
+            description: "Configure o Google OAuth no Supabase.",
+            variant: "destructive",
+            action: (
+              <Button 
+                variant="outline" 
+                size="sm" 
+                onClick={() => window.open('/google-oauth-setup', '_blank')}
+              >
+                Configurar
+              </Button>
+            ),
+          });
+        } else {
+          toast({
+            title: "Erro no login",
+            description: error.message,
+            variant: "destructive",
+          });
+        }
       }
     } catch (error) {
       toast({
