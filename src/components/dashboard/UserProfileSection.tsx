@@ -57,7 +57,7 @@ export function UserProfileSection() {
             />
           </div>
           <CardTitle className="text-xl font-bold text-card-foreground">
-            {user?.user_metadata?.name || user?.email?.split('@')[0] || 'Your'} Plan Statistics
+            {user?.user_metadata?.name || user?.email?.split('@')[0] || 'User'}
           </CardTitle>
         </CardHeader>
         <CardContent className="space-y-6">
