@@ -20,6 +20,9 @@ import Progress from "./pages/Progress";
 import Showcase from "./pages/Showcase";
 import NotFound from "./pages/NotFound";
 
+// Force dark mode for the reference design
+document.documentElement.classList.add('dark');
+
 const queryClient = new QueryClient();
 
 const App = () => (
