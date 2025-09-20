@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
 import { WeeklyCheckin, CheckinFormData, ProgressSummary, TrendData } from '@/types/checkin';
 import { toast } from 'sonner';
+import { calculateCheckinMetrics, generateInsights, analyzeTrends, formatWeekNumber, getWeekNumber, calculateComplianceScore, calculateWellbeingScore } from '@/lib/checkin-utils';
 
 export const useCheckin = () => {
   const [currentCheckin, setCurrentCheckin] = useState<WeeklyCheckin | null>(null);
@@ -99,6 +100,10 @@ export const useCheckin = () => {
       const week = getWeekNumber(now);
       const weekFormatted = `${year}-W${week.toString().padStart(2, '0')}`;
 
+      // Calculate metrics for the check-in
+      const wellbeingScore = calculateWellbeingScore(formData.wellbeing);
+      const complianceScore = calculateComplianceScore(formData.compliance);
+      
       const checkinData = {
         user_id: user.user.id,
         week_number: getWeekNumber(now),
@@ -108,6 +113,11 @@ export const useCheckin = () => {
         compliance: formData.compliance,
         feedback: formData.feedback,
         overall_compliance_percentage: overallCompliance,
+        metrics: {
+          wellbeingScore,
+          complianceScore,
+          overallImprovement: 50, // Neutral starting point, will be calculated with trends over time
+        },
         notes: formData.notes,
         side_effects: formData.side_effects,
         weight: formData.weight,
@@ -144,24 +154,42 @@ export const useCheckin = () => {
   const getProgressSummary = (): ProgressSummary | null => {
     if (checkinHistory.length === 0) return null;
 
-    const recentCheckins = checkinHistory.slice(0, 4);
     const avgCompliance = checkinHistory.reduce((sum, c) => 
       sum + (c.overall_compliance_percentage || 0), 0) / checkinHistory.length;
+
+    const trends = analyzeTrends(checkinHistory);
+    const metrics = calculateCheckinMetrics(checkinHistory);
+    const insights = generateInsights(checkinHistory);
+
+    // Extract improvements and concerns from recent feedback
+    const recentFeedback = checkinHistory
+      .slice(0, 3)
+      .map(c => c.feedback)
+      .filter(f => f);
+
+    const recent_improvements = recentFeedback
+      .flatMap(f => f?.positiveChanges || [])
+      .slice(0, 3);
+
+    const areas_of_concern = recentFeedback
+      .flatMap(f => f?.concerns || [])
+      .concat(metrics.areas_needing_attention)
+      .slice(0, 3);
 
     return {
       current_week: currentWeek,
       total_checkins: checkinHistory.length,
       average_compliance: avgCompliance,
       symptom_trends: {
-        fatigue_trend: 'stable',
-        energy_trend: 'stable',
-        mood_trend: 'stable',
-        sleep_trend: 'stable',
-        stress_trend: 'stable',
-        focus_trend: 'stable',
+        fatigue_trend: trends.wellbeing || 'stable',
+        energy_trend: trends.wellbeing || 'stable',
+        mood_trend: trends.wellbeing || 'stable',
+        sleep_trend: trends.wellbeing || 'stable',
+        stress_trend: trends.compliance || 'stable',
+        focus_trend: trends.wellbeing || 'stable',
       },
-      recent_improvements: [],
-      areas_of_concern: [],
+      recent_improvements,
+      areas_of_concern,
     };
   };
 
