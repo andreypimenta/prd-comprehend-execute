@@ -271,7 +271,7 @@ const Index = () => {
           <p className="text-xl text-gray-400 mb-12">
             Junte-se a milhares que descobriram o poder da suplementação inteligente com IA.
           </p>
-          <Link to="/onboarding" className="btn-minimalist">
+          <Link to="/register" className="btn-minimalist">
             Começar Agora - É Grátis
           </Link>
         </div>

@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useEffect, useState, ReactNode } from 'react';
 import { toast } from 'sonner';
+import { useNavigate } from 'react-router-dom';
 import { supabase } from '@/integrations/supabase/client';
 import type { User as SupabaseUser, Session as SupabaseSession } from '@supabase/supabase-js';
 
@@ -20,6 +21,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = React.useState<SupabaseUser | null>(null);
   const [session, setSession] = React.useState<SupabaseSession | null>(null);
   const [isLoading, setIsLoading] = React.useState(true);
+  const navigate = useNavigate();
 
   React.useEffect(() => {
     console.log("🔐 AuthContext: Inicializando autenticação...");
@@ -32,6 +34,13 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         setUser(supabaseSession?.user ?? null);
         setSession(supabaseSession ?? null);
         setIsLoading(false);
+
+        // Handle post-authentication navigation
+        if (event === 'SIGNED_IN' && supabaseSession?.user) {
+          setTimeout(() => {
+            checkUserProfileAndRedirect(supabaseSession.user.id);
+          }, 0);
+        }
       }
     );
 
@@ -45,6 +54,28 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
     return () => subscription.unsubscribe();
   }, []);
+
+  const checkUserProfileAndRedirect = async (userId: string) => {
+    try {
+      // Check if user has completed profile (onboarding)
+      const { data: profile } = await supabase
+        .from('user_profiles')
+        .select('*')
+        .eq('user_id', userId)
+        .single();
+
+      if (profile) {
+        // User has completed onboarding, go to dashboard
+        navigate('/dashboard');
+      } else {
+        // User needs to complete onboarding
+        navigate('/onboarding');
+      }
+    } catch (error) {
+      // If no profile or error, assume onboarding is needed
+      navigate('/onboarding');
+    }
+  };
 
   const signIn = async (email: string, password: string) => {
     try {
