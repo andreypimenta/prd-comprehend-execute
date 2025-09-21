@@ -1,8 +1,7 @@
 import { RegisterForm } from "@/components/auth/RegisterForm";
 import { Link } from "react-router-dom";
-import { Zap, ArrowLeft, Sparkles, Target, TrendingUp } from "lucide-react";
+import { Zap, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import ScrambleText from "@/components/ui/scramble-text";
 
 export default function Register() {
   return (
@@ -18,91 +17,50 @@ export default function Register() {
               </Link>
             </Button>
           </div>
-
-          {/* LoL Branding */}
-          <div className="text-center mb-8">
-            <div className="mb-4">
-              <h1 className="lol-static text-6xl md:text-7xl font-bold">
-                <ScrambleText 
-                  text="lol" 
-                  isActive={false}
-                />
-              </h1>
-              <p className="life-on-labs text-sm tracking-widest uppercase opacity-80 mt-2">
-                Life on Labs
-              </p>
-            </div>
-          </div>
-
           <RegisterForm />
         </div>
       </div>
 
       {/* Right side - Hero Section */}
       <div className="hidden lg:flex flex-1 items-center justify-center p-8 bg-gradient-to-br from-primary/10 via-primary-glow/10 to-accent/10 relative overflow-hidden">
-        <div className="text-center z-10 max-w-lg">
-          <div className="mb-8">
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-primary to-primary-glow shadow-glow">
-                <Zap className="h-8 w-8 text-white" />
-              </div>
+        <div className="text-center z-10">
+          <div className="flex items-center justify-center gap-3 mb-6">
+            <div className="flex h-16 w-16 items-center justify-center rounded-2xl bg-gradient-to-r from-primary to-primary-glow shadow-glow">
+              <Zap className="h-8 w-8 text-white" />
             </div>
-            
-            <h2 className="text-3xl font-bold text-foreground mb-4">
-              Comece sua jornada hoje!
-            </h2>
-            
-            <p className="text-lg text-muted-foreground mb-8 leading-relaxed max-w-md mx-auto">
-              Junte-se a milhares de pessoas que já descobriram os suplementos 
-              ideais com nossa inteligência artificial avançada.
-            </p>
+            <h1 className="text-4xl font-bold bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent">
+              LoL Engine
+            </h1>
           </div>
+          
+          <h2 className="text-2xl font-bold text-foreground mb-4">
+            Comece sua jornada hoje!
+          </h2>
+          
+          <p className="text-lg text-muted-foreground mb-8 max-w-md">
+            A plataforma inteligente que usa IA para recomendar os suplementos ideais 
+            para seus objetivos de fitness e saúde.
+          </p>
 
-          <div className="grid grid-cols-1 gap-4 max-w-md mx-auto">
+          <div className="grid grid-cols-1 gap-4 max-w-sm mx-auto">
             <div className="flex items-center gap-3 p-4 rounded-lg bg-background/50 backdrop-blur-sm border border-border/50">
               <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary to-primary-glow flex items-center justify-center">
-                <Sparkles className="h-5 w-5 text-white" />
+                <span className="text-white font-semibold">AI</span>
               </div>
               <div className="text-left">
-                <p className="font-semibold text-sm">Análise Personalizada</p>
-                <p className="text-xs text-muted-foreground">Baseada no seu perfil único</p>
+                <p className="font-semibold text-sm">Recomendações Inteligentes</p>
+                <p className="text-xs text-muted-foreground">Powered by IA</p>
               </div>
             </div>
             
             <div className="flex items-center gap-3 p-4 rounded-lg bg-background/50 backdrop-blur-sm border border-border/50">
               <div className="h-10 w-10 rounded-full bg-gradient-to-r from-accent to-primary-glow flex items-center justify-center">
-                <TrendingUp className="h-5 w-5 text-white" />
+                <span className="text-white font-semibold">🎯</span>
               </div>
               <div className="text-left">
-                <p className="font-semibold text-sm">Resultados Rápidos</p>
-                <p className="text-xs text-muted-foreground">Recomendações em segundos</p>
+                <p className="font-semibold text-sm">Objetivos Personalizados</p>
+                <p className="text-xs text-muted-foreground">Para seus resultados</p>
               </div>
-            </div>
-
-            <div className="flex items-center gap-3 p-4 rounded-lg bg-background/50 backdrop-blur-sm border border-border/50">
-              <div className="h-10 w-10 rounded-full bg-gradient-to-r from-primary-glow to-accent flex items-center justify-center">
-                <Target className="h-5 w-5 text-white" />
-              </div>
-              <div className="text-left">
-                <p className="font-semibold text-sm">Maximize seus Ganhos</p>
-                <p className="text-xs text-muted-foreground">Otimize seus resultados</p>
-              </div>
-            </div>
-          </div>
-
-          {/* Stats Section */}
-          <div className="mt-8 grid grid-cols-3 gap-4">
-            <div className="text-center">
-              <div className="text-xl font-bold text-foreground mb-1">10K+</div>
-              <div className="text-xs text-muted-foreground">Usuários ativos</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl font-bold text-foreground mb-1">95%</div>
-              <div className="text-xs text-muted-foreground">Satisfação</div>
-            </div>
-            <div className="text-center">
-              <div className="text-xl font-bold text-foreground mb-1">24/7</div>
-              <div className="text-xs text-muted-foreground">Suporte</div>
             </div>
           </div>
         </div>
