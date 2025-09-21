@@ -24,7 +24,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
       <AppSidebar />
       <SidebarInset>
         {/* Header */}
-        <header className="flex h-16 shrink-0 items-center justify-between px-6 bg-background border-b border-border">
+        <header className="flex h-16 shrink-0 items-center justify-between pl-2 pr-6 bg-background border-b border-border">
           {/* Horizontal Navigation */}
           <nav className="flex items-center space-x-8">
             {navigationItems.map((item) => (
@@ -55,7 +55,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 p-0 max-w-none w-full">
+        <div className="flex-1 max-w-none w-full">
           {children}
         </div>
       </SidebarInset>
