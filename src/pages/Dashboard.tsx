@@ -8,14 +8,14 @@ export default function Dashboard() {
     <AppLayout title="Dashboard">
       <div className="min-h-screen w-full max-w-none bg-background">
         {/* Three Column Layout with Visible Border and Rounded Corners */}
-        <div className="grid lg:grid-cols-12 gap-8 p-8 mx-6 my-4 border-2 border-border rounded-2xl bg-card/50 backdrop-blur-sm shadow-lg">
-          {/* Left Column - User Profile & Statistics (4 columns) */}
-          <div className="lg:col-span-4 flex h-full">
+        <div className="grid lg:grid-cols-12 gap-8 p-8 ml-2 mr-6 my-4 border-2 border-border rounded-2xl bg-card/50 backdrop-blur-sm shadow-lg">
+          {/* Left Column - User Profile & Statistics (5 columns - increased width) */}
+          <div className="lg:col-span-5 flex h-full">
             <UserProfileSection />
           </div>
 
-          {/* Center Column - Plan Documents & Details (5 columns) */}
-          <div className="lg:col-span-5 flex h-full">
+          {/* Center Column - Plan Documents & Details (4 columns - reduced) */}
+          <div className="lg:col-span-4 flex h-full">
             <PlanDocumentsSection />
           </div>
 
