@@ -23,9 +23,9 @@ export function CalendarActionsSection() {
   }
 
   return (
-    <div className="space-y-6">
+    <div className="w-full h-full flex flex-col min-h-[650px] space-y-6">
       {/* User Profile Card */}
-      <Card className="bg-card border border-border shadow-sm">
+      <Card className="bg-card border border-border shadow-sm flex-shrink-0">
         <CardContent className="p-4">
           <div className="flex items-center justify-between">
             <div className="flex items-center space-x-3">
@@ -50,13 +50,13 @@ export function CalendarActionsSection() {
       </Card>
 
       {/* Calendar with Check-in Dates */}
-      <Card className="bg-card border border-border shadow-sm">
-        <CardContent className="p-4">
+      <Card className="bg-card border border-border shadow-sm flex-1">
+        <CardContent className="p-4 h-full flex flex-col">
           <Calendar
             mode="single"
             selected={selectedDate}
             onSelect={setSelectedDate}
-            className="rounded-md border-0"
+            className="rounded-md border-0 flex-1"
             modifiers={{
               checkin: checkinHistory?.map(c => new Date(c.checkin_date)) || []
             }}
@@ -90,7 +90,7 @@ export function CalendarActionsSection() {
       </Card>
 
       {/* Complete Check-in Button */}
-      <Button className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 rounded-full flex items-center justify-center gap-2">
+      <Button className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 rounded-full flex items-center justify-center gap-2 flex-shrink-0">
         <Activity className="h-4 w-4" />
         {checkinHistory?.some(c => 
           new Date(c.checkin_date).toDateString() === new Date().toDateString()
@@ -98,7 +98,7 @@ export function CalendarActionsSection() {
       </Button>
 
       {/* Health Reminders */}
-      <Card className="bg-card border border-border shadow-sm">
+      <Card className="bg-card border border-border shadow-sm flex-shrink-0">
         <CardHeader className="pb-3">
           <div className="flex items-center justify-between">
             <CardTitle className="text-base font-semibold text-card-foreground">

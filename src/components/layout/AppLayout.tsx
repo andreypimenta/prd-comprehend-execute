@@ -55,7 +55,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 p-0">
+        <div className="flex-1 p-0 max-w-none w-full">
           {children}
         </div>
       </SidebarInset>

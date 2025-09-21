@@ -80,99 +80,97 @@ export function PlanDocumentsSection() {
   }
 
   return (
-    <div className="space-y-6">
-      <Card className="bg-card border border-border shadow-sm">
-        <CardHeader className="pb-4">
-          <CardTitle className="text-lg font-semibold text-card-foreground">
-            Your Supplement Journey
-          </CardTitle>
-        </CardHeader>
-        <CardContent className="space-y-6">
-          {/* Active Supplement Plan Card - Turquoise */}
-          <Card className="bg-cyan-400 text-cyan-950 border-0 relative overflow-hidden">
-            <div className="absolute top-4 right-4">
-              <ArrowUpRight className="h-5 w-5 text-cyan-950" />
+    <Card className="w-full h-full bg-card border border-border shadow-sm min-h-[650px] flex flex-col">
+      <CardHeader className="pb-4 flex-shrink-0">
+        <CardTitle className="text-lg font-semibold text-card-foreground">
+          Your Supplement Journey
+        </CardTitle>
+      </CardHeader>
+      <CardContent className="flex-1 flex flex-col space-y-6">
+        {/* Active Supplement Plan Card - Turquoise */}
+        <Card className="bg-cyan-400 text-cyan-950 border-0 relative overflow-hidden">
+          <div className="absolute top-4 right-4">
+            <ArrowUpRight className="h-5 w-5 text-cyan-950" />
+          </div>
+          <CardContent className="p-6">
+            <div className="space-y-4">
+              <div className="flex items-center gap-2">
+                <Badge variant="secondary" className="bg-cyan-950 text-cyan-400 hover:bg-cyan-950">
+                  {activeSupplements.length} Active
+                </Badge>
+              </div>
+              <div>
+                <h3 className="text-lg font-semibold text-cyan-950">
+                  Active Supplement Plan
+                </h3>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between text-sm font-medium text-cyan-950">
+                  <span>Started {activeSupplements.length}</span>
+                  <span>Total {totalRecommendations} recommended</span>
+                </div>
+                <div className="h-2 bg-cyan-950/20 rounded-full overflow-hidden">
+                  <div 
+                    className="h-full bg-cyan-950 transition-all duration-300"
+                    style={{ width: `${totalRecommendations > 0 ? (activeSupplements.length / totalRecommendations) * 100 : 0}%` }}
+                  />
+                </div>
+              </div>
             </div>
-            <CardContent className="p-6">
-              <div className="space-y-4">
-                <div className="flex items-center gap-2">
-                  <Badge variant="secondary" className="bg-cyan-950 text-cyan-400 hover:bg-cyan-950">
-                    {activeSupplements.length} Active
-                  </Badge>
+          </CardContent>
+        </Card>
+
+        {/* Health Data Overview */}
+        <Card className="bg-card border-border flex-1">
+          <CardHeader className="pb-3">
+            <CardTitle className="text-base font-semibold text-card-foreground">
+              Health Overview
+            </CardTitle>
+          </CardHeader>
+          <CardContent className="space-y-3">
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <Activity className="h-4 w-4 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-semibold text-cyan-950">
-                    Active Supplement Plan
-                  </h3>
-                </div>
-                <div className="space-y-2">
-                  <div className="flex justify-between text-sm font-medium text-cyan-950">
-                    <span>Started {activeSupplements.length}</span>
-                    <span>Total {totalRecommendations} recommended</span>
-                  </div>
-                  <div className="h-2 bg-cyan-950/20 rounded-full overflow-hidden">
-                    <div 
-                      className="h-full bg-cyan-950 transition-all duration-300"
-                      style={{ width: `${totalRecommendations > 0 ? (activeSupplements.length / totalRecommendations) * 100 : 0}%` }}
-                    />
-                  </div>
+                  <div className="font-medium text-sm text-card-foreground">Recent Check-ins</div>
+                  <div className="text-xs text-muted-foreground">{checkinHistory?.length || 0} completed</div>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Health Data Overview */}
-          <Card className="bg-card border-border">
-            <CardHeader className="pb-3">
-              <CardTitle className="text-base font-semibold text-card-foreground">
-                Health Overview
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="space-y-3">
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                    <Activity className="h-4 w-4 text-primary" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-sm text-card-foreground">Recent Check-ins</div>
-                    <div className="text-xs text-muted-foreground">{checkinHistory?.length || 0} completed</div>
-                  </div>
+              <div className="text-xs text-muted-foreground">
+                {checkinHistory?.[0]?.checkin_date ? new Date(checkinHistory[0].checkin_date).toLocaleDateString() : '-'}
+              </div>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
+                  <Target className="h-4 w-4 text-secondary" />
                 </div>
-                <div className="text-xs text-muted-foreground">
-                  {checkinHistory?.[0]?.checkin_date ? new Date(checkinHistory[0].checkin_date).toLocaleDateString() : '-'}
+                <div>
+                  <div className="font-medium text-sm text-card-foreground">Health Goals</div>
+                  <div className="text-xs text-muted-foreground">{profile?.health_goals?.length || 0} active goals</div>
                 </div>
               </div>
-              
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-secondary/10 flex items-center justify-center">
-                    <Target className="h-4 w-4 text-secondary" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-sm text-card-foreground">Health Goals</div>
-                    <div className="text-xs text-muted-foreground">{profile?.health_goals?.length || 0} active goals</div>
-                  </div>
+              <div className="text-xs text-muted-foreground">Active</div>
+            </div>
+            
+            <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
+              <div className="flex items-center gap-3">
+                <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
+                  <Heart className="h-4 w-4 text-accent" />
                 </div>
-                <div className="text-xs text-muted-foreground">Active</div>
-              </div>
-              
-              <div className="flex items-center justify-between p-3 rounded-lg bg-muted/50 hover:bg-muted/70 transition-colors">
-                <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 rounded-lg bg-accent/10 flex items-center justify-center">
-                    <Heart className="h-4 w-4 text-accent" />
-                  </div>
-                  <div>
-                    <div className="font-medium text-sm text-card-foreground">Current Symptoms</div>
-                    <div className="text-xs text-muted-foreground">{profile?.symptoms?.length || 0} monitored</div>
-                  </div>
+                <div>
+                  <div className="font-medium text-sm text-card-foreground">Current Symptoms</div>
+                  <div className="text-xs text-muted-foreground">{profile?.symptoms?.length || 0} monitored</div>
                 </div>
-                <div className="text-xs text-muted-foreground">Tracking</div>
               </div>
-            </CardContent>
-          </Card>
-        </CardContent>
-      </Card>
-    </div>
+              <div className="text-xs text-muted-foreground">Tracking</div>
+            </div>
+          </CardContent>
+        </Card>
+      </CardContent>
+    </Card>
   );
 }
