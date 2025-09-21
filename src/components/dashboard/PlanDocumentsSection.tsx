@@ -80,7 +80,7 @@ export function PlanDocumentsSection() {
   }
 
   return (
-    <Card className="w-full h-full bg-card border border-border shadow-sm min-h-[650px] flex flex-col">
+    <Card className="w-full h-full bg-card border border-border shadow-sm flex flex-col">
       <CardHeader className="pb-4 flex-shrink-0">
         <CardTitle className="text-lg font-semibold text-card-foreground">
           Your Supplement Journey

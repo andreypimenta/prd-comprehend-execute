@@ -41,7 +41,7 @@ export function UserProfileSection() {
   }
 
   return (
-    <Card className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 border-none shadow-lg rounded-2xl overflow-hidden min-h-[650px] max-w-none flex flex-col">
+    <Card className="w-full h-full bg-gradient-to-br from-gray-800 to-gray-900 border-none shadow-lg rounded-2xl overflow-hidden max-w-none flex flex-col">
       <CardContent className="p-0 h-full flex flex-col relative">
         {/* Decorative Squares - Top left */}
         <div className="absolute left-6 top-6 space-y-3 z-30">

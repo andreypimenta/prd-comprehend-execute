@@ -42,8 +42,8 @@ const App = () => (
         <Route path="/google-oauth-diagnostic" element={<GoogleOAuthDiagnostic />} />
         <Route path="/dashboard" element={
           <ProtectedRoute>
-            <SidebarProvider defaultOpen={false}>
-              <div className="min-h-screen flex w-full">
+        <SidebarProvider defaultOpen={false}>
+          <div className="min-h-screen flex w-full">
                 <Dashboard />
               </div>
             </SidebarProvider>

@@ -23,7 +23,7 @@ export function CalendarActionsSection() {
   }
 
   return (
-    <div className="w-full h-full flex flex-col min-h-[650px] space-y-6">
+    <div className="w-full h-full flex flex-col space-y-6">
       {/* User Profile Card */}
       <Card className="bg-card border border-border shadow-sm flex-shrink-0">
         <CardContent className="p-4">
