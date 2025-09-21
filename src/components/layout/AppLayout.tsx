@@ -22,7 +22,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
   return (
     <>
       <AppSidebar />
-      <SidebarInset className="ml-0 mr-0 mt-0 mb-0 p-0">
+      <SidebarInset className="flex-1">
         {/* Header */}
         <header className="flex h-16 shrink-0 items-center justify-between pl-2 pr-6 bg-background border-b border-border">
           {/* Horizontal Navigation */}

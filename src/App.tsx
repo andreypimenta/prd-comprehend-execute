@@ -31,46 +31,64 @@ const App = () => (
     <TooltipProvider>
       <Toaster />
       <Sonner />
-      <SidebarProvider>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/logout" element={<LogoutTrigger />} />
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          <Route path="/confirm" element={<ConfirmationPage />} />
-          <Route path="/supabase-config" element={<SupabaseConfig />} />
-          <Route path="/google-oauth-setup" element={<GoogleOAuthSetup />} />
-          <Route path="/google-oauth-diagnostic" element={<GoogleOAuthDiagnostic />} />
-          <Route path="/dashboard" element={
-            <ProtectedRoute>
-              <Dashboard />
-            </ProtectedRoute>
-          } />
-          <Route path="/onboarding" element={
-            <ProtectedRoute>
-              <Onboarding />
-            </ProtectedRoute>
-          } />
-          <Route path="/results" element={
-            <ProtectedRoute>
-              <Results />
-            </ProtectedRoute>
-          } />
-          <Route path="/checkin" element={
-            <ProtectedRoute>
-              <Checkin />
-            </ProtectedRoute>
-          } />
-          <Route path="/progress" element={
-            <ProtectedRoute>
-              <Progress />
-            </ProtectedRoute>
-          } />
-          <Route path="/showcase" element={<Showcase />} />
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </SidebarProvider>
+      <Routes>
+        <Route path="/" element={<Index />} />
+        <Route path="/logout" element={<LogoutTrigger />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
+        <Route path="/confirm" element={<ConfirmationPage />} />
+        <Route path="/supabase-config" element={<SupabaseConfig />} />
+        <Route path="/google-oauth-setup" element={<GoogleOAuthSetup />} />
+        <Route path="/google-oauth-diagnostic" element={<GoogleOAuthDiagnostic />} />
+        <Route path="/dashboard" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Dashboard />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/onboarding" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Onboarding />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/results" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Results />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/checkin" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Checkin />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/progress" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Progress />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/showcase" element={<Showcase />} />
+        {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
+        <Route path="*" element={<NotFound />} />
+      </Routes>
     </TooltipProvider>
   </QueryClientProvider>
 );
