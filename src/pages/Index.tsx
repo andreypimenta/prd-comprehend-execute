@@ -139,7 +139,7 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 mb-24">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 mb-40">
             <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold shadow-lg">
               Começar Análise Gratuita
             </Button>
@@ -150,7 +150,7 @@ const Index = () => {
         </div>
         
         {/* Scroll Indicator */}
-        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown className="w-8 h-8 text-white opacity-50" />
         </div>
       </section>
