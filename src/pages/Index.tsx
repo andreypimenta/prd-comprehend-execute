@@ -124,7 +124,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
-        <div className="text-center space-y-6 px-4 mt-40">
+        <div className="text-center space-y-6 px-4 mt-20">
           <div className="text-center">
             <h1 ref={lolRef} className="lol-static mb-2">
               <ScrambleText text="lol" isActive={hasScrolled} />
@@ -150,7 +150,7 @@ const Index = () => {
         </div>
         
         {/* Scroll Indicator */}
-        <div className="absolute bottom-16 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown className="w-8 h-8 text-white opacity-50" />
         </div>
       </section>
