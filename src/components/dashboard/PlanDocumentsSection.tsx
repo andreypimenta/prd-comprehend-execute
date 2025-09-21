@@ -6,7 +6,7 @@ import { useSelectedSupplements } from "@/hooks/useSelectedSupplements";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { supabase } from "@/integrations/supabase/client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { ArrowUpRight, Calendar, TrendingUp, Plus, Target, Activity, Heart, FileText } from "lucide-react";
 import { Button } from "@/components/ui/button";
 
@@ -24,7 +24,11 @@ export function PlanDocumentsSection() {
   const [totalRecommendations, setTotalRecommendations] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  const activeSupplements = selectedSupplements?.filter(s => s.is_active) || [];
+  // Memoize activeSupplements to prevent infinite re-renders
+  const activeSupplements = useMemo(() => {
+    return selectedSupplements?.filter(s => s.is_active) || [];
+  }, [selectedSupplements]);
+  
   const progressSummary = getProgressSummary();
 
   useEffect(() => {
@@ -64,7 +68,7 @@ export function PlanDocumentsSection() {
     };
 
     fetchSupplementDetails();
-  }, [activeSupplements, selectionsLoading]);
+  }, [activeSupplements.length, selectionsLoading]); // Use activeSupplements.length instead of the array itself
 
   if (selectionsLoading || loading) {
     return (

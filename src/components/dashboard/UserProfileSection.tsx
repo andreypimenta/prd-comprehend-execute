@@ -50,21 +50,20 @@ export function UserProfileSection() {
           <div className="w-5 h-5 bg-black rounded-sm shadow-lg opacity-60 transition-all duration-300 hover:scale-110" />
         </div>
         
-        {/* Photo positioned top-right, full height */}
+        {/* Photo positioned top-right, full height - Fixed transparency */}
         <div className="absolute top-0 right-0 bottom-0 w-1/2 overflow-hidden rounded-r-2xl">
-          <img 
-            src={wellnessImage} 
-            alt="User Profile" 
-            className="h-full w-full object-cover opacity-80"
-            style={{ 
-              filter: 'brightness(0.9) contrast(1.1) saturate(0.8)',
-              maskImage: 'linear-gradient(to left, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 70%, transparent 100%)'
+          <div 
+            className="h-full w-full bg-cover bg-center bg-no-repeat opacity-60"
+            style={{
+              backgroundImage: `url(${wellnessImage})`,
+              backgroundBlendMode: 'overlay',
+              backgroundColor: 'rgba(107, 114, 128, 0.8)' // gray-500 with transparency
             }}
           />
         </div>
 
-        {/* Black Card overlaid on photo, positioned near bottom */}
-        <Card className="absolute bottom-6 right-6 left-1/2 bg-black/98 border border-white/10 rounded-xl shadow-2xl backdrop-blur-sm z-20 transition-all duration-500 hover:shadow-3xl">
+        {/* Black Card overlaid on photo - Fixed positioning and visibility */}
+        <Card className="absolute bottom-8 right-8 left-6 bg-black/95 border border-white/20 rounded-xl shadow-2xl backdrop-blur-sm z-30 transition-all duration-500 hover:shadow-3xl">
           <CardContent className="p-8">
             {/* Three Enhanced Premium Charts */}
             <div className="grid grid-cols-3 gap-12 mb-8">
