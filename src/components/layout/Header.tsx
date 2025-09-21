@@ -76,12 +76,6 @@ export function Header({ onMenuClick }: HeaderProps) {
             >
               Progresso
             </Link>
-            <Link 
-              to="/showcase" 
-              className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-            >
-              Design System
-            </Link>
           </nav>
         </div>
 

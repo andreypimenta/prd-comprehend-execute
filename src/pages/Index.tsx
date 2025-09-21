@@ -95,9 +95,6 @@ const Index = () => {
             </button>
             
             <div className="hidden md:flex items-center space-x-8">
-              <button onClick={() => navigate('/showcase')} className="link-underline font-medium text-white">
-                Showcase
-              </button>
               <button onClick={() => navigate('/login')} className="link-underline font-medium text-white">
                 Entrar
               </button>
@@ -138,9 +135,6 @@ const Index = () => {
           <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 mb-40">
             <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold shadow-lg">
               Começar Análise Gratuita
-            </Button>
-            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold shadow-lg">
-              Ver Demonstração
             </Button>
           </div>
         </div>
