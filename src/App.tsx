@@ -18,7 +18,6 @@ import Onboarding from "./pages/Onboarding";
 import Results from "./pages/Results";
 import Checkin from "./pages/Checkin";
 import Progress from "./pages/Progress";
-import Showcase from "./pages/Showcase";
 import NotFound from "./pages/NotFound";
 
 // Force dark mode for the reference design
@@ -85,7 +84,6 @@ const App = () => (
             </SidebarProvider>
           </ProtectedRoute>
         } />
-        <Route path="/showcase" element={<Showcase />} />
         {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
         <Route path="*" element={<NotFound />} />
       </Routes>
