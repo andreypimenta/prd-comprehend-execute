@@ -159,7 +159,7 @@ const Index = () => {
       <WellnessGallery />
 
       {/* Features Section */}
-      <section className="py-20 sm:py-32 px-4 sm:px-6">
+      <section className="py-20 sm:py-32 px-4 sm:px-6 mt-32 sm:mt-48">
         <div className="max-w-6xl mx-auto">
           <h2 className="text-4xl md:text-6xl font-bold text-center mb-12 sm:mb-20 tracking-tight text-white">
             Por que Escolher o LoL Engine?
