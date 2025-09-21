@@ -139,18 +139,18 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-12">
-            <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-20 mb-16">
+            <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold shadow-lg">
               Começar Análise Gratuita
             </Button>
-            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold">
+            <Button onClick={() => navigate('/showcase')} variant="outline" size="lg" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground px-8 py-6 text-lg font-semibold shadow-lg">
               Ver Demonstração
             </Button>
           </div>
         </div>
         
         {/* Scroll Indicator */}
-        <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 animate-bounce">
+        <div className="absolute bottom-8 left-1/2 transform -translate-x-1/2 animate-bounce">
           <ChevronDown className="w-8 h-8 text-white opacity-50" />
         </div>
       </section>
