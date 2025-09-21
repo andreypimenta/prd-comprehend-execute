@@ -8,7 +8,7 @@ export default function Dashboard() {
     <AppLayout title="Dashboard">
       <div className="min-h-screen w-full max-w-none bg-background">
         {/* Three Column Layout with Visible Border and Rounded Corners */}
-        <div className="grid lg:grid-cols-12 gap-8 p-8 ml-2 mr-6 my-4 border-2 border-border rounded-2xl bg-card/50 backdrop-blur-sm shadow-lg">
+        <div className="grid lg:grid-cols-12 gap-8 p-8 mr-6 my-4 border-2 border-border rounded-2xl bg-card/50 backdrop-blur-sm shadow-lg">
           {/* Left Column - User Profile & Statistics (5 columns - increased width) */}
           <div className="lg:col-span-5 flex h-full">
             <UserProfileSection />
