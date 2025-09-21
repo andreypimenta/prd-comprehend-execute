@@ -50,58 +50,59 @@ export function UserProfileSection() {
           <div className="w-5 h-5 bg-black rounded-sm shadow-lg opacity-60 transition-all duration-300 hover:scale-110" />
         </div>
         
-        {/* Photo positioned top-right, full height - Fixed transparency */}
-        <div className="absolute top-0 right-0 bottom-0 w-1/2 overflow-hidden rounded-r-2xl">
+        {/* Photo positioned top-right, full height - Better visibility */}
+        <div className="absolute top-0 right-0 bottom-0 w-1/2 z-10">
           <div 
-            className="h-full w-full bg-cover bg-center bg-no-repeat opacity-60"
+            className="h-full w-full bg-cover bg-center bg-no-repeat rounded-r-2xl"
             style={{
               backgroundImage: `url(${wellnessImage})`,
-              backgroundBlendMode: 'overlay',
-              backgroundColor: 'rgba(107, 114, 128, 0.8)' // gray-500 with transparency
+              backgroundBlendMode: 'multiply',
+              backgroundColor: 'rgba(75, 85, 99, 0.7)' // gray-600 blend
             }}
           />
         </div>
 
-        {/* Black Card overlaid on photo - Fixed positioning and visibility */}
-        <Card className="absolute bottom-8 right-8 left-6 bg-black/95 border border-white/20 rounded-xl shadow-2xl backdrop-blur-sm z-30 transition-all duration-500 hover:shadow-3xl">
-          <CardContent className="p-8">
-            {/* Three Enhanced Premium Charts */}
-            <div className="grid grid-cols-3 gap-12 mb-8">
-              {/* Enhanced Progress Circle */}
-              <div className="flex flex-col items-center group animate-fade-in">
-                <div className="transition-transform duration-300 hover:scale-110">
-                  <CircularProgress
-                    value={getProfileCompleteness()}
-                    size={120}
-                    strokeWidth={8}
-                    variant="modern"
-                    showValue
-                  />
+        {/* Black Card overlaid on photo - Much better visibility */}
+        <div className="absolute bottom-6 right-4 left-4 z-40">
+          <Card className="bg-black/95 border border-white/30 rounded-xl shadow-2xl backdrop-blur-sm transition-all duration-500 hover:shadow-3xl">
+            <CardContent className="p-8">
+              {/* Three Enhanced Premium Charts */}
+              <div className="grid grid-cols-3 gap-12 mb-8">
+                {/* Enhanced Progress Circle */}
+                <div className="flex flex-col items-center group animate-fade-in">
+                  <div className="transition-transform duration-300 hover:scale-110">
+                    <CircularProgress
+                      value={getProfileCompleteness()}
+                      size={120}
+                      strokeWidth={8}
+                      variant="modern"
+                      showValue
+                    />
+                  </div>
+                </div>
+                
+                {/* Enhanced Onion Chart */}
+                <div className="flex flex-col items-center group animate-fade-in animation-delay-200">
+                  <div className="transition-transform duration-300 hover:scale-110">
+                    <OnionChart
+                      value={selectedSupplements.filter(s => s.is_active).length * 20}
+                      size={120}
+                      showValue
+                    />
+                  </div>
+                </div>
+                
+                {/* Enhanced Speedometer Chart */}
+                <div className="flex flex-col items-center group animate-fade-in animation-delay-400">
+                  <div className="transition-transform duration-300 hover:scale-110">
+                    <SpeedometerChart
+                      value={getCheckinConsistency()}
+                      size={120}
+                      showValue
+                    />
+                  </div>
                 </div>
               </div>
-              
-              {/* Enhanced Onion Chart */}
-              <div className="flex flex-col items-center group animate-fade-in animation-delay-200">
-                <div className="transition-transform duration-300 hover:scale-110">
-                  <OnionChart
-                    value={selectedSupplements.filter(s => s.is_active).length * 20}
-                    size={120}
-                    showValue
-                  />
-                </div>
-              </div>
-              
-              {/* Enhanced Speedometer Chart */}
-              <div className="flex flex-col items-center group animate-fade-in animation-delay-400">
-                <div className="transition-transform duration-300 hover:scale-110">
-                  <SpeedometerChart
-                    value={getCheckinConsistency()}
-                    size={120}
-                    showValue
-                  />
-                </div>
-              </div>
-            </div>
 
             {/* Enhanced Labels in Premium Dark Cards */}
             <div className="grid grid-cols-3 gap-6">
@@ -140,6 +141,7 @@ export function UserProfileSection() {
             </div>
           </CardContent>
         </Card>
+        </div>
       </CardContent>
     </Card>
   );
