@@ -317,7 +317,7 @@
   /* Fonte Sans-serif moderna, extra bold, geométrica com cantos arredondados */
   font-family: 'Inter', 'Helvetica Neue', 'Arial Black', sans-serif;
   font-weight: 900; /* Extra bold/Black weight */
-  font-size: clamp(8rem, 20vw, 40rem);
+  font-size: clamp(10rem, 35vw, 50rem);
   line-height: 0.85;
   display: block;
   color: hsl(var(--lol-cream)); /* Cor creme/off-white */
@@ -346,7 +346,7 @@
 /* Media query para mobile - LOL responsivo */
 @media (max-width: 768px) {
   .lol-static {
-    font-size: clamp(6rem, 18vw, 12rem);
+    font-size: clamp(8rem, 25vw, 18rem);
     letter-spacing: -0.04em;
   }
   
