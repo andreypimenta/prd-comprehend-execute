@@ -19,6 +19,7 @@ import Results from "./pages/Results";
 import Checkin from "./pages/Checkin";
 import Progress from "./pages/Progress";
 import NotFound from "./pages/NotFound";
+import Showcase from "./pages/Showcase";
 
 // Force dark mode for the reference design
 document.documentElement.classList.add('dark');
@@ -35,6 +36,7 @@ const App = () => (
         <Route path="/logout" element={<LogoutTrigger />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        <Route path="/showcase" element={<Showcase />} />
         <Route path="/confirm" element={<ConfirmationPage />} />
         <Route path="/supabase-config" element={<SupabaseConfig />} />
         <Route path="/google-oauth-setup" element={<GoogleOAuthSetup />} />
