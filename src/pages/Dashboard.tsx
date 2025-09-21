@@ -8,7 +8,7 @@ export default function Dashboard() {
     <AppLayout title="Dashboard">
       <div className="min-h-screen w-full bg-background">
         {/* Three Column Layout with White Border */}
-        <div className="grid lg:grid-cols-12 gap-6 p-6 border border-white/20 rounded-lg m-4">
+        <div className="grid lg:grid-cols-12 gap-6 p-6 border-2 border-white/50 m-4">
           {/* Left Column - User Profile & Statistics (4 columns) */}
           <div className="lg:col-span-4">
             <UserProfileSection />
