@@ -22,7 +22,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
   return (
     <>
       <AppSidebar />
-      <SidebarInset className="flex-1">
+      <SidebarInset className="flex-1 pl-6">
         {/* Header */}
         <header className="flex h-16 shrink-0 items-center justify-between pl-2 pr-6 bg-background border-b border-border">
           {/* Sidebar Trigger */}
@@ -60,7 +60,7 @@ export function AppLayout({ children, title = "Dashboard" }: AppLayoutProps) {
         </header>
 
         {/* Main Content */}
-        <div className="flex-1 max-w-none w-full">
+        <div className="flex-1 max-w-none w-full pt-6">
           {children}
         </div>
       </SidebarInset>
