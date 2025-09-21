@@ -1,4 +1,4 @@
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { CircularProgress } from "@/components/ui/circular-progress";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { useUserProfile } from "@/hooks/useUserProfile";
@@ -29,100 +29,108 @@ export function UserProfileSection() {
 
   if (loading) {
     return (
-      <Card className="w-full">
-        <CardHeader>
-          <div className="h-6 bg-muted animate-pulse rounded" />
-        </CardHeader>
-        <CardContent>
-          <div className="space-y-4">
-            <div className="h-32 w-32 bg-muted animate-pulse rounded-full mx-auto" />
-            <div className="grid grid-cols-3 gap-4">
-              <div className="h-20 bg-muted animate-pulse rounded" />
-              <div className="h-20 bg-muted animate-pulse rounded" />
-              <div className="h-20 bg-muted animate-pulse rounded" />
-            </div>
-          </div>
-        </CardContent>
+      <Card className="w-full bg-muted/20 p-6 rounded-2xl">
+        <div className="space-y-6">
+          <div className="h-32 w-32 bg-muted animate-pulse rounded-full mx-auto" />
+          <div className="h-32 bg-muted/40 animate-pulse rounded-xl" />
+        </div>
       </Card>
     );
   }
 
   return (
-    <Card className="w-full bg-card border border-border shadow-sm">
-      <CardHeader className="pb-4">
-        <CardTitle className="text-lg font-semibold text-card-foreground">
-          Your Health Profile
-        </CardTitle>
-      </CardHeader>
-      <CardContent className="space-y-6">
+    <Card className="w-full bg-muted/20 border-none shadow-lg rounded-2xl overflow-hidden">
+      <CardContent className="p-6 space-y-6">
         {/* Large User Photo */}
         <div className="flex justify-center">
-          <div className="relative">
-            <Avatar className="h-32 w-32">
-              <AvatarImage src="/placeholder-avatar.jpg" />
-              <AvatarFallback className="bg-primary text-primary-foreground text-2xl font-semibold">
-                {user?.email?.charAt(0).toUpperCase() || "U"}
-              </AvatarFallback>
-            </Avatar>
-          </div>
+          <Avatar className="h-32 w-32 border-4 border-white shadow-xl">
+            <AvatarImage src="/placeholder-avatar.jpg" />
+            <AvatarFallback className="bg-primary text-primary-foreground text-2xl font-semibold">
+              {user?.email?.charAt(0).toUpperCase() || "U"}
+            </AvatarFallback>
+          </Avatar>
         </div>
 
-        {/* Three Progress Circles */}
-        <div className="grid grid-cols-3 gap-4">
-          <div className="flex flex-col items-center space-y-2">
-            <CircularProgress
-              value={getProfileCompleteness()}
-              size={64}
-              strokeWidth={6}
-              color="hsl(var(--primary))"
-              showValue
-            />
-            <div className="text-center">
-              <p className="text-xs font-medium text-muted-foreground">
-                Profile
-              </p>
-              <p className="text-xs font-medium text-muted-foreground">
-                Completeness
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2">
-            <CircularProgress
-              value={selectedSupplements.filter(s => s.is_active).length * 20} // Max 5 supplements = 100%
-              size={64}
-              strokeWidth={6}
-              color="hsl(var(--primary))"
-              showValue
-            />
-            <div className="text-center">
-              <p className="text-xs font-medium text-muted-foreground">
-                Active
-              </p>
-              <p className="text-xs font-medium text-muted-foreground">
-                Supplements
-              </p>
-            </div>
-          </div>
-
-          <div className="flex flex-col items-center space-y-2">
-            <CircularProgress
-              value={getCheckinConsistency()}
-              size={64}
-              strokeWidth={6}
-              color="hsl(var(--primary))"
-              showValue
-            />
-            <div className="text-center">
-              <p className="text-xs font-medium text-muted-foreground">
-                Check-in
-              </p>
-              <p className="text-xs font-medium text-muted-foreground">
-                Consistency
-              </p>
-            </div>
-          </div>
+        {/* Decorative Squares */}
+        <div className="flex justify-center gap-2">
+          <div className="w-3 h-3 bg-white rounded-sm shadow-sm" />
+          <div className="w-3 h-3 bg-black rounded-sm" />
+          <div className="w-3 h-3 bg-white rounded-sm shadow-sm" />
         </div>
+
+        {/* Black Horizontal Card with Graphs */}
+        <Card className="bg-black/90 border-none rounded-xl shadow-inner">
+          <CardContent className="p-6">
+            {/* Three Progress Circles */}
+            <div className="grid grid-cols-3 gap-6 mb-4">
+              <div className="flex flex-col items-center">
+                <CircularProgress
+                  value={getProfileCompleteness()}
+                  size={60}
+                  strokeWidth={5}
+                  variant="modern"
+                  showValue
+                />
+              </div>
+              
+              <div className="flex flex-col items-center">
+                <CircularProgress
+                  value={selectedSupplements.filter(s => s.is_active).length * 20}
+                  size={60}
+                  strokeWidth={5}
+                  variant="modern"
+                  showValue
+                />
+              </div>
+              
+              <div className="flex flex-col items-center">
+                <CircularProgress
+                  value={getCheckinConsistency()}
+                  size={60}
+                  strokeWidth={5}
+                  variant="modern"
+                  showValue
+                />
+              </div>
+            </div>
+
+            {/* Labels in Dark Gray Cards */}
+            <div className="grid grid-cols-3 gap-2">
+              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+                <div className="text-center">
+                  <p className="text-xs font-medium text-gray-300">
+                    Profile
+                  </p>
+                  <p className="text-xs font-medium text-gray-400">
+                    Complete
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+                <div className="text-center">
+                  <p className="text-xs font-medium text-gray-300">
+                    Active
+                  </p>
+                  <p className="text-xs font-medium text-gray-400">
+                    Supplements
+                  </p>
+                </div>
+              </Card>
+              
+              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+                <div className="text-center">
+                  <p className="text-xs font-medium text-gray-300">
+                    Check-in
+                  </p>
+                  <p className="text-xs font-medium text-gray-400">
+                    Streak
+                  </p>
+                </div>
+              </Card>
+            </div>
+          </CardContent>
+        </Card>
       </CardContent>
     </Card>
   );

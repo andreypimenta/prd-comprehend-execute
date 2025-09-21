@@ -10,6 +10,7 @@ interface CircularProgressProps extends React.HTMLAttributes<HTMLDivElement> {
   trackColor?: string;
   showValue?: boolean;
   children?: React.ReactNode;
+  variant?: "default" | "modern";
 }
 
 export function CircularProgress({
@@ -22,6 +23,7 @@ export function CircularProgress({
   showValue = true,
   children,
   className,
+  variant = "default",
   ...props
 }: CircularProgressProps) {
   const normalizedValue = Math.max(0, Math.min(max, value));
@@ -30,6 +32,11 @@ export function CircularProgress({
   const radius = (size - strokeWidth) / 2;
   const circumference = radius * 2 * Math.PI;
   const strokeDashoffset = circumference - (percentage / 100) * circumference;
+
+  // Modern variant uses gray track and white progress
+  const finalTrackColor = variant === "modern" ? "hsl(var(--muted-foreground) / 0.2)" : trackColor;
+  const finalProgressColor = variant === "modern" ? "white" : color;
+  const finalTextColor = variant === "modern" ? "white" : color;
 
   return (
     <div 
@@ -48,26 +55,26 @@ export function CircularProgress({
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={trackColor}
+          stroke={finalTrackColor}
           strokeWidth={strokeWidth}
           fill="transparent"
-          className="opacity-20"
+          className={variant === "modern" ? "" : "opacity-20"}
         />
         {/* Progress circle */}
         <circle
           cx={size / 2}
           cy={size / 2}
           r={radius}
-          stroke={color}
+          stroke={finalProgressColor}
           strokeWidth={strokeWidth}
           fill="transparent"
           strokeDasharray={circumference}
           strokeDashoffset={strokeDashoffset}
           strokeLinecap="round"
           className="transition-all duration-500 ease-in-out"
-          style={{
+          style={variant === "default" ? {
             filter: `drop-shadow(0 0 8px ${color}40)`
-          }}
+          } : {}}
         />
       </svg>
       
@@ -75,7 +82,7 @@ export function CircularProgress({
       <div className="absolute inset-0 flex items-center justify-center">
         {children || (showValue && (
           <div className="text-center">
-            <span className="text-2xl font-bold" style={{ color }}>
+            <span className="text-2xl font-bold" style={{ color: finalTextColor }}>
               {Math.round(percentage)}%
             </span>
           </div>
