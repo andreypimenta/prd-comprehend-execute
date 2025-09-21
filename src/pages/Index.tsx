@@ -106,19 +106,15 @@ const Index = () => {
               </Button>
             </div>
 
-            <button className="md:hidden text-white" onClick={() => setIsMenuOpen(!isMenuOpen)}>
-              {isMenuOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
+            {/* Mobile Login Button */}
+            <div className="md:hidden">
+              <Button onClick={() => navigate('/login')} variant="outline" size="sm" className="border-primary text-primary hover:bg-primary hover:text-primary-foreground">
+                Entrar
+              </Button>
+            </div>
           </nav>
 
-          {/* Mobile Menu */}
-          {isMenuOpen && <div className="md:hidden mt-6 pt-6 border-t border-white/20">
-              <div className="flex flex-col space-y-4">
-                <button onClick={() => navigate('/showcase')} className="font-medium text-white text-left">Showcase</button>
-                <button onClick={() => navigate('/login')} className="font-medium text-white text-left">Entrar</button>
-                <button onClick={() => navigate('/register')} className="font-medium text-white text-left">Começar</button>
-              </div>
-            </div>}
+          {/* Mobile Menu - Removed since we now show login button directly */}
         </div>
       </header>
 
