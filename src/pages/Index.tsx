@@ -139,7 +139,7 @@ const Index = () => {
             </p>
           </div>
           
-          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-20 mb-16">
+          <div className="flex flex-col sm:flex-row gap-4 justify-center pt-6 mb-24">
             <Button onClick={() => navigate('/register')} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90 px-8 py-6 text-lg font-semibold shadow-lg">
               Começar Análise Gratuita
             </Button>
