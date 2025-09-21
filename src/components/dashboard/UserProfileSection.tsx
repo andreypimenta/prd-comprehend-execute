@@ -42,30 +42,27 @@ export function UserProfileSection() {
 
   return (
     <Card className="w-full bg-gray-600 border-none shadow-lg rounded-2xl overflow-hidden min-h-[650px] max-w-none relative">
-      <CardContent className="p-6 space-y-8 h-full">
-        {/* Decorative Squares - Fixed positioning */}
-        <div className="absolute right-6 top-16 space-y-6 z-10">
-          <div className="w-4 h-4 bg-white rounded-sm shadow-lg opacity-90" />
-          <div className="w-4 h-4 bg-white rounded-sm shadow-lg opacity-70" />
-          <div className="w-4 h-4 bg-black rounded-sm shadow-lg opacity-60" />
+      <CardContent className="p-0 h-full relative">
+        {/* Decorative Squares - Left side positioning */}
+        <div className="absolute left-6 top-16 space-y-4 z-10">
+          <div className="w-5 h-5 bg-white rounded-md shadow-lg opacity-90" />
+          <div className="w-5 h-5 bg-white rounded-md shadow-lg opacity-70" />
+          <div className="w-5 h-5 bg-black rounded-md shadow-lg opacity-60" />
         </div>
         
-        {/* Enhanced "Cut and Paste" Photo */}
-        <div className="flex justify-center">
-          <div className="relative w-full max-w-sm">
-            <img 
-              src={wellnessImage} 
-              alt="User Profile" 
-              className="h-48 w-full object-cover rounded-xl border-2 border-white shadow-xl"
-              style={{ filter: 'brightness(1.1) contrast(1.05)' }}
-            />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl" />
-          </div>
+        {/* Photo positioned top-right, full height */}
+        <div className="absolute top-0 right-0 bottom-0 w-1/2 overflow-hidden rounded-r-2xl">
+          <img 
+            src={wellnessImage} 
+            alt="User Profile" 
+            className="h-full w-full object-cover mix-blend-multiply"
+            style={{ filter: 'brightness(1.2) contrast(1.1)' }}
+          />
         </div>
 
-        {/* Enhanced Black Card with Premium Graphs */}
-        <Card className="bg-black/95 border-none rounded-xl shadow-2xl">
-          <CardContent className="p-8">
+        {/* Black Card overlaid on photo, positioned near bottom */}
+        <Card className="absolute bottom-6 right-6 left-1/2 bg-black/95 border-none rounded-xl shadow-2xl z-20">
+          <CardContent className="p-6">
             {/* Three Enhanced Premium Charts */}
             <div className="grid grid-cols-3 gap-8 mb-6">
               {/* Enhanced Progress Circle */}
