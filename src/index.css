@@ -317,12 +317,12 @@
   /* Fonte Sans-serif moderna, extra bold, geométrica com cantos arredondados */
   font-family: 'Inter', 'Helvetica Neue', 'Arial Black', sans-serif;
   font-weight: 900; /* Extra bold/Black weight */
-  font-size: clamp(12rem, 30vw, 40rem);
+  font-size: clamp(8rem, 20vw, 40rem);
   line-height: 0.85;
   display: block;
   color: hsl(var(--lol-cream)); /* Cor creme/off-white */
   text-shadow: 0 0 40px hsl(var(--lol-cream) / 0.4);
-  letter-spacing: -0.12em; /* Espaçamento mais apertado para aproximar as letras */
+  letter-spacing: -0.08em; /* Espaçamento mais apertado para aproximar as letras */
   text-transform: uppercase;
   text-align: center;
   /* Características geométricas e minimalistas */
@@ -343,6 +343,23 @@
 
 /* Características específicas das letras L e O conforme especificações */
 
+/* Media query para mobile - LOL responsivo */
+@media (max-width: 768px) {
+  .lol-static {
+    font-size: clamp(6rem, 18vw, 12rem);
+    letter-spacing: -0.04em;
+  }
+  
+  .lol-static .letter:nth-child(1) {
+    margin-left: 0.08em;
+    margin-right: 0.03em;
+  }
+  
+  .lol-static .letter:nth-child(3) {
+    margin-left: 0.03em;
+  }
+}
+
 /* Letra "L" esquerda - com espaçamento adicional */
 .lol-static .letter:nth-child(1) {
   position: relative;
@@ -356,6 +373,13 @@
   margin-right: 0.06em; /* Mesmo espaçamento entre L e O */
 }
 
+@media (max-width: 768px) {
+  .lol-static .letter:nth-child(1) {
+    margin-left: 0.08em;
+    margin-right: 0.03em;
+  }
+}
+
 /* Letra "L" direita - com espaçamento adicional do O */
 .lol-static .letter:nth-child(3) {
   position: relative;
@@ -366,6 +390,12 @@
   /* Proporções equilibradas entre altura e largura */
   transform: scaleX(0.95); /* Ligeiramente mais estreito para proporção ideal */
   margin-left: 0.06em; /* Aumenta espaço entre O e segundo L */
+}
+
+@media (max-width: 768px) {
+  .lol-static .letter:nth-child(3) {
+    margin-left: 0.03em;
+  }
 }
 
 /* Letra "O" - Formato circular perfeito, espessura consistente */

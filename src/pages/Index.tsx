@@ -124,7 +124,7 @@ const Index = () => {
 
       {/* Hero Section */}
       <section ref={heroRef} className="min-h-screen flex flex-col justify-center items-center relative overflow-hidden">
-        <div className="text-center space-y-6 px-4 mt-20">
+        <div className="text-center space-y-6 px-2 sm:px-4 mt-8 sm:mt-20">
           <div className="text-center">
             <h1 ref={lolRef} className="lol-static mb-2">
               <ScrambleText text="lol" isActive={hasScrolled} />
@@ -150,8 +150,8 @@ const Index = () => {
         </div>
         
         {/* Scroll Indicator */}
-        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
-          <ChevronDown className="w-8 h-8 text-white opacity-50" />
+        <div className="absolute bottom-3 sm:bottom-6 left-1/2 transform -translate-x-1/2 animate-bounce">
+          <ChevronDown className="w-6 h-6 sm:w-8 sm:h-8 text-white opacity-50" />
         </div>
       </section>
 
@@ -159,9 +159,9 @@ const Index = () => {
       <WellnessGallery />
 
       {/* Features Section */}
-      <section className="py-32 px-6">
+      <section className="py-20 sm:py-32 px-4 sm:px-6">
         <div className="max-w-6xl mx-auto">
-          <h2 className="text-4xl md:text-6xl font-bold text-center mb-20 tracking-tight text-white">
+          <h2 className="text-4xl md:text-6xl font-bold text-center mb-12 sm:mb-20 tracking-tight text-white">
             Por que Escolher o LoL Engine?
           </h2>
           
