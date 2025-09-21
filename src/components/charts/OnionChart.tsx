@@ -37,7 +37,7 @@ export function OnionChart({ value, size = 60, showValue = true }: OnionChartPro
           />
         ))}
         
-        {/* Active circles based on value */}
+        {/* Active circles with gradient effect */}
         {circles.slice(0, activeCircles).map((circle, index) => (
           <circle
             key={`active-${index}`}
@@ -45,11 +45,21 @@ export function OnionChart({ value, size = 60, showValue = true }: OnionChartPro
             cy={size / 2}
             r={circle.r}
             fill="none"
-            stroke="white"
-            strokeWidth="2"
+            stroke="url(#onionGradient)"
+            strokeWidth="3"
             opacity={circle.opacity}
+            className="transition-all duration-500 ease-out"
           />
         ))}
+        
+        {/* Gradient definition */}
+        <defs>
+          <linearGradient id="onionGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stopColor="white" stopOpacity="0.9" />
+            <stop offset="50%" stopColor="rgba(255,255,255,0.7)" />
+            <stop offset="100%" stopColor="rgba(255,255,255,0.5)" />
+          </linearGradient>
+        </defs>
       </svg>
       
       {showValue && (

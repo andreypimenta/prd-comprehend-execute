@@ -19,33 +19,47 @@ export function SpeedometerChart({ value, size = 60, showValue = true }: Speedom
   return (
     <div className="relative inline-flex items-center justify-center">
       <svg width={size} height={size}>
-        {/* Background track - partial circle */}
+        {/* Enhanced background track */}
         <path
           d={`M ${size/2 - radius * Math.cos(135 * Math.PI / 180)} ${size/2 - radius * Math.sin(135 * Math.PI / 180)} 
               A ${radius} ${radius} 0 1 1 
               ${size/2 - radius * Math.cos(45 * Math.PI / 180)} ${size/2 - radius * Math.sin(45 * Math.PI / 180)}`}
           fill="none"
-          stroke="hsl(var(--muted))"
-          strokeWidth="3"
-          opacity="0.4"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="4"
+          strokeLinecap="round"
         />
         
-        {/* Moving ball */}
+        {/* Progress track */}
+        <path
+          d={`M ${size/2 - radius * Math.cos(135 * Math.PI / 180)} ${size/2 - radius * Math.sin(135 * Math.PI / 180)} 
+              A ${radius} ${radius} 0 ${percentage > 50 ? 1 : 0} 1 
+              ${size/2 + radius * Math.cos((135 + (percentage / 100) * 270) * Math.PI / 180)} ${size/2 + radius * Math.sin((135 + (percentage / 100) * 270) * Math.PI / 180)}`}
+          fill="none"
+          stroke="white"
+          strokeWidth="4"
+          strokeLinecap="round"
+          opacity="0.8"
+          className="transition-all duration-500 ease-out"
+        />
+        
+        {/* Glowing ball */}
         <circle
           cx={ballX}
           cy={ballY}
-          r="4"
+          r="5"
           fill="white"
-          className="drop-shadow-sm transition-all duration-300 ease-out"
+          className="drop-shadow-lg transition-all duration-500 ease-out"
+          style={{ filter: 'drop-shadow(0 0 6px rgba(255,255,255,0.6))' }}
         />
         
-        {/* Center dot */}
+        {/* Enhanced center dot */}
         <circle
           cx={size / 2}
           cy={size / 2}
-          r="2"
+          r="3"
           fill="white"
-          opacity="0.6"
+          opacity="0.8"
         />
       </svg>
       

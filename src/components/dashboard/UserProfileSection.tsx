@@ -41,93 +41,93 @@ export function UserProfileSection() {
   }
 
   return (
-    <Card className="w-full bg-gray-600 border-none shadow-lg rounded-2xl overflow-hidden min-h-[500px] relative">
-      <CardContent className="p-6 space-y-6 h-full">
-        {/* "Cut and Paste" Photo */}
+    <Card className="w-full bg-gray-600 border-none shadow-lg rounded-2xl overflow-hidden min-h-[650px] max-w-none relative">
+      <CardContent className="p-6 space-y-8 h-full">
+        {/* Decorative Squares - Fixed positioning */}
+        <div className="absolute right-6 top-16 space-y-6 z-10">
+          <div className="w-4 h-4 bg-white rounded-sm shadow-lg opacity-90" />
+          <div className="w-4 h-4 bg-white rounded-sm shadow-lg opacity-70" />
+          <div className="w-4 h-4 bg-black rounded-sm shadow-lg opacity-60" />
+        </div>
+        
+        {/* Enhanced "Cut and Paste" Photo */}
         <div className="flex justify-center">
-          <div className="relative">
+          <div className="relative w-full max-w-sm">
             <img 
               src={wellnessImage} 
               alt="User Profile" 
-              className="h-40 w-full object-cover rounded-xl border-2 border-white shadow-xl"
+              className="h-48 w-full object-cover rounded-xl border-2 border-white shadow-xl"
               style={{ filter: 'brightness(1.1) contrast(1.05)' }}
             />
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent rounded-xl" />
+            <div className="absolute inset-0 bg-gradient-to-t from-black/30 to-transparent rounded-xl" />
           </div>
         </div>
 
-        {/* Decorative Squares - Side positioned at different heights */}
-        <div className="absolute right-8 top-1/2 transform -translate-y-1/2 space-y-4">
-          <div className="w-3 h-3 bg-white rounded-sm shadow-sm" />
-          <div className="w-3 h-3 bg-black rounded-sm border border-white/20" />
-          <div className="w-3 h-3 bg-white rounded-sm shadow-sm" />
-        </div>
-
-        {/* Black Horizontal Card with Premium Graphs */}
-        <Card className="bg-black/90 border-none rounded-xl shadow-inner">
-          <CardContent className="p-6">
-            {/* Three Different Premium Charts */}
-            <div className="grid grid-cols-3 gap-6 mb-4">
-              {/* Simple Progress Circle */}
+        {/* Enhanced Black Card with Premium Graphs */}
+        <Card className="bg-black/95 border-none rounded-xl shadow-2xl">
+          <CardContent className="p-8">
+            {/* Three Enhanced Premium Charts */}
+            <div className="grid grid-cols-3 gap-8 mb-6">
+              {/* Enhanced Progress Circle */}
               <div className="flex flex-col items-center">
                 <CircularProgress
                   value={getProfileCompleteness()}
-                  size={60}
-                  strokeWidth={5}
+                  size={80}
+                  strokeWidth={6}
                   variant="modern"
                   showValue
                 />
               </div>
               
-              {/* Onion Chart - Multiple concentric circles */}
+              {/* Enhanced Onion Chart */}
               <div className="flex flex-col items-center">
                 <OnionChart
                   value={selectedSupplements.filter(s => s.is_active).length * 20}
-                  size={60}
+                  size={80}
                   showValue
                 />
               </div>
               
-              {/* Speedometer Chart - Moving ball */}
+              {/* Enhanced Speedometer Chart */}
               <div className="flex flex-col items-center">
                 <SpeedometerChart
                   value={getCheckinConsistency()}
-                  size={60}
+                  size={80}
                   showValue
                 />
               </div>
             </div>
 
-            {/* Labels in Dark Gray Cards */}
-            <div className="grid grid-cols-3 gap-2">
-              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+            {/* Enhanced Labels in Dark Gray Cards */}
+            <div className="grid grid-cols-3 gap-4">
+              <Card className="bg-gray-800/80 border-none rounded-lg px-4 py-3 shadow-inner">
                 <div className="text-center">
-                  <p className="text-xs font-medium text-gray-300">
+                  <p className="text-xs font-semibold text-white">
                     Profile
                   </p>
-                  <p className="text-xs font-medium text-gray-400">
+                  <p className="text-xs font-medium text-gray-300">
                     Complete
                   </p>
                 </div>
               </Card>
               
-              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+              <Card className="bg-gray-800/80 border-none rounded-lg px-4 py-3 shadow-inner">
                 <div className="text-center">
-                  <p className="text-xs font-medium text-gray-300">
+                  <p className="text-xs font-semibold text-white">
                     Active
                   </p>
-                  <p className="text-xs font-medium text-gray-400">
+                  <p className="text-xs font-medium text-gray-300">
                     Supplements
                   </p>
                 </div>
               </Card>
               
-              <Card className="bg-gray-800 border-none rounded-lg px-3 py-2">
+              <Card className="bg-gray-800/80 border-none rounded-lg px-4 py-3 shadow-inner">
                 <div className="text-center">
-                  <p className="text-xs font-medium text-gray-300">
+                  <p className="text-xs font-semibold text-white">
                     Check-in
                   </p>
-                  <p className="text-xs font-medium text-gray-400">
+                  <p className="text-xs font-medium text-gray-300">
                     Streak
                   </p>
                 </div>
