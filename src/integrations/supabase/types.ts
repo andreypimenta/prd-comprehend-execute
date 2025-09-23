@@ -191,6 +191,69 @@ export type Database = {
           },
         ]
       }
+      scientific_evidence: {
+        Row: {
+          authors: string[] | null
+          created_at: string
+          database_source: string
+          doi: string | null
+          id: string
+          intervention: string | null
+          outcome_measures: string[] | null
+          pmid: string | null
+          publication_date: string | null
+          quality_score: number | null
+          raw_data: Json | null
+          results_summary: string | null
+          sample_size: number | null
+          study_id: string
+          study_type: string | null
+          supplement_id: string
+          title: string | null
+          updated_at: string
+        }
+        Insert: {
+          authors?: string[] | null
+          created_at?: string
+          database_source: string
+          doi?: string | null
+          id?: string
+          intervention?: string | null
+          outcome_measures?: string[] | null
+          pmid?: string | null
+          publication_date?: string | null
+          quality_score?: number | null
+          raw_data?: Json | null
+          results_summary?: string | null
+          sample_size?: number | null
+          study_id: string
+          study_type?: string | null
+          supplement_id: string
+          title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          authors?: string[] | null
+          created_at?: string
+          database_source?: string
+          doi?: string | null
+          id?: string
+          intervention?: string | null
+          outcome_measures?: string[] | null
+          pmid?: string | null
+          publication_date?: string | null
+          quality_score?: number | null
+          raw_data?: Json | null
+          results_summary?: string | null
+          sample_size?: number | null
+          study_id?: string
+          study_type?: string | null
+          supplement_id?: string
+          title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       sessions: {
         Row: {
           created_at: string
@@ -228,21 +291,28 @@ export type Database = {
           agent_category: string | null
           benefits: string[]
           category: string
+          clinical_trials: Json | null
+          cochrane_reviews: Json | null
           contraindications: string[]
           created_at: string
           description: string
           dosage_max: number
           dosage_min: number
           dosage_unit: string
+          evidence_classification: string | null
           evidence_level: string
           id: string
+          integrated_evidence_score: number | null
           interactions: string[]
+          last_evidence_update: string | null
           mechanism: string | null
           medical_conditions: string[] | null
           name: string
+          pharmgkb_data: Json | null
           price_max: number | null
           price_min: number | null
           priority_level: string | null
+          pubmed_studies: Json | null
           scientific_evidence: string | null
           synergy_potential: string | null
           target_symptoms: string[]
@@ -253,21 +323,28 @@ export type Database = {
           agent_category?: string | null
           benefits?: string[]
           category: string
+          clinical_trials?: Json | null
+          cochrane_reviews?: Json | null
           contraindications?: string[]
           created_at?: string
           description: string
           dosage_max: number
           dosage_min: number
           dosage_unit?: string
+          evidence_classification?: string | null
           evidence_level?: string
           id: string
+          integrated_evidence_score?: number | null
           interactions?: string[]
+          last_evidence_update?: string | null
           mechanism?: string | null
           medical_conditions?: string[] | null
           name: string
+          pharmgkb_data?: Json | null
           price_max?: number | null
           price_min?: number | null
           priority_level?: string | null
+          pubmed_studies?: Json | null
           scientific_evidence?: string | null
           synergy_potential?: string | null
           target_symptoms?: string[]
@@ -278,21 +355,28 @@ export type Database = {
           agent_category?: string | null
           benefits?: string[]
           category?: string
+          clinical_trials?: Json | null
+          cochrane_reviews?: Json | null
           contraindications?: string[]
           created_at?: string
           description?: string
           dosage_max?: number
           dosage_min?: number
           dosage_unit?: string
+          evidence_classification?: string | null
           evidence_level?: string
           id?: string
+          integrated_evidence_score?: number | null
           interactions?: string[]
+          last_evidence_update?: string | null
           mechanism?: string | null
           medical_conditions?: string[] | null
           name?: string
+          pharmgkb_data?: Json | null
           price_max?: number | null
           price_min?: number | null
           priority_level?: string | null
+          pubmed_studies?: Json | null
           scientific_evidence?: string | null
           synergy_potential?: string | null
           target_symptoms?: string[]

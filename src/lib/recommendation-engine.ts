@@ -162,7 +162,7 @@ export class RecommendationEngine {
     profile: UserProfile
   ): Recommendation[] {
     const supplementMap = new Map<string, { 
-      supplement: Supplement; 
+      supplement: EnhancedSupplement; 
       reasons: string[]; 
       totalWeight: number;
     }>();
@@ -176,19 +176,39 @@ export class RecommendationEngine {
         existing.totalWeight += candidate.weight;
       } else {
         supplementMap.set(candidate.supplement.id, {
-          supplement: candidate.supplement,
+          supplement: candidate.supplement as EnhancedSupplement,
           reasons: [candidate.reason],
           totalWeight: candidate.weight
         });
       }
     }
 
-    // Converter para recomendações com confiança
+    // Converter para recomendações com confiança baseada em evidência científica
     const recommendations: Recommendation[] = [];
     
     for (const [suppId, data] of supplementMap) {
-      const confidence = Math.min(Math.round(data.totalWeight * 20), 95); // Max 95%
-      const priority = confidence >= 70 ? 'high' : confidence >= 50 ? 'medium' : 'low';
+      // Confiança base
+      let baseConfidence = Math.min(Math.round(data.totalWeight * 20), 95);
+      
+      // Multiplicador de evidência científica
+      const evidenceMultiplier = this.getEvidenceMultiplier(data.supplement.evidence_level);
+      const scientificEvidenceBoost = this.getScientificEvidenceBoost(data.supplement);
+      
+      const confidence = Math.min(Math.round(baseConfidence * evidenceMultiplier * scientificEvidenceBoost), 98);
+      
+      // Prioridade baseada em evidência científica
+      let priority: 'high' | 'medium' | 'low' = 'medium';
+      const evidenceClassification = (data.supplement as any).evidence_classification;
+      if (evidenceClassification === 'A+' || evidenceClassification === 'A' || confidence >= 80) {
+        priority = 'high';
+      } else if (evidenceClassification === 'B+' || evidenceClassification === 'B' || confidence >= 60) {
+        priority = 'medium';
+      } else {
+        priority = 'low';
+      }
+      
+      // Raciocínio aprimorado com evidência científica
+      const enhancedReasoning = this.buildEnhancedReasoning(data.reasons.join('; '), data.supplement);
       
       recommendations.push({
         id: `rec_${suppId}_${Date.now()}`,
@@ -197,13 +217,21 @@ export class RecommendationEngine {
         supplement: data.supplement,
         recommended_dosage: this.calculateDosage(data.supplement, profile),
         confidence,
-        reasoning: data.reasons.join('; '),
+        reasoning: enhancedReasoning,
         priority,
         created_at: new Date().toISOString()
       });
     }
 
-    return recommendations;
+    // Ordenar por score de evidência científica e confiança
+    return recommendations.sort((a, b) => {
+      const aEvidence = (a.supplement as any).integrated_evidence_score || 0;
+      const bEvidence = (b.supplement as any).integrated_evidence_score || 0;
+      if (Math.abs(aEvidence - bEvidence) > 0.1) {
+        return bEvidence - aEvidence;
+      }
+      return b.confidence - a.confidence;
+    });
   }
 
   private calculateDosage(supplement: Supplement, profile: UserProfile): number {
@@ -221,5 +249,78 @@ export class RecommendationEngine {
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '') // Remove acentos
       .trim();
+  }
+
+  private getEvidenceMultiplier(evidenceLevel: string): number {
+    switch (evidenceLevel.toLowerCase()) {
+      case 'strong':
+        return 1.2;
+      case 'moderate':
+        return 1.0;
+      case 'limited':
+        return 0.8;
+      default:
+        return 0.8;
+    }
+  }
+
+  private getScientificEvidenceBoost(supplement: EnhancedSupplement): number {
+    const evidenceScore = (supplement as any).integrated_evidence_score;
+    const evidenceClassification = (supplement as any).evidence_classification;
+    
+    if (!evidenceScore && !evidenceClassification) {
+      return 1.0; // Sem dados de evidência científica disponíveis
+    }
+
+    // Boost baseado na classificação de evidência
+    switch (evidenceClassification) {
+      case 'A+':
+        return 1.3;
+      case 'A':
+        return 1.2;
+      case 'B+':
+        return 1.1;
+      case 'B':
+        return 1.0;
+      case 'C':
+        return 0.9;
+      case 'D':
+        return 0.8;
+      default:
+        // Fallback para boost baseado em score
+        if (evidenceScore >= 0.8) return 1.2;
+        if (evidenceScore >= 0.6) return 1.1;
+        if (evidenceScore >= 0.4) return 1.0;
+        return 0.9;
+    }
+  }
+
+  private buildEnhancedReasoning(baseReasoning: string, supplement: EnhancedSupplement): string {
+    const evidenceClassification = (supplement as any).evidence_classification;
+    const evidenceScore = (supplement as any).integrated_evidence_score;
+    const pubmedCount = (supplement as any).pubmed_studies?.length || 0;
+    const clinicalTrialsCount = (supplement as any).clinical_trials?.length || 0;
+    const cochraneCount = (supplement as any).cochrane_reviews?.length || 0;
+
+    let scientificSupport = '';
+    
+    if (evidenceClassification && evidenceClassification !== 'D') {
+      scientificSupport = ` Suporte científico: Grau ${evidenceClassification}`;
+      
+      if (pubmedCount > 0 || clinicalTrialsCount > 0 || cochraneCount > 0) {
+        const evidencePieces = [];
+        if (pubmedCount > 0) evidencePieces.push(`${pubmedCount} estudos PubMed`);
+        if (clinicalTrialsCount > 0) evidencePieces.push(`${clinicalTrialsCount} ensaios clínicos`);
+        if (cochraneCount > 0) evidencePieces.push(`${cochraneCount} revisões Cochrane`);
+        
+        scientificSupport += ` baseado em ${evidencePieces.join(', ')}.`;
+      }
+      
+      if (evidenceScore) {
+        scientificSupport += ` Score de evidência integrado: ${(evidenceScore * 100).toFixed(0)}%.`;
+      }
+    }
+
+    return baseReasoning + scientificSupport;
   }
 }
