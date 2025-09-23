@@ -109,6 +109,47 @@ export type Database = {
         }
         Relationships: []
       }
+      protocol_recommendations: {
+        Row: {
+          confidence_score: number
+          created_at: string
+          id: string
+          is_active: boolean | null
+          personalization_notes: string | null
+          protocol_id: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          confidence_score?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          personalization_notes?: string | null
+          protocol_id?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          confidence_score?: number
+          created_at?: string
+          id?: string
+          is_active?: boolean | null
+          personalization_notes?: string | null
+          protocol_id?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "protocol_recommendations_protocol_id_fkey"
+            columns: ["protocol_id"]
+            isOneToOne: false
+            referencedRelation: "therapeutic_protocols"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       recommendations: {
         Row: {
           confidence: number
@@ -184,6 +225,7 @@ export type Database = {
       }
       supplements: {
         Row: {
+          agent_category: string | null
           benefits: string[]
           category: string
           contraindications: string[]
@@ -195,14 +237,20 @@ export type Database = {
           evidence_level: string
           id: string
           interactions: string[]
+          mechanism: string | null
+          medical_conditions: string[] | null
           name: string
           price_max: number | null
           price_min: number | null
+          priority_level: string | null
+          scientific_evidence: string | null
+          synergy_potential: string | null
           target_symptoms: string[]
           timing: string
           updated_at: string
         }
         Insert: {
+          agent_category?: string | null
           benefits?: string[]
           category: string
           contraindications?: string[]
@@ -214,14 +262,20 @@ export type Database = {
           evidence_level?: string
           id: string
           interactions?: string[]
+          mechanism?: string | null
+          medical_conditions?: string[] | null
           name: string
           price_max?: number | null
           price_min?: number | null
+          priority_level?: string | null
+          scientific_evidence?: string | null
+          synergy_potential?: string | null
           target_symptoms?: string[]
           timing?: string
           updated_at?: string
         }
         Update: {
+          agent_category?: string | null
           benefits?: string[]
           category?: string
           contraindications?: string[]
@@ -233,11 +287,55 @@ export type Database = {
           evidence_level?: string
           id?: string
           interactions?: string[]
+          mechanism?: string | null
+          medical_conditions?: string[] | null
           name?: string
           price_max?: number | null
           price_min?: number | null
+          priority_level?: string | null
+          scientific_evidence?: string | null
+          synergy_potential?: string | null
           target_symptoms?: string[]
           timing?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      therapeutic_protocols: {
+        Row: {
+          condition: string
+          created_at: string
+          expected_efficacy: string | null
+          id: string
+          implementation_phases: Json | null
+          individualization_factors: Json | null
+          monitoring_parameters: Json | null
+          supplement_combination: Json
+          synergy_description: string | null
+          updated_at: string
+        }
+        Insert: {
+          condition: string
+          created_at?: string
+          expected_efficacy?: string | null
+          id?: string
+          implementation_phases?: Json | null
+          individualization_factors?: Json | null
+          monitoring_parameters?: Json | null
+          supplement_combination?: Json
+          synergy_description?: string | null
+          updated_at?: string
+        }
+        Update: {
+          condition?: string
+          created_at?: string
+          expected_efficacy?: string | null
+          id?: string
+          implementation_phases?: Json | null
+          individualization_factors?: Json | null
+          monitoring_parameters?: Json | null
+          supplement_combination?: Json
+          synergy_description?: string | null
           updated_at?: string
         }
         Relationships: []

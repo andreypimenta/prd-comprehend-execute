@@ -1,0 +1,2142 @@
+{
+  "Hipertensão": {
+    "condicao": "Hipertensão",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Magnesium",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Vasodilatação via NO/cGMP ou bloqueio canais cálcio"
+        },
+        {
+          "nome": "Omega-3",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Vasodilatação via NO/cGMP ou bloqueio canais cálcio"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "PA sistólica/diastólica",
+        "Frequência cardíaca",
+        "Função renal"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Diabetes T2": {
+    "condicao": "Diabetes T2",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Vitamin D",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Melhoria sensibilidade insulina via AMPK ou GLUT4"
+        },
+        {
+          "nome": "Magnesium",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Melhoria sensibilidade insulina via AMPK ou GLUT4"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "HbA1c",
+        "Glicemia jejum",
+        "Insulina",
+        "HOMA-IR"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Pré-diabetes": {
+    "condicao": "Pré-diabetes",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Colesterol alto": {
+    "condicao": "Colesterol alto",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Triglicerídeos elevados": {
+    "condicao": "Triglicerídeos elevados",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Omega-3",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Síndrome metabólica": {
+    "condicao": "Síndrome metabólica",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Green Tea Extract",
+          "agente": "CARDIOMETABÓLICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Aterosclerose": {
+    "condicao": "Aterosclerose",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Insuficiência cardíaca": {
+    "condicao": "Insuficiência cardíaca",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Arritmias": {
+    "condicao": "Arritmias",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Depressão": {
+    "condicao": "Depressão",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Vitamin D",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Modulação neurotransmissores (serotonina, dopamina)"
+        },
+        {
+          "nome": "Curcumin",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Modulação neurotransmissores (serotonina, dopamina)"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Escala Hamilton",
+        "PHQ-9",
+        "Qualidade sono"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Ansiedade": {
+    "condicao": "Ansiedade",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "GAD-7",
+        "Cortisol salivar",
+        "Qualidade vida"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Insônia": {
+    "condicao": "Insônia",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Magnesium",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        },
+        {
+          "nome": "Melatonin",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "TDAH": {
+    "condicao": "TDAH",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Alzheimer": {
+    "condicao": "Alzheimer",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Parkinson": {
+    "condicao": "Parkinson",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Enxaqueca": {
+    "condicao": "Enxaqueca",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Magnesium",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Epilepsia": {
+    "condicao": "Epilepsia",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Esclerose múltipla": {
+    "condicao": "Esclerose múltipla",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Neuropatia": {
+    "condicao": "Neuropatia",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Fibromialgia": {
+    "condicao": "Fibromialgia",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Fadiga crônica": {
+    "condicao": "Fadiga crônica",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Caffeine",
+          "agente": "NEUROLÓGICO/PSIQUIÁTRICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "SII": {
+    "condicao": "SII",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Probiotics",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "DII (Crohn, Colite)": {
+    "condicao": "DII (Crohn, Colite)",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Disbiose": {
+    "condicao": "Disbiose",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Probiotics",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "SIBO": {
+    "condicao": "SIBO",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Leaky gut": {
+    "condicao": "Leaky gut",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Alergias alimentares": {
+    "condicao": "Alergias alimentares",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Autoimunidade": {
+    "condicao": "Autoimunidade",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Imunossupressão": {
+    "condicao": "Imunossupressão",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Vitamin D",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        },
+        {
+          "nome": "Probiotics",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Inflamação crônica": {
+    "condicao": "Inflamação crônica",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Curcumin",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Inibição NF-kB ou modulação citocinas"
+        },
+        {
+          "nome": "Omega-3",
+          "agente": "DIGESTIVO/IMUNOLÓGICO",
+          "evidencia": "A",
+          "mecanismo": "Inibição NF-kB ou modulação citocinas"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Sarcopenia": {
+    "condicao": "Sarcopenia",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Creatine",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        },
+        {
+          "nome": "Whey Protein",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Osteoporose": {
+    "condicao": "Osteoporose",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Vitamin D",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Artrite": {
+    "condicao": "Artrite",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Curcumin",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Osteoartrite": {
+    "condicao": "Osteoartrite",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Lesões esportivas": {
+    "condicao": "Lesões esportivas",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Fadiga muscular": {
+    "condicao": "Fadiga muscular",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Creatine",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Performance atlética": {
+    "condicao": "Performance atlética",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Caffeine",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Melhoria metabolismo energético ou síntese proteica"
+        },
+        {
+          "nome": "Creatine",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Melhoria metabolismo energético ou síntese proteica"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "VO2 max",
+        "Força máxima",
+        "Tempo recuperação"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Recuperação pós-exercício": {
+    "condicao": "Recuperação pós-exercício",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Whey Protein",
+          "agente": "PERFORMANCE/MUSCULOESQUELÉTICO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Hipotireoidismo": {
+    "condicao": "Hipotireoidismo",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Hipertireoidismo": {
+    "condicao": "Hipertireoidismo",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Diabetes": {
+    "condicao": "Diabetes",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Menopausa": {
+    "condicao": "Menopausa",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Andropausa": {
+    "condicao": "Andropausa",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "SOP": {
+    "condicao": "SOP",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Infertilidade": {
+    "condicao": "Infertilidade",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Disfunção erétil": {
+    "condicao": "Disfunção erétil",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Desequilíbrios hormonais": {
+    "condicao": "Desequilíbrios hormonais",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "TPM": {
+    "condicao": "TPM",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "PMDD": {
+    "condicao": "PMDD",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Menorragia": {
+    "condicao": "Menorragia",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Amenorréia": {
+    "condicao": "Amenorréia",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Endometriose": {
+    "condicao": "Endometriose",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Fertilidade": {
+    "condicao": "Fertilidade",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Gravidez": {
+    "condicao": "Gravidez",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Lactação": {
+    "condicao": "Lactação",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Osteoporose pós-menopausa": {
+    "condicao": "Osteoporose pós-menopausa",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Envelhecimento celular": {
+    "condicao": "Envelhecimento celular",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Melatonin",
+          "agente": "ANTI-AGING/DETOXIFICAÇÃO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Estresse oxidativo": {
+    "condicao": "Estresse oxidativo",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Green Tea Extract",
+          "agente": "ANTI-AGING/DETOXIFICAÇÃO",
+          "evidencia": "A",
+          "mecanismo": "Atividade antioxidante ou indução enzimas antioxidantes"
+        },
+        {
+          "nome": "Curcumin",
+          "agente": "ANTI-AGING/DETOXIFICAÇÃO",
+          "evidencia": "A",
+          "mecanismo": "Atividade antioxidante ou indução enzimas antioxidantes"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Danos UV": {
+    "condicao": "Danos UV",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Declínio cognitivo": {
+    "condicao": "Declínio cognitivo",
+    "protocolo_recomendado": {
+      "combinacao": [
+        {
+          "nome": "Green Tea Extract",
+          "agente": "ANTI-AGING/DETOXIFICAÇÃO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        },
+        {
+          "nome": "Caffeine",
+          "agente": "ANTI-AGING/DETOXIFICAÇÃO",
+          "evidencia": "A",
+          "mecanismo": "Mecanismo específico a ser elucidado"
+        }
+      ],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Toxicidade metais pesados": {
+    "condicao": "Toxicidade metais pesados",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  },
+  "Sobrecarga hepática": {
+    "condicao": "Sobrecarga hepática",
+    "protocolo_recomendado": {
+      "combinacao": [],
+      "sinergia": "Mecanismo triplo integrado",
+      "eficacia_esperada": "30-45% melhoria vs protocolos simples"
+    },
+    "implementacao_clinica": {
+      "fase_inicial": "2-4 semanas de adaptação",
+      "titulacao": "Iniciar com 50% da dose, aumentar gradualmente",
+      "avaliacao_resposta": "4-6 semanas",
+      "ajustes": "Baseado em resposta clínica e tolerabilidade",
+      "descontinuacao": "Redução gradual se necessário"
+    },
+    "monitoramento_detalhado": {
+      "baseline": "Avaliação completa pré-tratamento",
+      "seguimento_inicial": "2-4 semanas",
+      "seguimento_regular": "6-12 semanas",
+      "parametros_laboratoriais": [
+        "Parâmetros clínicos relevantes"
+      ],
+      "parametros_clinicos": "Sintomas, qualidade vida, efeitos adversos"
+    },
+    "ajustes_individualizacao": {
+      "fatores_idade": "Ajustar doses conforme faixa etária",
+      "fatores_geneticos": "Considerar polimorfismos relevantes",
+      "comorbidades": "Ajustar conforme condições associadas",
+      "medicamentos": "Verificar interações medicamentosas",
+      "estilo_vida": "Integrar com dieta e exercício"
+    }
+  }
+}

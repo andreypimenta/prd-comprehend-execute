@@ -1,10 +1,13 @@
-import { Supplement, Recommendation, RecommendationCandidate, UserProfile } from '@/types/supplements';
+import type { Supplement, Recommendation, UserProfile, RecommendationCandidate } from '@/types/supplements';
+import type { TherapeuticProtocol, ProtocolRecommendation, EnhancedSupplement } from '@/types/protocols';
 
 export class RecommendationEngine {
-  private supplements: Supplement[] = [];
+  private supplements: EnhancedSupplement[];
+  private protocols: TherapeuticProtocol[];
 
-  constructor(supplements: Supplement[]) {
+  constructor(supplements: EnhancedSupplement[], protocols: TherapeuticProtocol[] = []) {
     this.supplements = supplements;
+    this.protocols = protocols;
   }
 
   async generateRecommendations(userProfile: UserProfile): Promise<Recommendation[]> {
