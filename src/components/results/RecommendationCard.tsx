@@ -2,7 +2,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Button } from "@/components/ui/button";
-import { Clock, Zap, Shield, DollarSign, Plus, Check } from "lucide-react";
+import { Clock, Zap, Shield, DollarSign, Plus, Check, TrendingUp } from "lucide-react";
 import type { Recommendation } from "@/types/supplements";
 
 interface RecommendationCardProps {
@@ -117,6 +117,22 @@ export function RecommendationCard({
         </div>
 
         <Progress value={recommendation.confidence} className="h-2 mt-2" />
+        
+        {/* Bioavailability Score */}
+        {(recommendation as any).supplement?.bioavailability_score && (
+          <div className="mt-2 space-y-1">
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-muted-foreground flex items-center gap-1">
+                <TrendingUp className="h-3 w-3" />
+                Biodisponibilidade
+              </span>
+              <Badge variant="secondary" className="text-xs">
+                {(recommendation as any).supplement.bioavailability_score}/100
+              </Badge>
+            </div>
+            <Progress value={(recommendation as any).supplement.bioavailability_score} className="h-1" />
+          </div>
+        )}
       </CardHeader>
 
       <CardContent className="space-y-4">
@@ -133,6 +149,24 @@ export function RecommendationCard({
             <Clock className="w-3 h-3 mr-1" />
             {getTimingLabel(supplement.timing)}
           </div>
+          
+          {/* Optimal Form and Timing from bioavailability analysis */}
+          {((recommendation as any).supplement?.optimal_form || (recommendation as any).supplement?.circadian_timing) && (
+            <div className="flex gap-1 flex-wrap mt-2">
+              {(recommendation as any).supplement?.optimal_form && (
+                <Badge variant="outline" className="text-xs flex items-center gap-1 bg-blue-50">
+                  <TrendingUp className="h-3 w-3" />
+                  {(recommendation as any).supplement.optimal_form}
+                </Badge>
+              )}
+              {(recommendation as any).supplement?.circadian_timing?.optimal && (
+                <Badge variant="outline" className="text-xs flex items-center gap-1 bg-green-50">
+                  <Clock className="h-3 w-3" />
+                  {(recommendation as any).supplement.circadian_timing.optimal}
+                </Badge>
+              )}
+            </div>
+          )}
         </div>
 
         {/* Principais Benefícios */}

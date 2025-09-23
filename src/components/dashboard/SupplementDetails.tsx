@@ -9,6 +9,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { BioavailabilityPanel } from '@/components/bioavailability/BioavailabilityPanel';
 import type { SupplementDetailsProps } from '@/types/dashboard';
 import { 
   Star, 
@@ -18,7 +20,8 @@ import {
   CheckCircle, 
   Target,
   Lightbulb,
-  ShieldCheck
+  ShieldCheck,
+  TrendingUp
 } from 'lucide-react';
 
 export function SupplementDetails({ recommendation, onClose }: SupplementDetailsProps) {
@@ -46,7 +49,7 @@ export function SupplementDetails({ recommendation, onClose }: SupplementDetails
 
   return (
     <Dialog open={true} onOpenChange={onClose}>
-      <DialogContent className="max-w-4xl max-h-[90vh] overflow-y-auto">
+      <DialogContent className="max-w-6xl max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-2xl font-bold flex items-center gap-3">
             {supplement.name}
@@ -60,80 +63,171 @@ export function SupplementDetails({ recommendation, onClose }: SupplementDetails
           </DialogTitle>
         </DialogHeader>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-          {/* Main Info */}
-          <div className="lg:col-span-2 space-y-6">
-            {/* Score & Confidence */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Star className="h-5 w-5 text-yellow-500" />
-                  Análise de Confiança
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="flex items-center justify-between">
-                  <div className="text-center">
-                    <div className="text-3xl font-bold text-primary">{recommendation.confidence}%</div>
-                    <div className="text-sm text-muted-foreground">Match Score</div>
-                  </div>
-                  <div className="text-center">
-                    <Badge variant={evidenceBadge.variant} className={evidenceBadge.variant === 'default' ? evidenceBadge.color : ''}>
-                      <ShieldCheck className="h-4 w-4 mr-1" />
-                      {evidenceBadge.text}
-                    </Badge>
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+        <Tabs defaultValue="overview" className="w-full">
+          <TabsList className="grid w-full grid-cols-3">
+            <TabsTrigger value="overview">Visão Geral</TabsTrigger>
+            <TabsTrigger value="bioavailability" className="flex items-center gap-2">
+              <TrendingUp className="h-4 w-4" />
+              Biodisponibilidade
+            </TabsTrigger>
+            <TabsTrigger value="details">Detalhes</TabsTrigger>
+          </TabsList>
 
-            {/* Reasoning */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <Lightbulb className="h-5 w-5 text-blue-500" />
-                  Por que foi recomendado?
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
-                  {recommendation.reasoning}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Description */}
-            <Card>
-              <CardHeader>
-                <CardTitle>Sobre este suplemento</CardTitle>
-              </CardHeader>
-              <CardContent>
-                <p className="text-muted-foreground leading-relaxed">
-                  {supplement.description}
-                </p>
-              </CardContent>
-            </Card>
-
-            {/* Benefits */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center gap-2">
-                  <CheckCircle className="h-5 w-5 text-green-500" />
-                  Benefícios
-                </CardTitle>
-              </CardHeader>
-              <CardContent>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-                  {supplement.benefits.map((benefit, index) => (
-                    <div key={index} className="flex items-start gap-2">
-                      <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
-                      <span className="text-sm">{benefit}</span>
+          <TabsContent value="overview" className="space-y-6">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+              {/* Main Info */}
+              <div className="lg:col-span-2 space-y-6">
+                {/* Score & Confidence */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Star className="h-5 w-5 text-yellow-500" />
+                      Análise de Confiança
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex items-center justify-between">
+                      <div className="text-center">
+                        <div className="text-3xl font-bold text-primary">{recommendation.confidence}%</div>
+                        <div className="text-sm text-muted-foreground">Match Score</div>
+                      </div>
+                      <div className="text-center">
+                        <Badge variant={evidenceBadge.variant} className={evidenceBadge.variant === 'default' ? evidenceBadge.color : ''}>
+                          <ShieldCheck className="h-4 w-4 mr-1" />
+                          {evidenceBadge.text}
+                        </Badge>
+                      </div>
                     </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
+                  </CardContent>
+                </Card>
 
+                {/* Reasoning */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <Lightbulb className="h-5 w-5 text-blue-500" />
+                      Por que foi recomendado?
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {recommendation.reasoning}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Description */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle>Sobre este suplemento</CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <p className="text-muted-foreground leading-relaxed">
+                      {supplement.description}
+                    </p>
+                  </CardContent>
+                </Card>
+
+                {/* Benefits */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="flex items-center gap-2">
+                      <CheckCircle className="h-5 w-5 text-green-500" />
+                      Benefícios
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
+                      {supplement.benefits.map((benefit, index) => (
+                        <div key={index} className="flex items-start gap-2">
+                          <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
+                          <span className="text-sm">{benefit}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
+
+              {/* Sidebar */}
+              <div className="space-y-4">
+                {/* Dosage & Timing */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Como tomar</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Dosagem</span>
+                      <span className="font-semibold">
+                        {recommendation.recommendedDosage} {supplement.category === 'vitamin' ? 'UI' : 'mg'}
+                      </span>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="flex items-center gap-2">
+                      <Clock className="h-4 w-4 text-muted-foreground" />
+                      <span className="text-sm">
+                        {supplement.timing === 'morning' ? 'Pela manhã' :
+                         supplement.timing === 'evening' ? 'À noite' : 
+                         supplement.timing === 'with_meal' ? 'Com refeição' : 'Qualquer horário'}
+                      </span>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                {/* Category & Cost */}
+                <Card>
+                  <CardHeader>
+                    <CardTitle className="text-lg">Informações</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Categoria</span>
+                      <Badge variant="outline">
+                        {supplement.category.charAt(0).toUpperCase() + supplement.category.slice(1)}
+                      </Badge>
+                    </div>
+                    
+                    <Separator />
+                    
+                    <div className="flex items-center justify-between">
+                      <span className="text-sm text-muted-foreground">Custo estimado</span>
+                      <div className="flex items-center gap-1">
+                        <DollarSign className="h-4 w-4 text-muted-foreground" />
+                        <span className="font-semibold">R$ {recommendation.estimatedCost}/mês</span>
+                      </div>
+                    </div>
+
+                    {supplement.priceMin && supplement.priceMax && (
+                      <>
+                        <Separator />
+                        <div className="text-center text-sm text-muted-foreground">
+                          Faixa de preço: R$ {supplement.priceMin} - R$ {supplement.priceMax}
+                        </div>
+                      </>
+                    )}
+                  </CardContent>
+                </Card>
+
+                {/* Action Button */}
+                <Button className="w-full" size="lg">
+                  <Target className="h-4 w-4 mr-2" />
+                  Adicionar ao Plano
+                </Button>
+              </div>
+            </div>
+          </TabsContent>
+
+          <TabsContent value="bioavailability">
+            <BioavailabilityPanel 
+              supplementId={supplement.name} 
+              supplementName={supplement.name} 
+            />
+          </TabsContent>
+
+          <TabsContent value="details">
             {/* Contraindications & Interactions */}
             {(supplement.contraindications?.length > 0 || supplement.interactions?.length > 0) && (
               <Card className="border-orange-200 bg-orange-50/50">
@@ -174,77 +268,8 @@ export function SupplementDetails({ recommendation, onClose }: SupplementDetails
                 </CardContent>
               </Card>
             )}
-          </div>
-
-          {/* Sidebar */}
-          <div className="space-y-4">
-            {/* Dosage & Timing */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Como tomar</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Dosagem</span>
-                  <span className="font-semibold">
-                    {recommendation.recommendedDosage} {supplement.category === 'vitamin' ? 'UI' : 'mg'}
-                  </span>
-                </div>
-                
-                <Separator />
-                
-                <div className="flex items-center gap-2">
-                  <Clock className="h-4 w-4 text-muted-foreground" />
-                  <span className="text-sm">
-                    {supplement.timing === 'morning' ? 'Pela manhã' :
-                     supplement.timing === 'evening' ? 'À noite' : 
-                     supplement.timing === 'with_meal' ? 'Com refeição' : 'Qualquer horário'}
-                  </span>
-                </div>
-              </CardContent>
-            </Card>
-
-            {/* Category & Cost */}
-            <Card>
-              <CardHeader>
-                <CardTitle className="text-lg">Informações</CardTitle>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Categoria</span>
-                  <Badge variant="outline">
-                    {supplement.category.charAt(0).toUpperCase() + supplement.category.slice(1)}
-                  </Badge>
-                </div>
-                
-                <Separator />
-                
-                <div className="flex items-center justify-between">
-                  <span className="text-sm text-muted-foreground">Custo estimado</span>
-                  <div className="flex items-center gap-1">
-                    <DollarSign className="h-4 w-4 text-muted-foreground" />
-                    <span className="font-semibold">R$ {recommendation.estimatedCost}/mês</span>
-                  </div>
-                </div>
-
-                {supplement.priceMin && supplement.priceMax && (
-                  <>
-                    <Separator />
-                    <div className="text-center text-sm text-muted-foreground">
-                      Faixa de preço: R$ {supplement.priceMin} - R$ {supplement.priceMax}
-                    </div>
-                  </>
-                )}
-              </CardContent>
-            </Card>
-
-            {/* Action Button */}
-            <Button className="w-full" size="lg">
-              <Target className="h-4 w-4 mr-2" />
-              Adicionar ao Plano
-            </Button>
-          </div>
-        </div>
+          </TabsContent>
+        </Tabs>
       </DialogContent>
     </Dialog>
   );

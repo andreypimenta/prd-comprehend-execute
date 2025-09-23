@@ -73,6 +73,63 @@ export type Database = {
           },
         ]
       }
+      bioavailability_data: {
+        Row: {
+          absorption_rate: number
+          bioavailability_factor: number
+          clinical_evidence: string | null
+          contraindications: Json | null
+          cost_multiplier: number | null
+          created_at: string
+          duration_hours: number | null
+          id: string
+          inhibitory_compounds: Json | null
+          mechanism_description: string | null
+          optimal_conditions: Json | null
+          peak_time_hours: number | null
+          pharmaceutical_form: string
+          supplement_id: string
+          synergistic_compounds: Json | null
+          updated_at: string
+        }
+        Insert: {
+          absorption_rate?: number
+          bioavailability_factor?: number
+          clinical_evidence?: string | null
+          contraindications?: Json | null
+          cost_multiplier?: number | null
+          created_at?: string
+          duration_hours?: number | null
+          id?: string
+          inhibitory_compounds?: Json | null
+          mechanism_description?: string | null
+          optimal_conditions?: Json | null
+          peak_time_hours?: number | null
+          pharmaceutical_form: string
+          supplement_id: string
+          synergistic_compounds?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          absorption_rate?: number
+          bioavailability_factor?: number
+          clinical_evidence?: string | null
+          contraindications?: Json | null
+          cost_multiplier?: number | null
+          created_at?: string
+          duration_hours?: number | null
+          id?: string
+          inhibitory_compounds?: Json | null
+          mechanism_description?: string | null
+          optimal_conditions?: Json | null
+          peak_time_hours?: number | null
+          pharmaceutical_form?: string
+          supplement_id?: string
+          synergistic_compounds?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       checkin_reminders: {
         Row: {
           created_at: string
@@ -288,12 +345,17 @@ export type Database = {
       }
       supplements: {
         Row: {
+          absorption_enhancers: Json | null
+          absorption_inhibitors: Json | null
           agent_category: string | null
           benefits: string[]
+          bioavailability_score: number | null
           category: string
+          circadian_timing: Json | null
           clinical_trials: Json | null
           cochrane_reviews: Json | null
           contraindications: string[]
+          cost_benefit_form: string | null
           created_at: string
           description: string
           dosage_max: number
@@ -301,6 +363,7 @@ export type Database = {
           dosage_unit: string
           evidence_classification: string | null
           evidence_level: string
+          food_interactions: Json | null
           id: string
           integrated_evidence_score: number | null
           interactions: string[]
@@ -308,6 +371,8 @@ export type Database = {
           mechanism: string | null
           medical_conditions: string[] | null
           name: string
+          optimal_form: string | null
+          pharmaceutical_forms: Json | null
           pharmgkb_data: Json | null
           price_max: number | null
           price_min: number | null
@@ -320,12 +385,17 @@ export type Database = {
           updated_at: string
         }
         Insert: {
+          absorption_enhancers?: Json | null
+          absorption_inhibitors?: Json | null
           agent_category?: string | null
           benefits?: string[]
+          bioavailability_score?: number | null
           category: string
+          circadian_timing?: Json | null
           clinical_trials?: Json | null
           cochrane_reviews?: Json | null
           contraindications?: string[]
+          cost_benefit_form?: string | null
           created_at?: string
           description: string
           dosage_max: number
@@ -333,6 +403,7 @@ export type Database = {
           dosage_unit?: string
           evidence_classification?: string | null
           evidence_level?: string
+          food_interactions?: Json | null
           id: string
           integrated_evidence_score?: number | null
           interactions?: string[]
@@ -340,6 +411,8 @@ export type Database = {
           mechanism?: string | null
           medical_conditions?: string[] | null
           name: string
+          optimal_form?: string | null
+          pharmaceutical_forms?: Json | null
           pharmgkb_data?: Json | null
           price_max?: number | null
           price_min?: number | null
@@ -352,12 +425,17 @@ export type Database = {
           updated_at?: string
         }
         Update: {
+          absorption_enhancers?: Json | null
+          absorption_inhibitors?: Json | null
           agent_category?: string | null
           benefits?: string[]
+          bioavailability_score?: number | null
           category?: string
+          circadian_timing?: Json | null
           clinical_trials?: Json | null
           cochrane_reviews?: Json | null
           contraindications?: string[]
+          cost_benefit_form?: string | null
           created_at?: string
           description?: string
           dosage_max?: number
@@ -365,6 +443,7 @@ export type Database = {
           dosage_unit?: string
           evidence_classification?: string | null
           evidence_level?: string
+          food_interactions?: Json | null
           id?: string
           integrated_evidence_score?: number | null
           interactions?: string[]
@@ -372,6 +451,8 @@ export type Database = {
           mechanism?: string | null
           medical_conditions?: string[] | null
           name?: string
+          optimal_form?: string | null
+          pharmaceutical_forms?: Json | null
           pharmgkb_data?: Json | null
           price_max?: number | null
           price_min?: number | null
