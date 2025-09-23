@@ -4,6 +4,7 @@ import { Badge } from '@/components/ui/badge';
 import { DonutChart } from '@/components/charts/DonutChart';
 import { ProgressRing } from '@/components/charts/ProgressRing';
 import { BioavailabilityWidget } from './BioavailabilityWidget';
+import { QuantitativeWidget } from './QuantitativeWidget';
 import type { DashboardData } from '@/types/dashboard';
 import { TrendingUp, Target, Brain, Users } from 'lucide-react';
 
@@ -182,6 +183,13 @@ export function DashboardOverview({ data }: DashboardOverviewProps) {
             </div>
           </CardContent>
         </Card>
+      </div>
+
+      {/* Widget de Análise Quantitativa */}
+      <div className="grid grid-cols-1 gap-6">
+        <QuantitativeWidget 
+          supplementIds={data.supplements.map(s => s.id)}
+        />
       </div>
     </div>
   );

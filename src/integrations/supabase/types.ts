@@ -166,6 +166,51 @@ export type Database = {
         }
         Relationships: []
       }
+      protocol_optimizations: {
+        Row: {
+          confidence_score: number | null
+          cost_benefit_analysis: Json | null
+          created_at: string | null
+          id: string
+          optimization_objective: string
+          optimized_dosages: Json
+          predicted_outcomes: Json | null
+          protocol_id: string | null
+          safety_constraints: Json | null
+          supplement_combination: Json
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          confidence_score?: number | null
+          cost_benefit_analysis?: Json | null
+          created_at?: string | null
+          id?: string
+          optimization_objective?: string
+          optimized_dosages: Json
+          predicted_outcomes?: Json | null
+          protocol_id?: string | null
+          safety_constraints?: Json | null
+          supplement_combination: Json
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          confidence_score?: number | null
+          cost_benefit_analysis?: Json | null
+          created_at?: string | null
+          id?: string
+          optimization_objective?: string
+          optimized_dosages?: Json
+          predicted_outcomes?: Json | null
+          protocol_id?: string | null
+          safety_constraints?: Json | null
+          supplement_combination?: Json
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
+      }
       protocol_recommendations: {
         Row: {
           confidence_score: number
@@ -206,6 +251,45 @@ export type Database = {
             referencedColumns: ["id"]
           },
         ]
+      }
+      quantitative_analysis: {
+        Row: {
+          analysis_type: string
+          confidence_interval: Json | null
+          created_at: string | null
+          id: string
+          input_parameters: Json
+          results: Json
+          statistical_significance: number | null
+          supplement_ids: string[]
+          updated_at: string | null
+          user_id: string
+        }
+        Insert: {
+          analysis_type: string
+          confidence_interval?: Json | null
+          created_at?: string | null
+          id?: string
+          input_parameters?: Json
+          results?: Json
+          statistical_significance?: number | null
+          supplement_ids: string[]
+          updated_at?: string | null
+          user_id: string
+        }
+        Update: {
+          analysis_type?: string
+          confidence_interval?: Json | null
+          created_at?: string | null
+          id?: string
+          input_parameters?: Json
+          results?: Json
+          statistical_significance?: number | null
+          supplement_ids?: string[]
+          updated_at?: string | null
+          user_id?: string
+        }
+        Relationships: []
       }
       recommendations: {
         Row: {
@@ -370,10 +454,14 @@ export type Database = {
           last_evidence_update: string | null
           mechanism: string | null
           medical_conditions: string[] | null
+          ml_features: Json | null
+          monte_carlo_data: Json | null
           name: string
           optimal_form: string | null
           pharmaceutical_forms: Json | null
           pharmgkb_data: Json | null
+          pk_parameters: Json | null
+          population_variability: Json | null
           price_max: number | null
           price_min: number | null
           priority_level: string | null
@@ -410,10 +498,14 @@ export type Database = {
           last_evidence_update?: string | null
           mechanism?: string | null
           medical_conditions?: string[] | null
+          ml_features?: Json | null
+          monte_carlo_data?: Json | null
           name: string
           optimal_form?: string | null
           pharmaceutical_forms?: Json | null
           pharmgkb_data?: Json | null
+          pk_parameters?: Json | null
+          population_variability?: Json | null
           price_max?: number | null
           price_min?: number | null
           priority_level?: string | null
@@ -450,10 +542,14 @@ export type Database = {
           last_evidence_update?: string | null
           mechanism?: string | null
           medical_conditions?: string[] | null
+          ml_features?: Json | null
+          monte_carlo_data?: Json | null
           name?: string
           optimal_form?: string | null
           pharmaceutical_forms?: Json | null
           pharmgkb_data?: Json | null
+          pk_parameters?: Json | null
+          population_variability?: Json | null
           price_max?: number | null
           price_min?: number | null
           priority_level?: string | null
@@ -463,6 +559,48 @@ export type Database = {
           target_symptoms?: string[]
           timing?: string
           updated_at?: string
+        }
+        Relationships: []
+      }
+      synergy_predictions: {
+        Row: {
+          confidence_level: number
+          created_at: string | null
+          id: string
+          mechanism_description: string | null
+          ml_model_version: string | null
+          predicted_efficacy_boost: number | null
+          safety_assessment: Json | null
+          scientific_evidence: Json | null
+          supplement_pair: string[]
+          synergy_score: number
+          updated_at: string | null
+        }
+        Insert: {
+          confidence_level?: number
+          created_at?: string | null
+          id?: string
+          mechanism_description?: string | null
+          ml_model_version?: string | null
+          predicted_efficacy_boost?: number | null
+          safety_assessment?: Json | null
+          scientific_evidence?: Json | null
+          supplement_pair: string[]
+          synergy_score?: number
+          updated_at?: string | null
+        }
+        Update: {
+          confidence_level?: number
+          created_at?: string | null
+          id?: string
+          mechanism_description?: string | null
+          ml_model_version?: string | null
+          predicted_efficacy_boost?: number | null
+          safety_assessment?: Json | null
+          scientific_evidence?: Json | null
+          supplement_pair?: string[]
+          synergy_score?: number
+          updated_at?: string | null
         }
         Relationships: []
       }
