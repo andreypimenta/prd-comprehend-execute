@@ -6,6 +6,24 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+interface SupplementInMatrix {
+  nome: string;
+  agente: string;
+  evidencia: 'A' | 'B' | 'D';
+  mecanismo: string;
+}
+
+interface MatrixData {
+  [condition: string]: {
+    ranking_consolidado: {
+      prioridade_muito_alta: SupplementInMatrix[];
+      prioridade_alta: SupplementInMatrix[];
+      prioridade_media: SupplementInMatrix[];
+      prioridade_baixa: SupplementInMatrix[];
+    };
+  };
+}
+
 // Auto-execute import on startup
 let importExecuted = false
 
@@ -52,21 +70,160 @@ async function executeMatrixImport(supabase: any) {
   
   console.log(`📊 Arquivo carregado com ${Object.keys(matrixData).length} condições`);
 
-interface SupplementInMatrix {
-  nome: string;
-  agente: string;
-  evidencia: 'A' | 'B' | 'D';
-  mecanismo: string;
-}
+  // Extrair suplementos únicos
+  const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[], priorities: string[] }>();
+  
+  Object.entries(matrixData).forEach(([condition, data]) => {
+    if (data && data.ranking_consolidado) {
+      const priorities = ['prioridade_muito_alta', 'prioridade_alta', 'prioridade_media', 'prioridade_baixa'];
+      
+      priorities.forEach(priority => {
+        const supplements = data.ranking_consolidado[priority as keyof typeof data.ranking_consolidado] || [];
+        supplements.forEach(supplement => {
+          if (supplement && supplement.nome) {
+            const key = supplement.nome.toLowerCase().trim();
+            if (!supplementMap.has(key)) {
+              supplementMap.set(key, { 
+                supplement, 
+                conditions: [condition], 
+                priorities: [priority]
+              });
+            } else {
+              const existing = supplementMap.get(key)!;
+              if (!existing.conditions.includes(condition)) {
+                existing.conditions.push(condition);
+              }
+              if (!existing.priorities.includes(priority)) {
+                existing.priorities.push(priority);
+              }
+            }
+          }
+        });
+      });
+    }
+  });
 
-interface MatrixData {
-  [condition: string]: {
-    ranking_consolidado: {
-      prioridade_muito_alta: SupplementInMatrix[];
-      prioridade_alta: SupplementInMatrix[];
-      prioridade_media: SupplementInMatrix[];
-      prioridade_baixa: SupplementInMatrix[];
+  console.log(`💊 Encontrados ${supplementMap.size} suplementos únicos`);
+
+  // Importar suplementos
+  const supplementsData = Array.from(supplementMap.values()).map(item => ({
+    id: generateSupplementId(item.supplement.nome),
+    name: item.supplement.nome,
+    category: categorizeByAgent(item.supplement.agente),
+    description: `${item.supplement.nome} - ${item.supplement.mecanismo}`,
+    benefits: [item.supplement.mecanismo],
+    target_symptoms: item.conditions.map(c => c.toLowerCase()),
+    dosage_min: getDefaultDosage(item.supplement.nome).min,
+    dosage_max: getDefaultDosage(item.supplement.nome).max,
+    dosage_unit: 'mg',
+    timing: 'morning',
+    evidence_level: mapEvidenceLevel(item.supplement.evidencia),
+    contraindications: [],
+    interactions: [],
+    mechanism: item.supplement.mecanismo,
+    agent_category: item.supplement.agente,
+    scientific_evidence: item.supplement.evidencia,
+    priority_level: mapPriorityLevel(item.supplement.evidencia),
+    evidence_classification: item.supplement.evidencia,
+    medical_conditions: item.conditions,
+    synergy_potential: calculateSynergyPotential(item.supplement.evidencia),
+    integrated_evidence_score: calculateEvidenceScore(item.supplement.evidencia, item.conditions.length),
+    created_at: new Date().toISOString(),
+    updated_at: new Date().toISOString()
+  }));
+
+  // Importar em lotes
+  const CHUNK_SIZE = 20;
+  let importedSupplements = 0;
+
+  for (let i = 0; i < supplementsData.length; i += CHUNK_SIZE) {
+    const chunk = supplementsData.slice(i, i + CHUNK_SIZE);
+    
+    const { data, error } = await supabase
+      .from('supplements')
+      .upsert(chunk, { onConflict: 'name' });
+
+    if (error) {
+      console.error(`Erro no lote ${i/CHUNK_SIZE + 1}:`, error);
+    } else {
+      importedSupplements += chunk.length;
+      console.log(`✅ Importado lote ${i/CHUNK_SIZE + 1}/${Math.ceil(supplementsData.length/CHUNK_SIZE)} - ${chunk.length} suplementos`);
+    }
+
+    // Pausa para não sobrecarregar
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  // Criar protocolos terapêuticos
+  const protocolsData = Object.entries(matrixData).map(([condition, data]) => {
+    const allSupplements: any[] = [];
+    
+    if (data && data.ranking_consolidado) {
+      Object.entries(data.ranking_consolidado).forEach(([priority, supplements]) => {
+        supplements.forEach(supplement => {
+          allSupplements.push({
+            nome: supplement.nome,
+            agente: supplement.agente,
+            evidencia: supplement.evidencia,
+            mecanismo: supplement.mecanismo,
+            prioridade: priority.replace('prioridade_', '')
+          });
+        });
+      });
+    }
+
+    return {
+      id: crypto.randomUUID(),
+      condition: condition,
+      supplement_combination: allSupplements,
+      synergy_description: `Protocolo para ${condition} com ${allSupplements.length} suplementos`,
+      expected_efficacy: `Baseado em evidências ${allSupplements.filter(s => s.evidencia === 'A').length} nível A`,
+      implementation_phases: {
+        fase_inicial: "Iniciar com suplementos de prioridade muito alta",
+        titulacao: "Adicionar gradualmente suplementos de menor prioridade",
+        avaliacao_resposta: "Avaliar resposta após 4-6 semanas"
+      },
+      monitoring_parameters: {
+        baseline: "Avaliação inicial de sintomas",
+        seguimento_inicial: "2 semanas",
+        seguimento_regular: "4-6 semanas"
+      },
+      individualization_factors: {
+        fatores_idade: "Ajustar dosagens conforme idade",
+        comorbidades: "Considerar condições coexistentes",
+        medicamentos: "Verificar interações medicamentosas"
+      },
+      created_at: new Date().toISOString(),
+      updated_at: new Date().toISOString()
     };
+  });
+
+  // Importar protocolos
+  let importedProtocols = 0;
+  
+  for (let i = 0; i < protocolsData.length; i += CHUNK_SIZE) {
+    const chunk = protocolsData.slice(i, i + CHUNK_SIZE);
+    
+    const { data, error } = await supabase
+      .from('therapeutic_protocols')
+      .upsert(chunk, { onConflict: 'condition' });
+
+    if (error) {
+      console.error(`Erro no lote de protocolos ${i/CHUNK_SIZE + 1}:`, error);
+    } else {
+      importedProtocols += chunk.length;
+      console.log(`✅ Importado lote de protocolos ${i/CHUNK_SIZE + 1}/${Math.ceil(protocolsData.length/CHUNK_SIZE)} - ${chunk.length} protocolos`);
+    }
+
+    await new Promise(resolve => setTimeout(resolve, 100));
+  }
+
+  console.log(`🎉 Importação concluída: ${importedSupplements} suplementos, ${importedProtocols} protocolos`);
+
+  return {
+    supplements: importedSupplements,
+    protocols: importedProtocols,
+    conditions: Object.keys(matrixData).length
   };
 }
 
@@ -105,165 +262,6 @@ serve(async (req) => {
     });
   }
 });
-
-async function executeMatrixImport(supabase: any) {
-
-    // Extrair suplementos únicos
-    const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[], priorities: string[] }>();
-    
-    Object.entries(matrixData).forEach(([condition, data]) => {
-      if (data && data.ranking_consolidado) {
-        const priorities = ['prioridade_muito_alta', 'prioridade_alta', 'prioridade_media', 'prioridade_baixa'];
-        
-        priorities.forEach(priority => {
-          const supplements = data.ranking_consolidado[priority as keyof typeof data.ranking_consolidado] || [];
-          supplements.forEach(supplement => {
-            if (supplement && supplement.nome) {
-              const key = supplement.nome.toLowerCase().trim();
-              if (!supplementMap.has(key)) {
-                supplementMap.set(key, { 
-                  supplement, 
-                  conditions: [condition], 
-                  priorities: [priority]
-                });
-              } else {
-                const existing = supplementMap.get(key)!;
-                if (!existing.conditions.includes(condition)) {
-                  existing.conditions.push(condition);
-                }
-                if (!existing.priorities.includes(priority)) {
-                  existing.priorities.push(priority);
-                }
-              }
-            }
-          });
-        });
-      }
-    });
-
-    console.log(`💊 Encontrados ${supplementMap.size} suplementos únicos`);
-
-    // Importar suplementos
-    const supplementsData = Array.from(supplementMap.values()).map(item => ({
-      id: generateSupplementId(item.supplement.nome),
-      name: item.supplement.nome,
-      category: categorizeByAgent(item.supplement.agente),
-      description: `${item.supplement.nome} - ${item.supplement.mecanismo}`,
-      benefits: [item.supplement.mecanismo],
-      target_symptoms: item.conditions.map(c => c.toLowerCase()),
-      dosage_min: getDefaultDosage(item.supplement.nome).min,
-      dosage_max: getDefaultDosage(item.supplement.nome).max,
-      dosage_unit: 'mg',
-      timing: 'morning',
-      evidence_level: mapEvidenceLevel(item.supplement.evidencia),
-      contraindications: [],
-      interactions: [],
-      mechanism: item.supplement.mecanismo,
-      agent_category: item.supplement.agente,
-      scientific_evidence: item.supplement.evidencia,
-      priority_level: mapPriorityLevel(item.supplement.evidencia),
-      evidence_classification: item.supplement.evidencia,
-      medical_conditions: item.conditions,
-      synergy_potential: calculateSynergyPotential(item.supplement.evidencia),
-      integrated_evidence_score: calculateEvidenceScore(item.supplement.evidencia, item.conditions.length),
-      created_at: new Date().toISOString(),
-      updated_at: new Date().toISOString()
-    }));
-
-    // Importar em lotes
-    const CHUNK_SIZE = 20;
-    let importedSupplements = 0;
-
-    for (let i = 0; i < supplementsData.length; i += CHUNK_SIZE) {
-      const chunk = supplementsData.slice(i, i + CHUNK_SIZE);
-      
-      const { data, error } = await supabase
-        .from('supplements')
-        .upsert(chunk, { onConflict: 'name' });
-
-      if (error) {
-        console.error(`Erro no lote ${i/CHUNK_SIZE + 1}:`, error);
-      } else {
-        importedSupplements += chunk.length;
-        console.log(`✅ Importado lote ${i/CHUNK_SIZE + 1}/${Math.ceil(supplementsData.length/CHUNK_SIZE)} - ${chunk.length} suplementos`);
-      }
-
-      // Pausa para não sobrecarregar
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-
-    // Criar protocolos terapêuticos
-    const protocolsData = Object.entries(matrixData).map(([condition, data]) => {
-      const allSupplements: any[] = [];
-      
-      if (data && data.ranking_consolidado) {
-        Object.entries(data.ranking_consolidado).forEach(([priority, supplements]) => {
-          supplements.forEach(supplement => {
-            allSupplements.push({
-              nome: supplement.nome,
-              agente: supplement.agente,
-              evidencia: supplement.evidencia,
-              mecanismo: supplement.mecanismo,
-              prioridade: priority.replace('prioridade_', '')
-            });
-          });
-        });
-      }
-
-      return {
-        id: crypto.randomUUID(),
-        condition: condition,
-        supplement_combination: allSupplements,
-        synergy_description: `Protocolo para ${condition} com ${allSupplements.length} suplementos`,
-        expected_efficacy: `Baseado em evidências ${allSupplements.filter(s => s.evidencia === 'A').length} nível A`,
-        implementation_phases: {
-          fase_inicial: "Iniciar com suplementos de prioridade muito alta",
-          titulacao: "Adicionar gradualmente suplementos de menor prioridade",
-          avaliacao_resposta: "Avaliar resposta após 4-6 semanas"
-        },
-        monitoring_parameters: {
-          baseline: "Avaliação inicial de sintomas",
-          seguimento_inicial: "2 semanas",
-          seguimento_regular: "4-6 semanas"
-        },
-        individualization_factors: {
-          fatores_idade: "Ajustar dosagens conforme idade",
-          comorbidades: "Considerar condições coexistentes",
-          medicamentos: "Verificar interações medicamentosas"
-        },
-        created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
-      };
-    });
-
-    // Importar protocolos
-    let importedProtocols = 0;
-    
-    for (let i = 0; i < protocolsData.length; i += CHUNK_SIZE) {
-      const chunk = protocolsData.slice(i, i + CHUNK_SIZE);
-      
-      const { data, error } = await supabase
-        .from('therapeutic_protocols')
-        .upsert(chunk, { onConflict: 'condition' });
-
-      if (error) {
-        console.error(`Erro no lote de protocolos ${i/CHUNK_SIZE + 1}:`, error);
-      } else {
-        importedProtocols += chunk.length;
-        console.log(`✅ Importado lote de protocolos ${i/CHUNK_SIZE + 1}/${Math.ceil(protocolsData.length/CHUNK_SIZE)} - ${chunk.length} protocolos`);
-      }
-
-      await new Promise(resolve => setTimeout(resolve, 100));
-    }
-
-    console.log(`🎉 Importação concluída: ${importedSupplements} suplementos, ${importedProtocols} protocolos`);
-
-    return {
-      supplements: importedSupplements,
-      protocols: importedProtocols,
-      conditions: Object.keys(matrixData).length
-    };
-}
 
 // Funções auxiliares
 function generateSupplementId(name: string): string {
