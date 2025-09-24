@@ -166,6 +166,162 @@ export type Database = {
         }
         Relationships: []
       }
+      evidence_classifications: {
+        Row: {
+          applied_at: string | null
+          auto_approved: boolean
+          classification_type: string
+          confidence_score: number
+          created_at: string
+          id: string
+          new_classification: string
+          old_classification: string | null
+          reasoning: string | null
+          requires_review: boolean
+          review_notes: string | null
+          reviewed_at: string | null
+          reviewed_by: string | null
+          supplement_id: string
+          supporting_studies: Json | null
+          updated_at: string
+        }
+        Insert: {
+          applied_at?: string | null
+          auto_approved?: boolean
+          classification_type: string
+          confidence_score?: number
+          created_at?: string
+          id?: string
+          new_classification: string
+          old_classification?: string | null
+          reasoning?: string | null
+          requires_review?: boolean
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          supplement_id: string
+          supporting_studies?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          applied_at?: string | null
+          auto_approved?: boolean
+          classification_type?: string
+          confidence_score?: number
+          created_at?: string
+          id?: string
+          new_classification?: string
+          old_classification?: string | null
+          reasoning?: string | null
+          requires_review?: boolean
+          review_notes?: string | null
+          reviewed_at?: string | null
+          reviewed_by?: string | null
+          supplement_id?: string
+          supporting_studies?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      evidence_updates: {
+        Row: {
+          approved_at: string | null
+          approved_by: string | null
+          automatic: boolean
+          confidence_score: number | null
+          created_at: string
+          id: string
+          justification: string | null
+          new_value: Json | null
+          old_value: Json | null
+          source_data: Json | null
+          supplement_id: string
+          update_type: string
+          updated_at: string
+        }
+        Insert: {
+          approved_at?: string | null
+          approved_by?: string | null
+          automatic?: boolean
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          justification?: string | null
+          new_value?: Json | null
+          old_value?: Json | null
+          source_data?: Json | null
+          supplement_id: string
+          update_type: string
+          updated_at?: string
+        }
+        Update: {
+          approved_at?: string | null
+          approved_by?: string | null
+          automatic?: boolean
+          confidence_score?: number | null
+          created_at?: string
+          id?: string
+          justification?: string | null
+          new_value?: Json | null
+          old_value?: Json | null
+          source_data?: Json | null
+          supplement_id?: string
+          update_type?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      monitoring_jobs: {
+        Row: {
+          completed_at: string | null
+          created_at: string
+          error_message: string | null
+          id: string
+          job_type: string
+          next_run_at: string | null
+          parameters: Json | null
+          progress: Json | null
+          results: Json | null
+          run_interval_hours: number | null
+          started_at: string | null
+          status: string
+          target_supplements: Json | null
+          updated_at: string
+        }
+        Insert: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          job_type: string
+          next_run_at?: string | null
+          parameters?: Json | null
+          progress?: Json | null
+          results?: Json | null
+          run_interval_hours?: number | null
+          started_at?: string | null
+          status?: string
+          target_supplements?: Json | null
+          updated_at?: string
+        }
+        Update: {
+          completed_at?: string | null
+          created_at?: string
+          error_message?: string | null
+          id?: string
+          job_type?: string
+          next_run_at?: string | null
+          parameters?: Json | null
+          progress?: Json | null
+          results?: Json | null
+          run_interval_hours?: number | null
+          started_at?: string | null
+          status?: string
+          target_supplements?: Json | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       protocol_optimizations: {
         Row: {
           confidence_score: number | null
@@ -335,11 +491,16 @@ export type Database = {
       scientific_evidence: {
         Row: {
           authors: string[] | null
+          auto_update_source: string | null
           created_at: string
           database_source: string
           doi: string | null
+          evidence_score: number | null
           id: string
+          impacto_classificacao: string | null
           intervention: string | null
+          last_verification_date: string | null
+          nivel_evidencia: string | null
           outcome_measures: string[] | null
           pmid: string | null
           publication_date: string | null
@@ -347,19 +508,26 @@ export type Database = {
           raw_data: Json | null
           results_summary: string | null
           sample_size: number | null
+          status: string | null
           study_id: string
           study_type: string | null
           supplement_id: string
           title: string | null
           updated_at: string
+          verification_status: string | null
         }
         Insert: {
           authors?: string[] | null
+          auto_update_source?: string | null
           created_at?: string
           database_source: string
           doi?: string | null
+          evidence_score?: number | null
           id?: string
+          impacto_classificacao?: string | null
           intervention?: string | null
+          last_verification_date?: string | null
+          nivel_evidencia?: string | null
           outcome_measures?: string[] | null
           pmid?: string | null
           publication_date?: string | null
@@ -367,19 +535,26 @@ export type Database = {
           raw_data?: Json | null
           results_summary?: string | null
           sample_size?: number | null
+          status?: string | null
           study_id: string
           study_type?: string | null
           supplement_id: string
           title?: string | null
           updated_at?: string
+          verification_status?: string | null
         }
         Update: {
           authors?: string[] | null
+          auto_update_source?: string | null
           created_at?: string
           database_source?: string
           doi?: string | null
+          evidence_score?: number | null
           id?: string
+          impacto_classificacao?: string | null
           intervention?: string | null
+          last_verification_date?: string | null
+          nivel_evidencia?: string | null
           outcome_measures?: string[] | null
           pmid?: string | null
           publication_date?: string | null
@@ -387,10 +562,63 @@ export type Database = {
           raw_data?: Json | null
           results_summary?: string | null
           sample_size?: number | null
+          status?: string | null
           study_id?: string
           study_type?: string | null
           supplement_id?: string
           title?: string | null
+          updated_at?: string
+          verification_status?: string | null
+        }
+        Relationships: []
+      }
+      security_alerts: {
+        Row: {
+          affected_products: Json | null
+          alert_date: string
+          alert_type: string
+          created_at: string
+          description: string | null
+          external_reference: string | null
+          id: string
+          recommended_actions: Json | null
+          severity: string
+          source: string
+          status: string
+          supplement_id: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affected_products?: Json | null
+          alert_date: string
+          alert_type: string
+          created_at?: string
+          description?: string | null
+          external_reference?: string | null
+          id?: string
+          recommended_actions?: Json | null
+          severity?: string
+          source: string
+          status?: string
+          supplement_id: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affected_products?: Json | null
+          alert_date?: string
+          alert_type?: string
+          created_at?: string
+          description?: string | null
+          external_reference?: string | null
+          id?: string
+          recommended_actions?: Json | null
+          severity?: string
+          source?: string
+          status?: string
+          supplement_id?: string
+          title?: string
           updated_at?: string
         }
         Relationships: []
