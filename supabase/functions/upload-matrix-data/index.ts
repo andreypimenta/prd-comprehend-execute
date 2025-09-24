@@ -15,20 +15,40 @@ serve(async (req) => {
   try {
     const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    
+    if (!supabaseUrl || !supabaseServiceKey) {
+      throw new Error('Missing required environment variables');
+    }
+    
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
+    console.log('Starting matrix data upload process...');
+
     // Try to read the file from the public directory via HTTP
-    const publicUrl = `${req.url.replace('/functions/v1/upload-matrix-data', '')}/matriz_final_consolidada.json`;
+    const baseUrl = req.url.replace('/functions/v1/upload-matrix-data', '');
+    const publicUrl = `${baseUrl}/matriz_final_consolidada.json`;
+    
+    console.log(`Attempting to fetch from: ${publicUrl}`);
     
     try {
       const response = await fetch(publicUrl);
       if (!response.ok) {
-        throw new Error(`Failed to fetch JSON file: ${response.statusText}`);
+        console.error(`HTTP ${response.status}: ${response.statusText}`);
+        throw new Error(`Failed to fetch JSON file: ${response.status} ${response.statusText}`);
       }
       
       const jsonContent = await response.text();
+      console.log(`Successfully fetched JSON content (${jsonContent.length} characters)`);
       
-      // Upload to storage
+      // Validate JSON format
+      try {
+        JSON.parse(jsonContent);
+      } catch (parseError) {
+        throw new Error(`Invalid JSON format: ${parseError.message}`);
+      }
+      
+      // Upload to storage using service role
+      console.log('Uploading to Supabase Storage...');
       const { data, error } = await supabase.storage
         .from('matrix-data')
         .upload('matriz_final_consolidada.json', jsonContent, {
@@ -37,15 +57,17 @@ serve(async (req) => {
         });
 
       if (error) {
+        console.error('Storage upload error:', error);
         throw error;
       }
 
-      console.log('Successfully uploaded JSON to storage');
+      console.log('Successfully uploaded JSON to storage:', data);
 
       return new Response(JSON.stringify({
         success: true,
         message: 'JSON file uploaded to storage successfully',
-        path: data.path
+        path: data.path,
+        size: jsonContent.length
       }), {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
