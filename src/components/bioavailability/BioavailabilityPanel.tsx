@@ -7,6 +7,7 @@ import { Progress } from '@/components/ui/progress';
 import { Clock, TrendingUp, DollarSign, AlertTriangle, CheckCircle2 } from 'lucide-react';
 import { useBioavailability, type PharmaceuticalFormAnalysis } from '@/hooks/useBioavailability';
 import { useUserProfile } from '@/hooks/useUserProfile';
+import { AbsorptionOptimizationPanel } from './AbsorptionOptimizationPanel';
 
 interface BioavailabilityPanelProps {
   supplementId: string;
@@ -149,13 +150,21 @@ export const BioavailabilityPanel = ({ supplementId, supplementName }: Bioavaila
       </Card>
 
       {/* Detailed Analysis */}
-      <Tabs defaultValue="forms" className="w-full">
-        <TabsList className="grid w-full grid-cols-4">
+      <Tabs defaultValue="optimization" className="w-full">
+        <TabsList className="grid w-full grid-cols-5">
+          <TabsTrigger value="optimization">🚀 Otimização</TabsTrigger>
           <TabsTrigger value="forms">Formas</TabsTrigger>
           <TabsTrigger value="timing">Timing</TabsTrigger>
           <TabsTrigger value="interactions">Interações</TabsTrigger>
           <TabsTrigger value="recommendations">Dicas</TabsTrigger>
         </TabsList>
+
+        <TabsContent value="optimization">
+          <AbsorptionOptimizationPanel 
+            supplementId={supplementId}
+            supplementName={supplementName}
+          />
+        </TabsContent>
 
         <TabsContent value="forms" className="space-y-4">
           <Card>
