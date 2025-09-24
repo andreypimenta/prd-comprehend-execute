@@ -151,7 +151,7 @@ function getSampleMatrixData(): MatrixData {
   };
 }
 
-function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] {
+async function extractUniqueSupplements(matrixData: MatrixData): Promise<SupplementInMatrix[]> {
   const supplementMap = new Map<string, SupplementInMatrix>();
   
   Object.entries(matrixData).forEach(([condition, data]) => {
@@ -162,11 +162,7 @@ function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] 
       supplements.forEach(supplement => {
         const key = supplement.nome.toLowerCase();
         if (!supplementMap.has(key)) {
-          supplementMap.set(key, {
-            ...supplement,
-            // Add the condition context
-            condition_context: condition
-          });
+          supplementMap.set(key, supplement);
         }
       });
     });
@@ -197,8 +193,9 @@ async function importSupplementBatch(supabaseClient: any, supplements: Supplemen
           .update({
             mechanism: supplement.mecanismo,
             agent_category: supplement.agente,
-            scientific_evidence: mapEvidenceLevel(supplement.evidencia),
+            scientific_evidence: supplement.evidencia,
             evidence_classification: supplement.evidencia,
+            evidence_level: mapEvidenceLevel(supplement.evidencia),
             priority_level: mapPriorityLevel(supplement.evidencia),
             updated_at: new Date().toISOString()
           })
@@ -236,6 +233,7 @@ async function importSupplementBatch(supabaseClient: any, supplements: Supplemen
 }
 
 function createSupplementData(supplement: SupplementInMatrix) {
+function createSupplementData(supplement: SupplementInMatrix) {
   return {
     id: generateSupplementId(supplement.nome),
     name: supplement.nome,
@@ -248,16 +246,17 @@ function createSupplementData(supplement: SupplementInMatrix) {
     dosage_unit: 'mg',
     timing: 'with_meal',
     evidence_level: mapEvidenceLevel(supplement.evidencia),
-    scientific_evidence: supplement.evidencia,
-    evidence_classification: supplement.evidencia,
-    priority_level: mapPriorityLevel(supplement.evidencia),
     contraindications: [],
     interactions: [],
     mechanism: supplement.mecanismo,
     agent_category: supplement.agente,
+    scientific_evidence: supplement.evidencia,
+    evidence_classification: supplement.evidencia,
+    priority_level: mapPriorityLevel(supplement.evidencia),
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
+}
 }
 
 function generateSupplementId(name: string): string {
