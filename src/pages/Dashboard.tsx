@@ -1,7 +1,6 @@
 import { UserProfileSection } from "@/components/dashboard/UserProfileSection";
 import { PlanDocumentsSection } from "@/components/dashboard/PlanDocumentsSection";
 import { CalendarActionsSection } from "@/components/dashboard/CalendarActionsSection";
-import { CompleteMatrixImporter } from "@/components/dashboard/CompleteMatrixImporter";
 import { AppLayout } from "@/components/layout/AppLayout";
 
 export default function Dashboard() {
@@ -24,11 +23,6 @@ export default function Dashboard() {
           <div className="lg:col-span-3 flex h-full">
             <CalendarActionsSection />
           </div>
-        </div>
-
-        {/* Import Section */}
-        <div className="px-6 pb-6">
-          <CompleteMatrixImporter />
         </div>
       </div>
     </AppLayout>
