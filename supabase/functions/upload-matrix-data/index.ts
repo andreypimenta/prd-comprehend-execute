@@ -25,7 +25,7 @@ serve(async (req) => {
     console.log('Starting matrix data upload process...');
 
     // Try to read the file from the public directory via HTTP
-    const baseUrl = req.url.replace('/functions/v1/upload-matrix-data', '');
+    const baseUrl = supabaseUrl;
     const publicUrl = `${baseUrl}/matriz_final_consolidada.json`;
     
     console.log(`Attempting to fetch from: ${publicUrl}`);
