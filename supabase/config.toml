@@ -69,3 +69,6 @@ verify_jwt = false
 
 [functions.import-complete-matrix]
 verify_jwt = false
+
+[functions.execute-matrix-import]
+verify_jwt = false

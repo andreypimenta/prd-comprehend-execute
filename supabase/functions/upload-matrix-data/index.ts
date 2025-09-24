@@ -30,6 +30,7 @@ serve(async (req) => {
     try {
       const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
       console.log(`Successfully read JSON content (${jsonContent.length} characters)`);
+      console.log(`Successfully read JSON content (${jsonContent.length} characters)`);
       
       // Validate JSON format
       try {

@@ -79,7 +79,9 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
 
     if (data) {
       const text = await data.text();
-      return JSON.parse(text);
+      const matrixData = JSON.parse(text);
+      console.log(`Loaded matrix data with ${Object.keys(matrixData).length} conditions`);
+      return matrixData;
     }
 
     console.log('File not found in storage, using fallback data');
@@ -111,8 +113,12 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
 function extractUniqueSupplements(matrixData: MatrixData): Map<string, { supplement: SupplementInMatrix, conditions: string[] }> {
   const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[] }>();
   
+  console.log('Processing conditions:', Object.keys(matrixData));
+  
   Object.entries(matrixData).forEach(([condition, data]) => {
-    if (data.ranking_consolidado) {
+    console.log(`Processing condition: ${condition}`, data);
+    
+    if (data && data.ranking_consolidado) {
       // Process all priority levels including prioridade_baixa
       const allSupplements = [
         ...(data.ranking_consolidado.prioridade_muito_alta || []),
@@ -121,19 +127,27 @@ function extractUniqueSupplements(matrixData: MatrixData): Map<string, { supplem
         ...(data.ranking_consolidado.prioridade_baixa || [])
       ];
       
-      allSupplements.forEach(supplement => {
+      console.log(`Found ${allSupplements.length} supplements for condition ${condition}`);
+      
+      allSupplements.forEach((supplement, index) => {
         if (supplement && supplement.nome && typeof supplement.nome === 'string') {
           const key = supplement.nome.toLowerCase().trim();
           if (!supplementMap.has(key)) {
             supplementMap.set(key, { supplement, conditions: [condition] });
+            console.log(`Added new supplement: ${supplement.nome}`);
           } else {
             const existing = supplementMap.get(key)!;
             if (!existing.conditions.includes(condition)) {
               existing.conditions.push(condition);
+              console.log(`Added condition ${condition} to supplement ${supplement.nome}`);
             }
           }
+        } else {
+          console.warn(`Invalid supplement at index ${index} for condition ${condition}:`, supplement);
         }
       });
+    } else {
+      console.warn(`No ranking_consolidado found for condition: ${condition}`);
     }
   });
   
@@ -226,7 +240,8 @@ function categorizeByAgent(agent: string): string {
     'MUSCULOESQUELÉTICO': 'mineral',
     'HORMONAL': 'other',
     'RESPIRATÓRIO': 'herb',
-    'DERMATOLÓGICO': 'other'
+    'DERMATOLÓGICO': 'other',
+    'CARDIOMETABÓLICO': 'vitamin'
   };
   
   return agentMap[agent] || 'other';
@@ -252,31 +267,54 @@ function mapPriorityLevel(evidencia: 'A' | 'B' | 'D'): string {
 
 function getDefaultDosage(supplementName: string): {min: number, max: number} {
   const dosageMap: Record<string, {min: number, max: number}> = {
+    'magnesium': {min: 200, max: 400},
     'magnésio': {min: 200, max: 400},
+    'omega-3': {min: 500, max: 2000},
     'ômega-3': {min: 500, max: 2000},
+    'coq10': {min: 100, max: 300},
     'coenzima q10': {min: 100, max: 300},
+    'vitamin d': {min: 1000, max: 4000},
     'vitamina d': {min: 1000, max: 4000},
     'vitamina d3': {min: 1000, max: 4000},
+    'vitamin c': {min: 500, max: 2000},
     'vitamina c': {min: 500, max: 2000},
     'curcumina': {min: 500, max: 1500},
+    'turmeric': {min: 500, max: 1500},
     'ashwagandha': {min: 300, max: 600},
     'rhodiola': {min: 200, max: 600},
     'berberina': {min: 500, max: 1500},
+    'quercetin': {min: 500, max: 1000},
     'quercetina': {min: 500, max: 1000},
+    'zinc': {min: 8, max: 40},
     'zinco': {min: 8, max: 40},
+    'iron': {min: 8, max: 45},
     'ferro': {min: 8, max: 45},
+    'calcium': {min: 500, max: 1200},
     'cálcio': {min: 500, max: 1200},
+    'probiotics': {min: 1, max: 50},
     'probióticos': {min: 1, max: 50},
     'resveratrol': {min: 100, max: 500},
-    'ginkgo biloba': {min: 120, max: 240},
+    'ginkgo': {min: 120, max: 240},
     'ginseng': {min: 200, max: 400},
     'spirulina': {min: 1000, max: 3000},
-    'chlorella': {min: 1000, max: 3000}
+    'chlorella': {min: 1000, max: 3000},
+    '5-htp': {min: 50, max: 300},
+    'acetyl-l-carnitine': {min: 500, max: 2000},
+    'alanine': {min: 500, max: 3000},
+    'arginine': {min: 1000, max: 6000},
+    'beta-alanine': {min: 2000, max: 5000},
+    'carnitine': {min: 500, max: 3000},
+    'citrulline': {min: 3000, max: 8000},
+    'd-aspartic acid': {min: 3000, max: 6000},
+    'gaba': {min: 100, max: 750},
+    'glutamine': {min: 5000, max: 15000},
+    'glycine': {min: 1000, max: 3000},
+    'l-theanine': {min: 100, max: 400}
   };
   
   const key = supplementName.toLowerCase();
   for (const [name, dosage] of Object.entries(dosageMap)) {
-    if (key.includes(name)) {
+    if (key.includes(name) || name.includes(key)) {
       return dosage;
     }
   }
