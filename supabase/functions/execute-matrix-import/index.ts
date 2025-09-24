@@ -49,12 +49,13 @@ async function autoExecuteImport() {
 
     console.log(`📊 Estado atual: ${supplementsCount} suplementos, ${protocolsCount} protocolos`)
     
-    // Se temos menos de 500 suplementos, executar importação
-    if ((supplementsCount || 0) < 500) {
+    // Se temos menos de 200 suplementos, executar importação (reduzido de 500 para forçar execução)
+    if ((supplementsCount || 0) < 200) {
       console.log('🚀 Iniciando importação automática da matriz...')
+      console.log(`🔄 Limite reduzido para 200 - atual: ${supplementsCount}`)
       await executeMatrixImport(supabase)
     } else {
-      console.log('✅ Base de dados já está completa')
+      console.log(`⚠️ Base já possui ${supplementsCount} suplementos (limite: 200). Use HTTP para forçar importação.`)
     }
   } catch (error) {
     console.error('❌ Erro na auto-execução:', error)
@@ -63,23 +64,41 @@ async function autoExecuteImport() {
 
 async function executeMatrixImport(supabase: any) {
   console.log('🚀 Iniciando importação direta da matriz...');
-
-  // Ler arquivo diretamente
-  const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
-  const matrixData: MatrixData = JSON.parse(jsonContent);
   
-  console.log(`📊 Arquivo carregado com ${Object.keys(matrixData).length} condições`);
+  try {
+    // Verificar se arquivo existe
+    console.log('📁 Tentando ler arquivo matriz_final_consolidada.json...');
+    const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
+    console.log(`📄 Arquivo lido com sucesso. Tamanho: ${jsonContent.length} chars`);
+    
+    const matrixData: MatrixData = JSON.parse(jsonContent);
+    console.log(`📊 JSON parseado com ${Object.keys(matrixData).length} condições`);
+    
+    // Log primeiras condições para debug
+    const firstConditions = Object.keys(matrixData).slice(0, 3);
+    console.log(`🔍 Primeiras condições: ${firstConditions.join(', ')}`);
+  } catch (fileError) {
+    console.error('❌ Erro ao ler arquivo:', fileError);
+    throw new Error(`Falha ao carregar arquivo: ${fileError.message}`);
+  }
 
   // Extrair suplementos únicos
+  console.log('🔄 Processando suplementos únicos...');
   const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[], priorities: string[] }>();
+  let totalProcessed = 0;
   
-  Object.entries(matrixData).forEach(([condition, data]) => {
+  Object.entries(matrixData).forEach(([condition, data], index) => {
+    if (index % 50 === 0) {
+      console.log(`🔄 Processando condição ${index + 1}/${Object.keys(matrixData).length}: ${condition}`);
+    }
+    
     if (data && data.ranking_consolidado) {
       const priorities = ['prioridade_muito_alta', 'prioridade_alta', 'prioridade_media', 'prioridade_baixa'];
       
       priorities.forEach(priority => {
         const supplements = data.ranking_consolidado[priority as keyof typeof data.ranking_consolidado] || [];
         supplements.forEach(supplement => {
+          totalProcessed++;
           if (supplement && supplement.nome) {
             const key = supplement.nome.toLowerCase().trim();
             if (!supplementMap.has(key)) {
@@ -103,7 +122,7 @@ async function executeMatrixImport(supabase: any) {
     }
   });
 
-  console.log(`💊 Encontrados ${supplementMap.size} suplementos únicos`);
+  console.log(`💊 Processamento concluído: ${totalProcessed} entradas processadas → ${supplementMap.size} suplementos únicos`);
 
   // Importar suplementos
   const supplementsData = Array.from(supplementMap.values()).map(item => ({
@@ -133,21 +152,24 @@ async function executeMatrixImport(supabase: any) {
   }));
 
   // Importar em lotes
+  console.log(`🚀 Iniciando importação de ${supplementsData.length} suplementos em lotes de ${CHUNK_SIZE}...`);
   const CHUNK_SIZE = 20;
   let importedSupplements = 0;
 
   for (let i = 0; i < supplementsData.length; i += CHUNK_SIZE) {
     const chunk = supplementsData.slice(i, i + CHUNK_SIZE);
+    console.log(`📦 Processando lote ${Math.floor(i/CHUNK_SIZE) + 1}/${Math.ceil(supplementsData.length/CHUNK_SIZE)}...`);
     
     const { data, error } = await supabase
       .from('supplements')
       .upsert(chunk, { onConflict: 'name' });
 
     if (error) {
-      console.error(`Erro no lote ${i/CHUNK_SIZE + 1}:`, error);
+      console.error(`❌ Erro no lote ${Math.floor(i/CHUNK_SIZE) + 1}:`, error);
+      console.error(`🔍 Primeiro item do lote:`, chunk[0]?.name);
     } else {
       importedSupplements += chunk.length;
-      console.log(`✅ Importado lote ${i/CHUNK_SIZE + 1}/${Math.ceil(supplementsData.length/CHUNK_SIZE)} - ${chunk.length} suplementos`);
+      console.log(`✅ Lote ${Math.floor(i/CHUNK_SIZE) + 1} OK - ${chunk.length} suplementos (Total: ${importedSupplements})`);
     }
 
     // Pausa para não sobrecarregar
@@ -240,8 +262,10 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('🚀 Executando importação via requisição...')
+    console.log('🚀 Executando importação via requisição HTTP...')
+    console.log('🔧 Configuração: URL e Service Key OK')
     const result = await executeMatrixImport(supabase)
+    console.log('✅ Importação HTTP concluída:', result)
 
     return new Response(JSON.stringify({
       success: true,
