@@ -20,6 +20,7 @@ interface MatrixData {
       prioridade_muito_alta: SupplementInMatrix[];
       prioridade_alta: SupplementInMatrix[];
       prioridade_media: SupplementInMatrix[];
+      prioridade_baixa: SupplementInMatrix[];
     };
   };
 }
@@ -96,7 +97,8 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
             }
           ],
           "prioridade_alta": [],
-          "prioridade_media": []
+          "prioridade_media": [],
+          "prioridade_baixa": []
         }
       }
     };
@@ -111,11 +113,12 @@ function extractUniqueSupplements(matrixData: MatrixData): Map<string, { supplem
   
   Object.entries(matrixData).forEach(([condition, data]) => {
     if (data.ranking_consolidado) {
-      // Process all priority levels
+      // Process all priority levels including prioridade_baixa
       const allSupplements = [
         ...(data.ranking_consolidado.prioridade_muito_alta || []),
         ...(data.ranking_consolidado.prioridade_alta || []),
-        ...(data.ranking_consolidado.prioridade_media || [])
+        ...(data.ranking_consolidado.prioridade_media || []),
+        ...(data.ranking_consolidado.prioridade_baixa || [])
       ];
       
       allSupplements.forEach(supplement => {
