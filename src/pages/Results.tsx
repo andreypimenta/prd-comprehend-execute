@@ -5,6 +5,11 @@ import { Button } from "@/components/ui/button";
 import { Loader2, Sparkles, RefreshCw, CheckCircle } from "lucide-react";
 import { RecommendationCard } from "@/components/results/RecommendationCard";
 import { ResultsOverview } from "@/components/results/ResultsOverview";
+import { PersonalizedRecommendations } from "@/components/results/PersonalizedRecommendations";
+import { SafetyInteractionsPanel } from "@/components/results/SafetyInteractionsPanel";
+import { NextActionsChecklist } from "@/components/results/NextActionsChecklist";
+import { IntelligentInsights } from "@/components/results/IntelligentInsights";
+import { FinancialSummary } from "@/components/results/FinancialSummary";
 import { supabase } from "@/integrations/supabase/client";
 import { useToast } from "@/hooks/use-toast";
 import { useSelectedSupplements } from "@/hooks/useSelectedSupplements";
@@ -369,7 +374,33 @@ export default function Results() {
         {/* Overview */}
         <ResultsOverview recommendations={recommendations} />
 
-        {/* Recommendations Grid */}
+        {/* Personalized Recommendations */}
+        <PersonalizedRecommendations 
+          recommendations={recommendations}
+          onLearnMore={(recommendation) => {
+            // Scroll to the detailed card
+            const element = document.getElementById(`recommendation-${recommendation.id}`);
+            if (element) {
+              element.scrollIntoView({ behavior: 'smooth' });
+            }
+          }}
+        />
+
+        {/* Safety Interactions Panel */}
+        <SafetyInteractionsPanel />
+
+        {/* Actions and Insights Grid */}
+        <div className="grid gap-6 lg:grid-cols-3">
+          <div className="lg:col-span-2 space-y-6">
+            <NextActionsChecklist />
+            <IntelligentInsights />
+          </div>
+          <div>
+            <FinancialSummary />
+          </div>
+        </div>
+
+        {/* Detailed Recommendations */}
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <h2 className="text-xl font-semibold">Recomendações Detalhadas</h2>
@@ -389,13 +420,14 @@ export default function Results() {
 
           <div className="grid gap-6 md:grid-cols-2">
             {recommendations.map((recommendation) => (
-              <RecommendationCard
-                key={recommendation.id}
-                recommendation={recommendation}
-                isSelected={isSupplementSelected(recommendation.id)}
-                onToggleSelection={handleToggleSelection}
-                disabled={selectionsLoading}
-              />
+              <div key={recommendation.id} id={`recommendation-${recommendation.id}`}>
+                <RecommendationCard
+                  recommendation={recommendation}
+                  isSelected={isSupplementSelected(recommendation.id)}
+                  onToggleSelection={handleToggleSelection}
+                  disabled={selectionsLoading}
+                />
+              </div>
             ))}
           </div>
         </div>
