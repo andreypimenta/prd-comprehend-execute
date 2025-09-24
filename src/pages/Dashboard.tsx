@@ -1,7 +1,7 @@
 import { UserProfileSection } from "@/components/dashboard/UserProfileSection";
 import { PlanDocumentsSection } from "@/components/dashboard/PlanDocumentsSection";
 import { CalendarActionsSection } from "@/components/dashboard/CalendarActionsSection";
-import { OptimizedMatrixImporter } from "@/components/dashboard/OptimizedMatrixImporter";
+import { CompleteMatrixImporter } from "@/components/dashboard/CompleteMatrixImporter";
 import { AppLayout } from "@/components/layout/AppLayout";
 
 export default function Dashboard() {
@@ -28,7 +28,7 @@ export default function Dashboard() {
 
         {/* Import Section */}
         <div className="px-6 pb-6">
-          <OptimizedMatrixImporter />
+          <CompleteMatrixImporter />
         </div>
       </div>
     </AppLayout>
