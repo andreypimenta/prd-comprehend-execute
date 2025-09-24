@@ -5,6 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "sonner";
 import { Loader2, Database, CheckCircle, AlertCircle } from "lucide-react";
+import { CompleteMatrixImporter } from './CompleteMatrixImporter';
 
 export const ExamineProtocolsImporter = () => {
   const [loading, setLoading] = useState(false);
@@ -54,6 +55,9 @@ export const ExamineProtocolsImporter = () => {
 
   return (
     <div className="space-y-6">
+      {/* Complete Matrix Importer - Priority */}
+      <CompleteMatrixImporter />
+      
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
