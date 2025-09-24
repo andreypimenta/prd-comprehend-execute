@@ -137,7 +137,8 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
     };
   } catch (error) {
     console.error('❌ Erro ao carregar dados da matriz:', error);
-    throw new Error(`Falha ao carregar matriz: ${error.message}`);
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    throw new Error(`Falha ao carregar matriz: ${errorMessage}`);
   }
 }
 

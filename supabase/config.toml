@@ -58,20 +58,8 @@ port = 54325
 [functions.analyze]
 verify_jwt = true
 
-[functions.import-supplements]
-verify_jwt = false
-
-[functions.import-protocols]
-verify_jwt = false
-
-[functions.upload-matrix-data]
-verify_jwt = false
-
-[functions.import-complete-matrix]
-verify_jwt = false
-
-[functions.execute-matrix-import]
-verify_jwt = false
-
 [functions.bioavailability-analyzer]
+verify_jwt = true
+
+[functions.quantitative-analyzer]
 verify_jwt = true
