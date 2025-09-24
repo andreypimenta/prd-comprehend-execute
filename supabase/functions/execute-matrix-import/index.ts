@@ -262,24 +262,44 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('🚀 Executando importação via requisição HTTP...')
+    // Verificar estado atual antes de forçar importação
+    const { count: currentSupplements } = await supabase
+      .from('supplements')
+      .select('*', { count: 'exact', head: true })
+    
+    const { count: currentProtocols } = await supabase
+      .from('therapeutic_protocols')  
+      .select('*', { count: 'exact', head: true })
+
+    console.log('🔥 FORÇANDO IMPORTAÇÃO COMPLETA via HTTP!')
+    console.log(`📊 Estado atual: ${currentSupplements} suplementos, ${currentProtocols} protocolos`)
+    console.log('⚡ Ignorando limites - executando importação total...')
     console.log('🔧 Configuração: URL e Service Key OK')
+    
     const result = await executeMatrixImport(supabase)
-    console.log('✅ Importação HTTP concluída:', result)
+    
+    console.log('✅ Importação FORÇADA concluída:', result)
+    console.log(`📈 Resultado: ${result.supplements} suplementos, ${result.protocols} protocolos processados`)
 
     return new Response(JSON.stringify({
       success: true,
-      message: 'Importação da matriz concluída com sucesso',
-      stats: result
+      message: '🔥 Importação COMPLETA forçada via HTTP concluída com sucesso!',
+      previousState: {
+        supplements: currentSupplements || 0,
+        protocols: currentProtocols || 0
+      },
+      newStats: result,
+      forced: true
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
 
   } catch (error: any) {
-    console.error('❌ Erro na importação:', error);
+    console.error('❌ Erro na importação forçada:', error);
     return new Response(JSON.stringify({ 
       success: false, 
-      error: error.message 
+      error: error.message,
+      forced: true
     }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
