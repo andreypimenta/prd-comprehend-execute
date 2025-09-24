@@ -64,7 +64,7 @@ serve(async (req) => {
     const matrixData = await loadMatrixData();
     
     // Extract all unique supplements
-    const uniqueSupplements = await extractUniqueSupplements(matrixData);
+    const uniqueSupplements = extractUniqueSupplements(matrixData);
     console.log(`Found ${uniqueSupplements.length} unique supplements`);
 
     // Import supplements in batches
@@ -151,7 +151,7 @@ function getSampleMatrixData(): MatrixData {
   };
 }
 
-async function extractUniqueSupplements(matrixData: MatrixData): Promise<SupplementInMatrix[]> {
+function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] {
   const supplementMap = new Map<string, SupplementInMatrix>();
   
   Object.entries(matrixData).forEach(([condition, data]) => {
@@ -168,6 +168,7 @@ async function extractUniqueSupplements(matrixData: MatrixData): Promise<Supplem
     });
   });
   
+  console.log(`Extracted ${supplementMap.size} unique supplements from matrix`);
   return Array.from(supplementMap.values());
 }
 
@@ -233,7 +234,6 @@ async function importSupplementBatch(supabaseClient: any, supplements: Supplemen
 }
 
 function createSupplementData(supplement: SupplementInMatrix) {
-function createSupplementData(supplement: SupplementInMatrix) {
   return {
     id: generateSupplementId(supplement.nome),
     name: supplement.nome,
@@ -257,7 +257,6 @@ function createSupplementData(supplement: SupplementInMatrix) {
     updated_at: new Date().toISOString()
   };
 }
-}
 
 function generateSupplementId(name: string): string {
   return name.toLowerCase()
@@ -272,7 +271,12 @@ function categorizeByAgent(agent: string): string {
     'NEUROLÓGICO/PSIQUIÁTRICO': 'amino_acid',
     'ANTI-AGING/DETOXIFICAÇÃO': 'other',
     'PERFORMANCE': 'other',
-    'IMUNOLÓGICO': 'mineral'
+    'IMUNOLÓGICO': 'vitamin',
+    'GASTROINTESTINAL': 'other',
+    'MUSCULOESQUELÉTICO': 'mineral',
+    'HORMONAL': 'other',
+    'RESPIRATÓRIO': 'herb',
+    'DERMATOLÓGICO': 'other'
   };
   
   return agentMap[agent] || 'other';
@@ -305,11 +309,21 @@ function getDefaultDosage(supplementName: string): {min: number, max: number} {
     'omega-3': {min: 500, max: 2000},
     'coq10': {min: 100, max: 300},
     'vitamin d': {min: 1000, max: 4000},
-    'vitamin c': {min: 500, max: 2000}
+    'vitamin c': {min: 500, max: 2000},
+    'curcumin': {min: 500, max: 1500},
+    'ashwagandha': {min: 300, max: 600},
+    'rhodiola': {min: 200, max: 600},
+    'berberine': {min: 500, max: 1500},
+    'quercetin': {min: 500, max: 1000}
   };
   
   const key = supplementName.toLowerCase();
-  return dosageMap[key] || {min: 100, max: 500};
+  for (const [name, dosage] of Object.entries(dosageMap)) {
+    if (key.includes(name)) {
+      return dosage;
+    }
+  }
+  return {min: 100, max: 500};
 }
 
 function extractTherapeuticProtocols(matrixData: MatrixData) {
