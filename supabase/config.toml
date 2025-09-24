@@ -72,3 +72,6 @@ verify_jwt = false
 
 [functions.execute-matrix-import]
 verify_jwt = false
+
+[functions.bioavailability-analyzer]
+verify_jwt = true
