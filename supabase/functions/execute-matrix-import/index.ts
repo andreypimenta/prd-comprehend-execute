@@ -223,7 +223,6 @@ async function executeMatrixImport(supabase: any) {
 
   // Importar em lotes
   console.log(`🚀 Iniciando importação de ${supplementsData.length} suplementos em lotes de ${CHUNK_SIZE}...`);
-  const CHUNK_SIZE = 20;
   let importedSupplements = 0;
 
   for (let i = 0; i < supplementsData.length; i += CHUNK_SIZE) {
