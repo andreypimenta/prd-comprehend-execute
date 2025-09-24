@@ -53,19 +53,19 @@ serve(async (req) => {
     
     // 1. PubMed Search
     const pubmedEvidence = await searchPubMed(supplement_name, conditions);
-    evidenceData.push(...pubmedEvidence.map(e => ({ ...e, supplement_id, database_source: 'pubmed' })));
+    evidenceData.push(...pubmedEvidence.map((e: any) => ({ ...e, supplement_id, database_source: 'pubmed', study_id: e.study_id || 'unknown' })));
 
     // 2. ClinicalTrials.gov Search
     const clinicalTrialsEvidence = await searchClinicalTrials(supplement_name, conditions);
-    evidenceData.push(...clinicalTrialsEvidence.map(e => ({ ...e, supplement_id, database_source: 'clinicaltrials' })));
+    evidenceData.push(...clinicalTrialsEvidence.map((e: any) => ({ ...e, supplement_id, database_source: 'clinicaltrials', study_id: e.study_id || 'unknown' })));
 
     // 3. Cochrane Search
     const cochraneEvidence = await searchCochrane(supplement_name, conditions);
-    evidenceData.push(...cochraneEvidence.map(e => ({ ...e, supplement_id, database_source: 'cochrane' })));
+    evidenceData.push(...cochraneEvidence.map((e: any) => ({ ...e, supplement_id, database_source: 'cochrane', study_id: e.study_id || 'unknown' })));
 
     // 4. PharmGKB Search
     const pharmgkbEvidence = await searchPharmGKB(supplement_name);
-    evidenceData.push(...pharmgkbEvidence.map(e => ({ ...e, supplement_id, database_source: 'pharmgkb' })));
+    evidenceData.push(...pharmgkbEvidence.map((e: any) => ({ ...e, supplement_id, database_source: 'pharmgkb', study_id: e.study_id || 'unknown' })));
 
     // Calculate integrated evidence score
     const evidenceScore = calculateIntegratedScore(evidenceData);
@@ -110,7 +110,8 @@ serve(async (req) => {
 
   } catch (error) {
     console.error('Error in scientific-evidence-collector:', error);
-    return new Response(JSON.stringify({ error: error.message }), {
+    const errorMessage = error instanceof Error ? error.message : String(error);
+    return new Response(JSON.stringify({ error: errorMessage }), {
       status: 500,
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });

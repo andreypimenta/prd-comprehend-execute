@@ -252,8 +252,8 @@ class QuantitativeAnalyzer {
   private calculateInteractionRisk(supp1: any, supp2: any): number {
     const interactions1 = new Set(supp1.interactions || []);
     const interactions2 = new Set(supp2.interactions || []);
-    const hasRisk = [...interactions1].some(int => supp2.name.toLowerCase().includes(int.toLowerCase())) ||
-                    [...interactions2].some(int => supp1.name.toLowerCase().includes(int.toLowerCase()));
+    const hasRisk = [...interactions1].some((int: any) => supp2.name.toLowerCase().includes(int.toLowerCase())) ||
+                    [...interactions2].some((int: any) => supp1.name.toLowerCase().includes(int.toLowerCase()));
     return hasRisk ? 0.8 : 0.1;
   }
 
@@ -276,8 +276,8 @@ class QuantitativeAnalyzer {
   }
 
   private calculateMLConfidence(features: any): number {
-    const featureVariance = Object.values(features).reduce((sum, val) => sum + Math.pow(val as number - 0.5, 2), 0);
-    return Math.max(0.6, Math.min(0.95, 0.8 - featureVariance * 0.3));
+    const featureVariance = Object.values(features).reduce((sum: number, val) => sum + Math.pow(val as number - 0.5, 2), 0);
+    return Math.max(0.6, Math.min(0.95, 0.8 - (featureVariance as number) * 0.3));
   }
 
   private generateSynergyMechanism(supp1: any, supp2: any, score: number): string {
@@ -408,7 +408,7 @@ class QuantitativeAnalyzer {
 
       switch (analysisType) {
         case 'pbpk':
-          results = supplements.map(supp => ({
+          results = supplements.map((supp: any) => ({
             supplement_id: supp.id,
             supplement_name: supp.name,
             pbpk_analysis: this.calculatePBPKModel(supp, userProfile)
@@ -416,7 +416,7 @@ class QuantitativeAnalyzer {
           break;
 
         case 'monte_carlo':
-          results = supplements.map(supp => ({
+          results = supplements.map((supp: any) => ({
             supplement_id: supp.id,
             supplement_name: supp.name,
             monte_carlo_simulation: this.runMonteCarloSimulation(supp, userProfile)

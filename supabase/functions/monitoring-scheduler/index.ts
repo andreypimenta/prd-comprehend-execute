@@ -143,7 +143,7 @@ async function runScheduler(supabase: any) {
         .eq('id', job.id);
 
       results.successful_jobs++;
-      results.job_results.push({
+      (results.job_results as any[]).push({
         job_id: job.id,
         job_type: job.job_type,
         status: 'success',
@@ -156,22 +156,22 @@ async function runScheduler(supabase: any) {
       console.error(`Job ${job.job_type} failed:`, error);
 
       // Mark job as failed
-      await supabase
+        await supabase
         .from('monitoring_jobs')
         .update({
           status: 'failed',
           completed_at: new Date().toISOString(),
-          error_message: error.message,
+          error_message: error instanceof Error ? error.message : String(error),
           progress: { stage: 'failed', completed: 0 }
         })
         .eq('id', job.id);
 
       results.failed_jobs++;
-      results.job_results.push({
+      (results.job_results as any[]).push({
         job_id: job.id,
         job_type: job.job_type,
         status: 'failed',
-        error: error.message
+        error: error instanceof Error ? error.message : String(error)
       });
     }
 
@@ -385,12 +385,12 @@ async function getSchedulerStatus(supabase: any) {
 
   const stats = {
     total_jobs: jobStats?.length || 0,
-    pending_jobs: jobStats?.filter(j => j.status === 'pending').length || 0,
-    running_jobs: jobStats?.filter(j => j.status === 'running').length || 0,
-    completed_jobs: jobStats?.filter(j => j.status === 'completed').length || 0,
-    failed_jobs: jobStats?.filter(j => j.status === 'failed').length || 0,
-    next_scheduled: jobStats?.filter(j => j.status === 'pending')
-      .sort((a, b) => new Date(a.next_run_at).getTime() - new Date(b.next_run_at).getTime())[0]?.next_run_at || null
+    pending_jobs: jobStats?.filter((j: any) => j.status === 'pending').length || 0,
+    running_jobs: jobStats?.filter((j: any) => j.status === 'running').length || 0,
+    completed_jobs: jobStats?.filter((j: any) => j.status === 'completed').length || 0,
+    failed_jobs: jobStats?.filter((j: any) => j.status === 'failed').length || 0,
+    next_scheduled: jobStats?.filter((j: any) => j.status === 'pending')
+      .sort((a: any, b: any) => new Date(a.next_run_at).getTime() - new Date(b.next_run_at).getTime())[0]?.next_run_at || null
   };
 
   return new Response(

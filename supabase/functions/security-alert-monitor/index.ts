@@ -130,10 +130,11 @@ Deno.serve(async (req) => {
 
   } catch (error) {
     console.error('Security monitoring error:', error);
+    const errorMessage = error instanceof Error ? error.message : String(error);
     return new Response(
       JSON.stringify({
         success: false,
-        error: error.message
+        error: errorMessage
       }),
       {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
@@ -156,7 +157,7 @@ async function monitorFDAAlerts(supplementIds: string[]): Promise<SecurityAlert[
       for (const event of fdaData.results || []) {
         // Process FDA adverse events related to supplements
         const alert: SecurityAlert = {
-          supplement_id: extractSupplementId(event, supplementIds),
+          supplement_id: extractSupplementId(event, supplementIds) || 'unknown',
           alert_type: 'adverse_event',
           severity: calculateSeverity(event.serious),
           source: 'FDA',
@@ -180,7 +181,7 @@ async function monitorFDAAlerts(supplementIds: string[]): Promise<SecurityAlert[
       
       for (const recall of recallData.results || []) {
         const alert: SecurityAlert = {
-          supplement_id: extractSupplementIdFromText(recall.product_description, supplementIds),
+          supplement_id: extractSupplementIdFromText(recall.product_description, supplementIds) || 'unknown',
           alert_type: 'recall',
           severity: mapRecallSeverity(recall.classification),
           source: 'FDA',
