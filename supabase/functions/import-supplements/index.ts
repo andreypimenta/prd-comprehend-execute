@@ -35,9 +35,9 @@ serve(async (req) => {
     // Load matrix data from storage
     const matrixData = await loadMatrixDataFromStorage(supabase);
     
-    // Extract unique supplements
+    // Extract unique supplements with conditions
     const uniqueSupplements = extractUniqueSupplements(matrixData);
-    console.log(`Found ${uniqueSupplements.length} unique supplements to import`);
+    console.log(`Found ${uniqueSupplements.size} unique supplements to import`);
 
     // Import supplements in chunks
     const { imported, skipped } = await importSupplementsInChunks(supabase, uniqueSupplements);
@@ -48,7 +48,7 @@ serve(async (req) => {
       success: true,
       imported,
       skipped,
-      total: uniqueSupplements.length
+      total: uniqueSupplements.size
     }), {
       headers: { ...corsHeaders, 'Content-Type': 'application/json' },
     });
@@ -98,8 +98,8 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
   }
 }
 
-function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] {
-  const supplementMap = new Map<string, SupplementInMatrix>();
+function extractUniqueSupplements(matrixData: MatrixData): Map<string, { supplement: SupplementInMatrix, conditions: string[] }> {
+  const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[] }>();
   
   Object.entries(matrixData).forEach(([condition, data]) => {
     if (data.suplementos && Array.isArray(data.suplementos)) {
@@ -107,7 +107,12 @@ function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] 
         if (supplement && supplement.nome && typeof supplement.nome === 'string') {
           const key = supplement.nome.toLowerCase().trim();
           if (!supplementMap.has(key)) {
-            supplementMap.set(key, supplement);
+            supplementMap.set(key, { supplement, conditions: [condition] });
+          } else {
+            const existing = supplementMap.get(key)!;
+            if (!existing.conditions.includes(condition)) {
+              existing.conditions.push(condition);
+            }
           }
         }
       });
@@ -115,19 +120,21 @@ function extractUniqueSupplements(matrixData: MatrixData): SupplementInMatrix[] 
   });
   
   console.log(`Extracted ${supplementMap.size} unique supplements from matrix`);
-  return Array.from(supplementMap.values());
+  return supplementMap;
 }
 
-async function importSupplementsInChunks(supabase: any, supplements: SupplementInMatrix[]) {
+async function importSupplementsInChunks(supabase: any, supplements: Map<string, { supplement: SupplementInMatrix, conditions: string[] }>) {
   const CHUNK_SIZE = 15;
   let imported = 0;
   let skipped = 0;
+  
+  const supplementsArray = Array.from(supplements.values());
 
-  for (let i = 0; i < supplements.length; i += CHUNK_SIZE) {
-    const chunk = supplements.slice(i, i + CHUNK_SIZE);
-    console.log(`Processing chunk ${Math.floor(i/CHUNK_SIZE) + 1}/${Math.ceil(supplements.length/CHUNK_SIZE)}`);
+  for (let i = 0; i < supplementsArray.length; i += CHUNK_SIZE) {
+    const chunk = supplementsArray.slice(i, i + CHUNK_SIZE);
+    console.log(`Processing chunk ${Math.floor(i/CHUNK_SIZE) + 1}/${Math.ceil(supplementsArray.length/CHUNK_SIZE)}`);
     
-    const supplementData = chunk.map(createSupplementData);
+    const supplementData = chunk.map(item => createSupplementData(item.supplement, item.conditions));
     
     try {
       const { data, error } = await supabase
@@ -153,14 +160,14 @@ async function importSupplementsInChunks(supabase: any, supplements: SupplementI
   return { imported, skipped };
 }
 
-function createSupplementData(supplement: SupplementInMatrix) {
+function createSupplementData(supplement: SupplementInMatrix, conditions: string[]) {
   return {
     id: generateSupplementId(supplement.nome),
     name: supplement.nome,
     category: categorizeByAgent(supplement.agente),
     description: `${supplement.nome} - ${supplement.mecanismo}`,
     benefits: [supplement.mecanismo],
-    target_symptoms: [],
+    target_symptoms: conditions.map(c => c.toLowerCase()),
     dosage_min: getDefaultDosage(supplement.nome).min,
     dosage_max: getDefaultDosage(supplement.nome).max,
     dosage_unit: 'mg',
@@ -172,6 +179,10 @@ function createSupplementData(supplement: SupplementInMatrix) {
     agent_category: supplement.agente,
     scientific_evidence: supplement.evidencia,
     priority_level: mapPriorityLevel(supplement.evidencia),
+    evidence_classification: supplement.evidencia,
+    medical_conditions: conditions,
+    synergy_potential: calculateSynergyPotential(supplement.evidencia),
+    integrated_evidence_score: calculateEvidenceScore(supplement.evidencia, conditions.length),
     created_at: new Date().toISOString(),
     updated_at: new Date().toISOString()
   };
@@ -223,16 +234,26 @@ function mapPriorityLevel(evidencia: 'A' | 'B' | 'D'): string {
 
 function getDefaultDosage(supplementName: string): {min: number, max: number} {
   const dosageMap: Record<string, {min: number, max: number}> = {
-    'magnesio': {min: 200, max: 400},
-    'omega-3': {min: 500, max: 2000},
-    'coq10': {min: 100, max: 300},
-    'vitamin d': {min: 1000, max: 4000},
-    'vitamin c': {min: 500, max: 2000},
-    'curcumin': {min: 500, max: 1500},
+    'magnésio': {min: 200, max: 400},
+    'ômega-3': {min: 500, max: 2000},
+    'coenzima q10': {min: 100, max: 300},
+    'vitamina d': {min: 1000, max: 4000},
+    'vitamina d3': {min: 1000, max: 4000},
+    'vitamina c': {min: 500, max: 2000},
+    'curcumina': {min: 500, max: 1500},
     'ashwagandha': {min: 300, max: 600},
     'rhodiola': {min: 200, max: 600},
-    'berberine': {min: 500, max: 1500},
-    'quercetin': {min: 500, max: 1000}
+    'berberina': {min: 500, max: 1500},
+    'quercetina': {min: 500, max: 1000},
+    'zinco': {min: 8, max: 40},
+    'ferro': {min: 8, max: 45},
+    'cálcio': {min: 500, max: 1200},
+    'probióticos': {min: 1, max: 50},
+    'resveratrol': {min: 100, max: 500},
+    'ginkgo biloba': {min: 120, max: 240},
+    'ginseng': {min: 200, max: 400},
+    'spirulina': {min: 1000, max: 3000},
+    'chlorella': {min: 1000, max: 3000}
   };
   
   const key = supplementName.toLowerCase();
@@ -242,4 +263,27 @@ function getDefaultDosage(supplementName: string): {min: number, max: number} {
     }
   }
   return {min: 100, max: 500};
+}
+
+function calculateSynergyPotential(evidencia: 'A' | 'B' | 'D'): string {
+  const synergyMap = {
+    'A': 'Alta - Evidência científica sólida para combinações',
+    'B': 'Moderada - Boa base científica para interações', 
+    'D': 'Limitada - Poucos estudos sobre sinergia'
+  };
+  return synergyMap[evidencia] || 'Limitada';
+}
+
+function calculateEvidenceScore(evidencia: 'A' | 'B' | 'D', conditionsCount: number): number {
+  const baseScore = {
+    'A': 90,
+    'B': 70,
+    'D': 40
+  };
+  
+  const base = baseScore[evidencia] || 40;
+  // Bonus por aparecer em múltiplas condições
+  const conditionBonus = Math.min(conditionsCount * 5, 30);
+  
+  return Math.min(base + conditionBonus, 100);
 }

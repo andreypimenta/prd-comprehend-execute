@@ -1,6 +1,25 @@
 import "https://deno.land/x/xhr@0.1.0/mod.ts";
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from 'https://esm.sh/@supabase/supabase-js@2.57.4';
+import {
+  mapPriorityFromEvidence,
+  categorizeByCondition,
+  getSequentialRecommendation,
+  generateSynergyDescription,
+  generateInitialPhase,
+  generateTitrationPhase,
+  generateAdjustmentPhase,
+  generateMaintenancePhase,
+  generateLabParameters,
+  generateClinicalParameters,
+  generateSpecificMarkers,
+  generateAgeFactors,
+  generateGeneticFactors,
+  generateComorbidityFactors,
+  generateDrugInteractions,
+  generateLifestyleFactors,
+  generateSeverityFactors
+} from './protocol-helpers.ts';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
@@ -101,63 +120,90 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
   }
 }
 
-function extractTherapeuticProtocols(matrixData: MatrixData) {
+function extractTherapeuticProtocols(matrixData: MatrixData): any[] {
   const protocols: any[] = [];
   
-  Object.entries(matrixData).forEach(([condition, data]) => {
-    if (data.suplementos && Array.isArray(data.suplementos) && data.suplementos.length > 0) {
-      // Filter high-priority supplements for this condition
-      const highPrioritySupplements = data.suplementos.filter(s => 
-        s && s.evidencia && ['A', 'B'].includes(s.evidencia)
+  Object.keys(matrixData).forEach(condition => {
+    const conditionData = matrixData[condition];
+    if (conditionData && conditionData.suplementos && conditionData.suplementos.length > 0) {
+      // Sort supplements by evidence priority
+      const sortedSupplements = conditionData.suplementos.sort((a: SupplementInMatrix, b: SupplementInMatrix) => {
+        const evidenceOrder = { 'A': 3, 'B': 2, 'D': 1 };
+        return (evidenceOrder[b.evidencia as keyof typeof evidenceOrder] || 1) - 
+               (evidenceOrder[a.evidencia as keyof typeof evidenceOrder] || 1);
+      });
+      
+      // Filter supplements with evidence level A or B for efficacy calculation
+      const qualitySupplements = sortedSupplements.filter(
+        (supplement: SupplementInMatrix) => supplement.evidencia === 'A' || supplement.evidencia === 'B'
       );
       
-      if (highPrioritySupplements.length > 0) {
-        const protocol = {
-          condition: condition,
-          supplement_combination: highPrioritySupplements.map(s => ({
-            nome: s.nome,
-            agente: s.agente,
-            evidencia: s.evidencia,
-            mecanismo: s.mecanismo
-          })),
-          synergy_description: `Protocolo terapêutico otimizado para ${condition}`,
-          expected_efficacy: calculateExpectedEfficacy(highPrioritySupplements),
-          implementation_phases: data.fases_implementacao || {
-            fase_inicial: "Início gradual com doses baixas",
-            titulacao: "Ajuste conforme resposta individual",
-            avaliacao_resposta: "Monitoramento após 4-6 semanas"
-          },
-          monitoring_parameters: data.parametros_monitoramento || {
-            baseline: "Avaliação inicial dos sintomas",
-            seguimento_inicial: "Acompanhamento semanal",
-            seguimento_regular: "Avaliação mensal"
-          },
-          individualization_factors: data.fatores_individualizacao || {
-            fatores_idade: "Ajuste para diferentes faixas etárias",
-            fatores_geneticos: "Considerações farmacogenômicas",
-            comorbidades: "Adaptação para condições associadas"
-          }
-        };
-        
-        protocols.push(protocol);
-      }
+      // Enhanced supplement combination with priority mapping
+      const enhancedCombination = sortedSupplements.map((supplement: SupplementInMatrix) => ({
+        nome: supplement.nome,
+        agente: supplement.agente,
+        evidencia: supplement.evidencia,
+        mecanismo: supplement.mecanismo,
+        prioridade: mapPriorityFromEvidence(supplement.evidencia || 'D'),
+        categoria_clinica: categorizeByCondition(condition),
+        recomendacao_sequencial: getSequentialRecommendation(supplement.evidencia || 'D')
+      }));
+      
+      const protocol = {
+        condition: condition,
+        supplement_combination: enhancedCombination,
+        synergy_description: generateSynergyDescription(sortedSupplements, condition),
+        expected_efficacy: calculateExpectedEfficacy(qualitySupplements),
+        implementation_phases: {
+          fase_inicial: generateInitialPhase(sortedSupplements),
+          titulacao: generateTitrationPhase(sortedSupplements),
+          avaliacao_resposta: `Avaliar resposta clínica em 4-6 semanas para ${condition}`,
+          ajustes: generateAdjustmentPhase(condition),
+          descontinuacao: "Descontinuar se não houver melhoria em 12 semanas ou se surgirem efeitos adversos",
+          manutencao: generateMaintenancePhase(qualitySupplements)
+        },
+        monitoring_parameters: {
+          baseline: `Avaliação inicial completa para ${condition}`,
+          seguimento_inicial: "Monitoramento semanal nas primeiras 4 semanas",
+          seguimento_regular: "Avaliação mensal após estabilização",
+          parametros_laboratoriais: generateLabParameters(condition),
+          parametros_clinicos: generateClinicalParameters(condition),
+          marcadores_especificos: generateSpecificMarkers(condition)
+        },
+        individualization_factors: {
+          fatores_idade: generateAgeFactors(condition),
+          fatores_geneticos: generateGeneticFactors(sortedSupplements),
+          comorbidades: generateComorbidityFactors(condition),
+          medicamentos: generateDrugInteractions(sortedSupplements),
+          estilo_vida: generateLifestyleFactors(condition),
+          severidade_condicao: generateSeverityFactors(condition)
+        },
+        created_at: new Date().toISOString(),
+        updated_at: new Date().toISOString()
+      };
+      
+      protocols.push(protocol);
     }
   });
   
-  console.log(`Extracted ${protocols.length} therapeutic protocols`);
   return protocols;
 }
 
 function calculateExpectedEfficacy(supplements: SupplementInMatrix[]): string {
   const evidenceACount = supplements.filter(s => s.evidencia === 'A').length;
   const evidenceBCount = supplements.filter(s => s.evidencia === 'B').length;
+  const totalSupplements = supplements.length;
   
-  if (evidenceACount > evidenceBCount) {
-    return 'Alta eficácia esperada baseada em evidências robustas';
-  } else if (evidenceBCount > 0) {
-    return 'Eficácia moderada a alta baseada em evidências consolidadas';
+  if (evidenceACount >= 3) {
+    return `Eficácia muito alta esperada - ${evidenceACount} suplementos com evidência A (forte) em protocolo sinérgico`;
+  } else if (evidenceACount >= 1 && evidenceBCount >= 2) {
+    return `Eficácia alta esperada - Combinação de ${evidenceACount} evidência A e ${evidenceBCount} evidência B`;
+  } else if (evidenceBCount >= 2) {
+    return `Eficácia moderada a alta - ${evidenceBCount} suplementos com evidência B (moderada)`;
+  } else if (evidenceACount >= 1) {
+    return `Eficácia moderada - ${evidenceACount} suplemento com evidência forte e suporte adicional`;
   } else {
-    return 'Eficácia moderada baseada em evidências disponíveis';
+    return `Eficácia moderada - Protocolo baseado em evidências disponíveis (${totalSupplements} suplementos)`;
   }
 }
 
@@ -173,7 +219,7 @@ async function importProtocolsInChunks(supabase: any, protocols: any[]) {
     try {
       const { data, error } = await supabase
         .from('therapeutic_protocols')
-        .upsert(chunk, { onConflict: 'condition' });
+        .upsert(chunk, { onConflict: 'id' });
 
       if (error) {
         console.error('Error importing protocols chunk:', error);
