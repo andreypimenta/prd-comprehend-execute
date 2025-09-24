@@ -1,62 +1,11 @@
 import { useState, useEffect } from 'react';
 import { supabase } from '@/integrations/supabase/client';
+import type { Database } from '@/integrations/supabase/types';
 
-interface SecurityAlert {
-  id: string;
-  supplement_id: string;
-  alert_type: string;
-  severity: 'critical' | 'high' | 'medium' | 'low';
-  source: string;
-  title: string;
-  description?: string;
-  alert_date: string;
-  status: string;
-  affected_products: any;
-  recommended_actions: any;
-  external_reference?: string;
-  created_at: string;
-}
-
-interface EvidenceUpdate {
-  id: string;
-  supplement_id: string;
-  update_type: string;
-  old_value: any;
-  new_value: any;
-  confidence_score: number;
-  automatic: boolean;
-  justification: string;
-  created_at: string;
-}
-
-interface MonitoringJob {
-  id: string;
-  job_type: string;
-  status: string;
-  progress: any;
-  results: any;
-  error_message?: string;
-  next_run_at: string;
-  run_interval_hours: number;
-  created_at: string;
-}
-
-interface EvidenceClassification {
-  id: string;
-  supplement_id: string;
-  classification_type: string;
-  old_classification: string;
-  new_classification: string;
-  confidence_score: number;
-  reasoning: string;
-  supporting_studies?: any[];
-  auto_approved: boolean;
-  requires_review: boolean;
-  reviewed_at?: string;
-  review_notes?: string;
-  applied_at?: string;
-  created_at: string;
-}
+type SecurityAlert = Database['public']['Tables']['security_alerts']['Row'];
+type EvidenceUpdate = Database['public']['Tables']['evidence_updates']['Row'];
+type MonitoringJob = Database['public']['Tables']['monitoring_jobs']['Row'];
+type EvidenceClassification = Database['public']['Tables']['evidence_classifications']['Row'];
 
 export function useAutomaticUpdates() {
   const [securityAlerts, setSecurityAlerts] = useState<SecurityAlert[]>([]);

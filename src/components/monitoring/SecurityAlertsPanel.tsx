@@ -159,13 +159,13 @@ export function SecurityAlertsPanel() {
                               </p>
                             )}
 
-                            {alert.affected_products.length > 0 && (
+                            {Array.isArray(alert.affected_products) && alert.affected_products.length > 0 && (
                               <div>
                                 <p className="text-xs font-medium mb-1">Produtos Afetados:</p>
                                 <div className="flex flex-wrap gap-1">
                                   {alert.affected_products.slice(0, 3).map((product, idx) => (
                                     <Badge key={idx} variant="outline" className="text-xs">
-                                      {product}
+                                      {String(product)}
                                     </Badge>
                                   ))}
                                   {alert.affected_products.length > 3 && (
@@ -177,12 +177,12 @@ export function SecurityAlertsPanel() {
                               </div>
                             )}
 
-                            {alert.recommended_actions.length > 0 && (
+                            {Array.isArray(alert.recommended_actions) && alert.recommended_actions.length > 0 && (
                               <div>
                                 <p className="text-xs font-medium mb-1">Ações Recomendadas:</p>
                                 <ul className="text-xs text-muted-foreground list-disc list-inside">
                                   {alert.recommended_actions.slice(0, 2).map((action, idx) => (
-                                    <li key={idx}>{action}</li>
+                                    <li key={idx}>{String(action)}</li>
                                   ))}
                                 </ul>
                               </div>

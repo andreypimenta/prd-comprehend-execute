@@ -277,17 +277,17 @@ export function MonitoringDashboard() {
                         </div>
 
                         {job.progress && (
-                          <div className="mb-2">
-                            <div className="flex items-center justify-between text-xs mb-1">
-                              <span>Progresso: {job.progress.stage || 'N/A'}</span>
-                              <span>{job.progress.completed || 0}%</span>
-                            </div>
-                            <div className="w-full bg-secondary rounded-full h-2">
-                              <div 
-                                className="bg-primary h-2 rounded-full transition-all"
-                                style={{ width: `${job.progress.completed || 0}%` }}
-                              />
-                            </div>
+                            <div className="mb-2">
+                              <div className="flex items-center justify-between text-xs mb-1">
+                                <span>Progresso: {typeof job.progress === 'object' && job.progress && 'stage' in job.progress ? String(job.progress.stage) : 'N/A'}</span>
+                                <span>{typeof job.progress === 'object' && job.progress && 'completed' in job.progress ? String(job.progress.completed) : '0'}%</span>
+                              </div>
+                              <div className="w-full bg-secondary rounded-full h-2">
+                                <div 
+                                  className="bg-primary h-2 rounded-full transition-all"
+                                  style={{ width: `${typeof job.progress === 'object' && job.progress && 'completed' in job.progress ? job.progress.completed : 0}%` }}
+                                />
+                              </div>
                           </div>
                         )}
 

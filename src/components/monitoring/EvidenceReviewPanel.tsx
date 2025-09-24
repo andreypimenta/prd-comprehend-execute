@@ -211,7 +211,7 @@ export function EvidenceReviewPanel() {
                             </p>
                           </div>
 
-                          {classification.supporting_studies && classification.supporting_studies.length > 0 && (
+                          {Array.isArray(classification.supporting_studies) && classification.supporting_studies.length > 0 && (
                             <div>
                               <p className="text-xs font-medium mb-1">
                                 Estudos de Apoio ({classification.supporting_studies.length}):
