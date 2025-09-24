@@ -1,12 +1,13 @@
 import { UserProfileSection } from "@/components/dashboard/UserProfileSection";
 import { PlanDocumentsSection } from "@/components/dashboard/PlanDocumentsSection";
 import { CalendarActionsSection } from "@/components/dashboard/CalendarActionsSection";
+import { ExamineProtocolsImporter } from "@/components/dashboard/ExamineProtocolsImporter";
 import { AppLayout } from "@/components/layout/AppLayout";
 
 export default function Dashboard() {
   return (
     <AppLayout title="Dashboard">
-      <div className="min-h-screen w-full max-w-none bg-background overflow-auto">
+      <div className="min-h-screen w-full max-w-none bg-background overflow-auto space-y-6">
         {/* Three Column Layout with Visible Border and Rounded Corners */}
         <div className="flex flex-col lg:grid lg:grid-cols-12 gap-2 p-6 min-h-full border-2 border-border rounded-2xl bg-card/50 backdrop-blur-sm shadow-lg">
           {/* Left Column - User Profile & Statistics (5 columns - increased width) */}
@@ -23,6 +24,11 @@ export default function Dashboard() {
           <div className="lg:col-span-3 flex h-full">
             <CalendarActionsSection />
           </div>
+        </div>
+
+        {/* Import Section */}
+        <div className="px-6 pb-6">
+          <ExamineProtocolsImporter />
         </div>
       </div>
     </AppLayout>
