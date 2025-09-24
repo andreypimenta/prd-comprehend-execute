@@ -6,6 +6,52 @@ const corsHeaders = {
   'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 }
 
+// Auto-execute import on startup
+let importExecuted = false
+
+async function autoExecuteImport() {
+  if (importExecuted) return
+  importExecuted = true
+  
+  try {
+    const supabaseUrl = Deno.env.get('SUPABASE_URL')!;
+    const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
+    const supabase = createClient(supabaseUrl, supabaseServiceKey);
+
+    console.log('🔍 Verificando se importação é necessária...')
+    
+    // Verificar se já temos dados completos
+    const { count: supplementsCount } = await supabase
+      .from('supplements')
+      .select('*', { count: 'exact', head: true })
+    
+    const { count: protocolsCount } = await supabase
+      .from('therapeutic_protocols')  
+      .select('*', { count: 'exact', head: true })
+
+    console.log(`📊 Estado atual: ${supplementsCount} suplementos, ${protocolsCount} protocolos`)
+    
+    // Se temos menos de 500 suplementos, executar importação
+    if ((supplementsCount || 0) < 500) {
+      console.log('🚀 Iniciando importação automática da matriz...')
+      await executeMatrixImport(supabase)
+    } else {
+      console.log('✅ Base de dados já está completa')
+    }
+  } catch (error) {
+    console.error('❌ Erro na auto-execução:', error)
+  }
+}
+
+async function executeMatrixImport(supabase: any) {
+  console.log('🚀 Iniciando importação direta da matriz...');
+
+  // Ler arquivo diretamente
+  const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
+  const matrixData: MatrixData = JSON.parse(jsonContent);
+  
+  console.log(`📊 Arquivo carregado com ${Object.keys(matrixData).length} condições`);
+
 interface SupplementInMatrix {
   nome: string;
   agente: string;
@@ -24,6 +70,9 @@ interface MatrixData {
   };
 }
 
+// Auto-execute on function startup
+autoExecuteImport()
+
 serve(async (req) => {
   if (req.method === 'OPTIONS') {
     return new Response(null, { headers: corsHeaders });
@@ -34,13 +83,30 @@ serve(async (req) => {
     const supabaseServiceKey = Deno.env.get('SUPABASE_SERVICE_ROLE_KEY')!;
     const supabase = createClient(supabaseUrl, supabaseServiceKey);
 
-    console.log('🚀 Iniciando importação direta da matriz...');
+    console.log('🚀 Executando importação via requisição...')
+    const result = await executeMatrixImport(supabase)
 
-    // Ler arquivo diretamente
-    const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
-    const matrixData: MatrixData = JSON.parse(jsonContent);
-    
-    console.log(`📊 Arquivo carregado com ${Object.keys(matrixData).length} condições`);
+    return new Response(JSON.stringify({
+      success: true,
+      message: 'Importação da matriz concluída com sucesso',
+      stats: result
+    }), {
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+
+  } catch (error: any) {
+    console.error('❌ Erro na importação:', error);
+    return new Response(JSON.stringify({ 
+      success: false, 
+      error: error.message 
+    }), {
+      status: 500,
+      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
+    });
+  }
+});
+
+async function executeMatrixImport(supabase: any) {
 
     // Extrair suplementos únicos
     const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[], priorities: string[] }>();
@@ -192,29 +258,12 @@ serve(async (req) => {
 
     console.log(`🎉 Importação concluída: ${importedSupplements} suplementos, ${importedProtocols} protocolos`);
 
-    return new Response(JSON.stringify({
-      success: true,
-      message: 'Importação da matriz concluída com sucesso',
-      stats: {
-        supplements: importedSupplements,
-        protocols: importedProtocols,
-        conditions: Object.keys(matrixData).length
-      }
-    }), {
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-
-  } catch (error: any) {
-    console.error('❌ Erro na importação:', error);
-    return new Response(JSON.stringify({ 
-      success: false, 
-      error: error.message 
-    }), {
-      status: 500,
-      headers: { ...corsHeaders, 'Content-Type': 'application/json' },
-    });
-  }
-});
+    return {
+      supplements: importedSupplements,
+      protocols: importedProtocols,
+      conditions: Object.keys(matrixData).length
+    };
+}
 
 // Funções auxiliares
 function generateSupplementId(name: string): string {
