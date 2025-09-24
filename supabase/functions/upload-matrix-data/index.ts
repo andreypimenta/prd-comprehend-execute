@@ -24,25 +24,17 @@ serve(async (req) => {
 
     console.log('Starting matrix data upload process...');
 
-    // Try to read the file from the public directory via HTTP
-    const baseUrl = supabaseUrl;
-    const publicUrl = `${baseUrl}/matriz_final_consolidada.json`;
-    
-    console.log(`Attempting to fetch from: ${publicUrl}`);
+    // Read the file directly from the filesystem
+    console.log('Reading matriz_final_consolidada.json from filesystem...');
     
     try {
-      const response = await fetch(publicUrl);
-      if (!response.ok) {
-        console.error(`HTTP ${response.status}: ${response.statusText}`);
-        throw new Error(`Failed to fetch JSON file: ${response.status} ${response.statusText}`);
-      }
-      
-      const jsonContent = await response.text();
-      console.log(`Successfully fetched JSON content (${jsonContent.length} characters)`);
+      const jsonContent = await Deno.readTextFile('./public/matriz_final_consolidada.json');
+      console.log(`Successfully read JSON content (${jsonContent.length} characters)`);
       
       // Validate JSON format
       try {
         JSON.parse(jsonContent);
+        console.log('JSON validation successful');
       } catch (parseError) {
         throw new Error(`Invalid JSON format: ${parseError.message}`);
       }
@@ -72,8 +64,8 @@ serve(async (req) => {
         headers: { ...corsHeaders, 'Content-Type': 'application/json' },
       });
 
-    } catch (fetchError) {
-      console.error('Error fetching JSON file:', fetchError);
+    } catch (readError) {
+      console.error('Error reading JSON file from filesystem:', readError);
       
       // Fallback: Create minimal sample data
       const fallbackData = {
