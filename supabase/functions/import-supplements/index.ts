@@ -16,7 +16,11 @@ interface SupplementInMatrix {
 
 interface MatrixData {
   [condition: string]: {
-    suplementos: SupplementInMatrix[];
+    ranking_consolidado: {
+      prioridade_muito_alta: SupplementInMatrix[];
+      prioridade_alta: SupplementInMatrix[];
+      prioridade_media: SupplementInMatrix[];
+    };
   };
 }
 
@@ -82,14 +86,18 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
     // Fallback data if storage fails
     return {
       "example_condition": {
-        "suplementos": [
-          {
-            "nome": "Vitamina D3",
-            "agente": "VITAMINA/MINERAL",
-            "evidencia": "A" as const,
-            "mecanismo": "Regulação da homeostase do cálcio e função imune"
-          }
-        ]
+        "ranking_consolidado": {
+          "prioridade_muito_alta": [
+            {
+              "nome": "Vitamina D3",
+              "agente": "VITAMINA/MINERAL",
+              "evidencia": "A" as const,
+              "mecanismo": "Regulação da homeostase do cálcio e função imune"
+            }
+          ],
+          "prioridade_alta": [],
+          "prioridade_media": []
+        }
       }
     };
   } catch (error) {
@@ -102,8 +110,15 @@ function extractUniqueSupplements(matrixData: MatrixData): Map<string, { supplem
   const supplementMap = new Map<string, { supplement: SupplementInMatrix, conditions: string[] }>();
   
   Object.entries(matrixData).forEach(([condition, data]) => {
-    if (data.suplementos && Array.isArray(data.suplementos)) {
-      data.suplementos.forEach(supplement => {
+    if (data.ranking_consolidado) {
+      // Process all priority levels
+      const allSupplements = [
+        ...(data.ranking_consolidado.prioridade_muito_alta || []),
+        ...(data.ranking_consolidado.prioridade_alta || []),
+        ...(data.ranking_consolidado.prioridade_media || [])
+      ];
+      
+      allSupplements.forEach(supplement => {
         if (supplement && supplement.nome && typeof supplement.nome === 'string') {
           const key = supplement.nome.toLowerCase().trim();
           if (!supplementMap.has(key)) {
@@ -139,7 +154,7 @@ async function importSupplementsInChunks(supabase: any, supplements: Map<string,
     try {
       const { data, error } = await supabase
         .from('supplements')
-        .upsert(supplementData, { onConflict: 'id' });
+        .upsert(supplementData, { onConflict: 'name' });
 
       if (error) {
         console.error('Error importing chunk:', error);
