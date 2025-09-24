@@ -142,6 +142,7 @@ async function loadMatrixDataFromStorage(supabase: any): Promise<MatrixData> {
 }
 
 async function executeMatrixImport(supabase: any) {
+  const CHUNK_SIZE = 20;
   console.log('🚀 Iniciando importação da matriz...');
   
   const matrixData = await loadMatrixDataFromStorage(supabase);
