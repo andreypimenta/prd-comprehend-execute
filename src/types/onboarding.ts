@@ -20,6 +20,13 @@ export interface OnboardingData {
 
   // Etapa 4: Objetivos
   goals: string[];
+
+  // Etapa 5: Preferências
+  preferences: {
+    budgetRange: number; // valor em reais
+    preferredForms: string[]; // ['capsulas', 'comprimidos', ...]
+    dietaryRestrictions: string[]; // ['vegetariano', 'vegano', ...]
+  };
 }
 
 export interface OnboardingStep {
@@ -64,4 +71,21 @@ export const AVAILABLE_GOALS = [
   "Melhoria da digestão",
   "Controle hormonal",
   "Recuperação muscular",
+];
+
+export const AVAILABLE_PREFERRED_FORMS = [
+  "Cápsulas",
+  "Comprimidos", 
+  "Pós",
+  "Líquidos",
+  "Gomas",
+];
+
+export const AVAILABLE_DIETARY_RESTRICTIONS = [
+  "Vegetariano",
+  "Vegano", 
+  "Sem glúten",
+  "Sem lactose",
+  "Halal",
+  "Kosher",
 ];

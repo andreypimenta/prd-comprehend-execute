@@ -73,7 +73,13 @@ export const lifestyleSchema = z.object({
 });
 
 export const goalsSchema = z.object({
-  healthGoals: z.array(z.string()).min(1, "Selecione pelo menos um objetivo").max(10, "Máximo 10 objetivos"),
+  goals: z.array(z.string()).min(1, "Selecione pelo menos um objetivo").max(10, "Máximo 10 objetivos"),
+});
+
+export const preferencesSchema = z.object({
+  budgetRange: z.number().min(50, "Orçamento mínimo é R$ 50").max(500, "Orçamento máximo é R$ 500"),
+  preferredForms: z.array(z.string()).min(1, "Selecione pelo menos uma forma farmacêutica"),
+  dietaryRestrictions: z.array(z.string()).optional().default([]),
 });
 
 // Export types
@@ -87,3 +93,4 @@ export type BasicInfoFormData = z.infer<typeof basicInfoSchema>;
 export type SymptomsFormData = z.infer<typeof symptomsSchema>;
 export type LifestyleFormData = z.infer<typeof lifestyleSchema>;
 export type GoalsFormData = z.infer<typeof goalsSchema>;
+export type PreferencesFormData = z.infer<typeof preferencesSchema>;

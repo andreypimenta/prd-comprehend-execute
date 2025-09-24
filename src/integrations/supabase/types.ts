@@ -271,6 +271,24 @@ export type Database = {
         }
         Relationships: []
       }
+      health_conditions: {
+        Row: {
+          created_at: string | null
+          id: number
+          name: string
+        }
+        Insert: {
+          created_at?: string | null
+          id?: number
+          name: string
+        }
+        Update: {
+          created_at?: string | null
+          id?: number
+          name?: string
+        }
+        Relationships: []
+      }
       monitoring_jobs: {
         Row: {
           completed_at: string | null
@@ -655,6 +673,47 @@ export type Database = {
           },
         ]
       }
+      supplement_recommendations: {
+        Row: {
+          agent_type: string | null
+          condition_id: number | null
+          created_at: string | null
+          evidence_level: string | null
+          id: number
+          mechanism: string | null
+          priority_level: string | null
+          supplement_name: string | null
+        }
+        Insert: {
+          agent_type?: string | null
+          condition_id?: number | null
+          created_at?: string | null
+          evidence_level?: string | null
+          id?: number
+          mechanism?: string | null
+          priority_level?: string | null
+          supplement_name?: string | null
+        }
+        Update: {
+          agent_type?: string | null
+          condition_id?: number | null
+          created_at?: string | null
+          evidence_level?: string | null
+          id?: number
+          mechanism?: string | null
+          priority_level?: string | null
+          supplement_name?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "supplement_recommendations_condition_id_fkey"
+            columns: ["condition_id"]
+            isOneToOne: false
+            referencedRelation: "health_conditions"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       supplements: {
         Row: {
           absorption_enhancers: Json | null
@@ -874,12 +933,15 @@ export type Database = {
       user_profiles: {
         Row: {
           age: number | null
+          budget_range: number | null
           created_at: string
+          dietary_restrictions: Json | null
           exercise_frequency: number | null
           gender: string | null
           health_goals: string[] | null
           height: number | null
           id: string
+          preferred_forms: Json | null
           sleep_quality: number | null
           stress_level: number | null
           symptoms: string[] | null
@@ -889,12 +951,15 @@ export type Database = {
         }
         Insert: {
           age?: number | null
+          budget_range?: number | null
           created_at?: string
+          dietary_restrictions?: Json | null
           exercise_frequency?: number | null
           gender?: string | null
           health_goals?: string[] | null
           height?: number | null
           id?: string
+          preferred_forms?: Json | null
           sleep_quality?: number | null
           stress_level?: number | null
           symptoms?: string[] | null
@@ -904,12 +969,15 @@ export type Database = {
         }
         Update: {
           age?: number | null
+          budget_range?: number | null
           created_at?: string
+          dietary_restrictions?: Json | null
           exercise_frequency?: number | null
           gender?: string | null
           health_goals?: string[] | null
           height?: number | null
           id?: string
+          preferred_forms?: Json | null
           sleep_quality?: number | null
           stress_level?: number | null
           symptoms?: string[] | null

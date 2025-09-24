@@ -13,6 +13,9 @@ export interface UserProfile {
   sleep_quality?: number;
   stress_level?: number;
   exercise_frequency?: number;
+  budget_range?: number;
+  preferred_forms?: string[];
+  dietary_restrictions?: string[];
   created_at: string;
   updated_at: string;
 }
@@ -65,7 +68,17 @@ export function useUserProfile() {
           setError(error.message);
         } else {
           console.log("🔍 useUserProfile: Perfil encontrado:", data);
-          setProfile(data);
+          // Properly handle JSONB fields from Supabase
+          const profileData: UserProfile = {
+            ...data,
+            preferred_forms: Array.isArray(data.preferred_forms) 
+              ? (data.preferred_forms as string[]) 
+              : [],
+            dietary_restrictions: Array.isArray(data.dietary_restrictions) 
+              ? (data.dietary_restrictions as string[]) 
+              : [],
+          };
+          setProfile(profileData);
         }
       } catch (err) {
         console.error("🔍 useUserProfile: Erro inesperado:", err);
@@ -105,7 +118,17 @@ export function useUserProfile() {
         if (error) {
           setError(error.message);
         } else {
-          setProfile(data);
+          // Properly handle JSONB fields from Supabase
+          const profileData: UserProfile = {
+            ...data,
+            preferred_forms: Array.isArray(data.preferred_forms) 
+              ? (data.preferred_forms as string[]) 
+              : [],
+            dietary_restrictions: Array.isArray(data.dietary_restrictions) 
+              ? (data.dietary_restrictions as string[]) 
+              : [],
+          };
+          setProfile(profileData);
         }
       } catch (err) {
         setError("Erro ao buscar perfil do usuário");

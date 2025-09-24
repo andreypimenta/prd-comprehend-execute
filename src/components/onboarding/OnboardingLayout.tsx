@@ -14,6 +14,7 @@ import { Step1BasicInfo } from "./steps/Step1BasicInfo";
 import { Step2Symptoms } from "./steps/Step2Symptoms";
 import { Step3Lifestyle } from "./steps/Step3Lifestyle";
 import { Step4Goals } from "./steps/Step4Goals";
+import { Step5Preferences } from "./steps/Step5Preferences";
 
 const INITIAL_STEPS: OnboardingStep[] = [
   {
@@ -41,6 +42,13 @@ const INITIAL_STEPS: OnboardingStep[] = [
     id: 4,
     title: "Objetivos",
     description: "O que deseja alcançar",
+    isComplete: false,
+    isActive: false,
+  },
+  {
+    id: 5,
+    title: "Preferências",
+    description: "Orçamento e preferências",
     isComplete: false,
     isActive: false,
   },
@@ -95,6 +103,11 @@ export function OnboardingLayout() {
           exerciseFrequency: profile.exercise_frequency || 0,
         },
         goals: profile.health_goals || [],
+        preferences: {
+          budgetRange: profile.budget_range || 150,
+          preferredForms: profile.preferred_forms || [],
+          dietaryRestrictions: profile.dietary_restrictions || [],
+        },
       };
       setOnboardingData(existingData);
     }
@@ -109,7 +122,7 @@ export function OnboardingLayout() {
   };
 
   const nextStep = () => {
-    if (currentStep < 4) {
+    if (currentStep < 5) {
       // Marcar step atual como completo
       setSteps(prev =>
         prev.map(step =>
@@ -196,6 +209,9 @@ export function OnboardingLayout() {
         sleep_quality: onboardingData.lifestyle?.sleepQuality,
         stress_level: onboardingData.lifestyle?.stressLevel,
         exercise_frequency: onboardingData.lifestyle?.exerciseFrequency,
+        budget_range: onboardingData.preferences?.budgetRange,
+        preferred_forms: onboardingData.preferences?.preferredForms || [],
+        dietary_restrictions: onboardingData.preferences?.dietaryRestrictions || [],
       };
 
       console.log("💾 OnboardingLayout: Dados preparados para salvamento:", profileData);
@@ -275,6 +291,14 @@ export function OnboardingLayout() {
             onValidation={handleStepValidation}
           />
         );
+      case 5:
+        return (
+          <Step5Preferences
+            data={onboardingData.preferences || { budgetRange: 150, preferredForms: [], dietaryRestrictions: [] }}
+            onChange={(preferences) => updateStepData({ preferences })}
+            onValidationChange={handleStepValidation}
+          />
+        );
       default:
         return null;
     }
@@ -298,7 +322,7 @@ export function OnboardingLayout() {
           <CardContent className="pt-6">
             <StepNavigation
               currentStep={currentStep}
-              totalSteps={4}
+              totalSteps={5}
               onPrevious={previousStep}
               onNext={nextStep}
               onComplete={completeOnboarding}
