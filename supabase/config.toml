@@ -66,3 +66,6 @@ verify_jwt = false
 
 [functions.upload-matrix-data]
 verify_jwt = false
+
+[functions.import-complete-matrix]
+verify_jwt = false
