@@ -18,6 +18,7 @@ import Onboarding from "./pages/Onboarding";
 import Results from "./pages/Results";
 import Checkin from "./pages/Checkin";
 import Progress from "./pages/Progress";
+import Analyze from "./pages/Analyze";
 import NotFound from "./pages/NotFound";
 import Showcase from "./pages/Showcase";
 
@@ -82,6 +83,15 @@ const App = () => (
             <SidebarProvider defaultOpen={false}>
               <div className="min-h-screen flex w-full">
                 <Progress />
+              </div>
+            </SidebarProvider>
+          </ProtectedRoute>
+        } />
+        <Route path="/analyze" element={
+          <ProtectedRoute>
+            <SidebarProvider defaultOpen={false}>
+              <div className="min-h-screen flex w-full">
+                <Analyze />
               </div>
             </SidebarProvider>
           </ProtectedRoute>

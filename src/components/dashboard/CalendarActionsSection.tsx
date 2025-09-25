@@ -6,12 +6,14 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCheckin } from "@/hooks/useCheckin";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { useState } from "react";
-import { CalendarDays, Stethoscope, Clock, User, Edit2, Activity } from "lucide-react";
+import { CalendarDays, Stethoscope, Clock, User, Edit2, Activity, Zap } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export function CalendarActionsSection() {
   const [selectedDate, setSelectedDate] = useState<Date | undefined>(new Date());
   const { checkinHistory, loading: checkinLoading } = useCheckin();
   const { profile } = useUserProfile();
+  const navigate = useNavigate();
 
   if (checkinLoading) {
     return (
@@ -89,8 +91,17 @@ export function CalendarActionsSection() {
         </CardContent>
       </Card>
 
+      {/* Nova Análise Button */}
+      <Button 
+        onClick={() => navigate('/analyze')}
+        className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70 text-primary-foreground font-semibold py-3 rounded-full flex items-center justify-center gap-2 flex-shrink-0 shadow-lg hover:shadow-xl transition-all duration-200"
+      >
+        <Zap className="h-4 w-4" />
+        Nova Análise
+      </Button>
+
       {/* Complete Check-in Button */}
-      <Button className="w-full bg-white text-black hover:bg-gray-100 font-medium py-3 rounded-full flex items-center justify-center gap-2 flex-shrink-0">
+      <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium py-3 rounded-full flex items-center justify-center gap-2 flex-shrink-0">
         <Activity className="h-4 w-4" />
         {checkinHistory?.some(c => 
           new Date(c.checkin_date).toDateString() === new Date().toDateString()

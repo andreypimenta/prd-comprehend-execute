@@ -7,8 +7,9 @@ import { useCheckin } from "@/hooks/useCheckin";
 import { useUserProfile } from "@/hooks/useUserProfile";
 import { supabase } from "@/integrations/supabase/client";
 import { useState, useEffect, useMemo } from "react";
-import { ArrowUpRight, Calendar, TrendingUp, Plus, Target, Activity, Heart, FileText } from "lucide-react";
+import { ArrowUpRight, Calendar, TrendingUp, Plus, Target, Activity, Heart, FileText, Zap } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
 
 interface Supplement {
   id: string
@@ -20,6 +21,7 @@ export function PlanDocumentsSection() {
   const { selectedSupplements, loading: selectionsLoading } = useSelectedSupplements();
   const { getTrendData, getProgressSummary, checkinHistory, loading: checkinLoading } = useCheckin();
   const { profile } = useUserProfile();
+  const navigate = useNavigate();
   const [supplements, setSupplements] = useState<Supplement[]>([]);
   const [totalRecommendations, setTotalRecommendations] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -170,6 +172,18 @@ export function PlanDocumentsSection() {
             </div>
           </CardContent>
         </Card>
+
+        {/* Nova Análise Action */}
+        <div className="pt-2">
+          <Button
+            onClick={() => navigate('/analyze')}
+            variant="outline"
+            className="w-full border-primary/20 text-primary hover:bg-primary/5 hover:border-primary/40 font-medium py-2 flex items-center justify-center gap-2"
+          >
+            <Zap className="h-4 w-4" />
+            Fazer Nova Análise
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );
